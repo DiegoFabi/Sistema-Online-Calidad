@@ -1,0 +1,371 @@
+@model SistemaOnline.ViewModels.PedidoVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Nuevo Pedido";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-5xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nuevo Pedido</h2>
+        <p class="text-on-surface-variant">Registra un nuevo pedido.</p>
+    </div>
+    <div class="grid grid-cols-12 gap-lg">
+        <div class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+            <form id="formPedido" asp-controller="Pedido" asp-action="Nuevo" method="post" autocomplete="off" class="space-y-md">
+                <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha">Fecha</label>
+                    <div class="flex gap-sm">
+                        <input class="@Cls("Fecha") flex-1" type="date" required asp-for="Fecha" id="Fecha" readonly />
+                        <button type="button" id="btnToggleFecha" onclick="toggleFecha()" class="h-11 px-md bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-highest transition-all whitespace-nowrap">Editar fecha</button>
+                    </div>
+                    <span asp-validation-for="Fecha" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado_Pedido">Estado del Pedido</label>
+                    @if (ViewBag.EsMesero == true)
+                    {
+                        <input type="hidden" asp-for="Estado_Pedido" value="En Cocina" />
+                        <div class="w-full h-11 px-md bg-surface-container-high border border-transparent rounded-lg flex items-center text-body-md text-on-surface-variant cursor-not-allowed">
+                            <span class="material-symbols-outlined text-[16px] mr-sm text-secondary">restaurant</span> En Cocina
+                        </div>
+                    }
+                    else
+                    {
+                        <select class="@Cls("Estado_Pedido")" required asp-for="Estado_Pedido" id="Estado_Pedido">
+                            <option value="Pendiente" selected>Pendiente</option>
+                            <option value="En Cocina">En Cocina</option>
+                            <option value="Cancelado" disabled>Cancelado</option>
+                            <option value="Pagado" disabled>Pagado</option>
+                        </select>
+                    }
+                    <span asp-validation-for="Estado_Pedido" class="text-error text-label-md"></span>
+                </div>
+                <input type="hidden" asp-for="Detalle_Pedido" id="Detalle_Pedido" />
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="SubTotal">SubTotal</label>
+                    <input class="@Cls("SubTotal") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="SubTotal" id="SubTotal" />
+                    <span asp-validation-for="SubTotal" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs mb-1" for="Total">
+                        Total
+                        <button type="button" onclick="document.getElementById('Total').readOnly = !document.getElementById('Total').readOnly; document.getElementById('Total').classList.toggle('cursor-not-allowed'); document.getElementById('Total').classList.toggle('bg-surface-container-high');" class="text-on-surface-variant hover:text-primary" title="Permitir edición manual excepcional del total">
+                            <span class="material-symbols-outlined text-[14px]">edit</span>
+                        </button>
+                    </label>
+                    <input class="@Cls("Total") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="Total" id="Total" />
+                    <span asp-validation-for="Total" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Empleado">Empleado</label>
+                    @if (ViewBag.EsMesero == true)
+                    {
+                        <input type="hidden" asp-for="ID_Empleado" />
+                        <div class="w-full h-11 px-md bg-surface-container-high border border-transparent rounded-lg flex items-center text-body-md text-on-surface-variant cursor-not-allowed">
+                            <span class="material-symbols-outlined text-[16px] mr-sm">person</span>
+                            @(Model.EmpleadosDisponibles?.FirstOrDefault()?.Text ?? "Mesero asignado")
+                        </div>
+                    }
+                    else
+                    {
+                        <select class="@Cls("ID_Empleado")" asp-for="ID_Empleado" asp-items="Model.EmpleadosDisponibles" id="ID_Empleado">
+                            <option value="" disabled selected hidden>-- Seleccione --</option>
+                        </select>
+                    }
+                    <span asp-validation-for="ID_Empleado" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Mesa">Mesa</label>
+                    <select class="@Cls("ID_Mesa")" asp-for="ID_Mesa" asp-items="Model.MesasDisponibles" id="ID_Mesa">
+                        <option value="" disabled selected hidden>-- Seleccione --</option>
+                    </select>
+                    <span asp-validation-for="ID_Mesa" class="text-error text-label-md"></span>
+                    <div id="grupoMesaActiva" class="hidden mt-xs flex items-center gap-xs">
+                        <input type="checkbox" id="chkDesbloquearMesa" class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary/20" />
+                        <label for="chkDesbloquearMesa" class="text-label-md text-on-surface-variant">Esta mesa ya tiene un pedido activo. Marca para desbloquear y elegir otra mesa o agregar ítems.</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Detalles del Pedido</label>
+                    <button type="button" onclick="openDetallesModal()"
+                            class="w-full inline-flex items-center justify-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                        <span class="material-symbols-outlined">restaurant_menu</span>
+                        Seleccionar Productos
+                    </button>
+                    <div id="resumenProductosSeleccionados" class="mt-sm text-label-md text-on-surface-variant">
+                        Ningún producto seleccionado.
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-sm pt-md">
+                    <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                        <span class="material-symbols-outlined">save</span> Guardar
+                    </button>
+                    <a asp-controller="Pedido" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                        <span class="material-symbols-outlined">arrow_back</span> Volver
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Vista Previa Dinámica -->
+        <div class="col-span-12 lg:col-span-5">
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg sticky top-20">
+                <h3 class="font-title-md text-title-md text-on-surface mb-md flex items-center gap-sm">
+                    <span class="material-symbols-outlined">visibility</span> Vista Previa Dinámica
+                </h3>
+                <div class="space-y-md text-body-md">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">table_restaurant</span> Mesa</span>
+                        <span id="previewMesa" class="font-bold text-on-surface">-</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">flag</span> Estado</span>
+                        <span id="previewEstado" class="font-bold text-on-surface">-</span>
+                    </div>
+                    <div class="border-t border-outline-variant/20 pt-sm">
+                        <p class="flex items-center gap-xs font-bold text-on-surface mb-sm"><span class="material-symbols-outlined text-[18px]">restaurant_menu</span> Productos</p>
+                        <ul id="previewProductos" class="space-y-xs text-on-surface-variant">
+                            <li class="text-label-md italic">Ninguno seleccionado</li>
+                        </ul>
+                    </div>
+                    <div class="pt-sm border-t border-outline-variant/20 space-y-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">receipt_long</span> SubTotal</span>
+                            <span id="previewSubTotal" class="font-bold text-on-surface">0.00</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">percent</span> IGV (18%)</span>
+                            <span id="previewIGV" class="font-bold text-on-surface">0.00</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">payments</span> Total</span>
+                            <span id="previewTotal" class="font-bold text-primary text-title-md">0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Detalles del Pedido (mismo patrón visual que Configuración) -->
+<div id="detallesModal" class="fixed inset-0 z-[100] hidden items-center justify-center app-modal-overlay">
+    <div class="app-modal-panel w-full max-w-[640px] max-h-[85vh] overflow-y-auto flex flex-col animate-fade-in">
+        <div class="bg-primary px-lg py-lg flex items-center justify-between sticky top-0 z-10">
+            <div class="flex items-center gap-sm text-on-primary">
+                <span class="material-symbols-outlined">restaurant_menu</span>
+                <h3 class="font-title-md text-title-md">Detalles del Pedido</h3>
+            </div>
+            <button type="button" onclick="closeDetallesModal()" class="text-on-primary/80 hover:text-on-primary">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-lg pb-0">
+            <div class="relative mb-md">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] leading-none pointer-events-none select-none">search</span>
+                <input id="buscadorProductos" type="text" placeholder="Buscar producto..."
+                       class="w-full h-11 pl-10 pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+            </div>
+        </div>
+        <div class="p-lg pt-0 space-y-lg">
+            @foreach (var categoria in Model.CategoriasProductos)
+            {
+                <div class="bg-surface-container-low rounded-lg p-md">
+                    <p class="flex items-center gap-xs font-bold text-on-surface mb-sm">
+                        <span class="material-symbols-outlined text-[18px] text-primary">category</span>
+                        @categoria.Nombre_Categoria
+                    </p>
+                    <div class="space-y-xs">
+                        @if (!categoria.Productos.Any())
+                        {
+                            <p class="text-label-md text-on-surface-variant italic">Sin productos en esta categoría.</p>
+                        }
+                        @foreach (var producto in categoria.Productos)
+                        {
+                            <div class="producto-fila flex items-center justify-between gap-sm py-xs px-sm rounded-md hover:bg-surface-container-high" data-filtro-nombre="@producto.Nombre_Plato.ToLower()">
+                                <label class="flex items-center gap-sm text-body-md cursor-pointer flex-1">
+                                    <input type="checkbox" name="ProductosSeleccionados" value="@producto.ID_Producto"
+                                           form="formPedido"
+                                           data-nombre="@producto.Nombre_Plato" data-precio="@producto.Precio.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                           data-id="@producto.ID_Producto"
+                                           class="producto-checkbox h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20"
+                                           onchange="toggleStepper(this)" />
+                                    @producto.Nombre_Plato
+                                </label>
+                                <div class="flex items-center gap-xs">
+                                    <div class="stepper hidden items-center gap-xs" id="stepper-@producto.ID_Producto">
+                                        <button type="button" onclick="changeQty(this, -1)" class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface text-label-md font-bold flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors flex-shrink-0">−</button>
+                                        <input type="number" name="CantidadesProductos[@producto.ID_Producto]" form="formPedido"
+                                               id="qty-@producto.ID_Producto" value="1" min="1" max="99"
+                                               data-id="@producto.ID_Producto"
+                                               class="w-14 h-8 text-center bg-surface-container-low rounded text-body-md font-mono-data border border-outline-variant/40 focus:outline-none focus:border-primary qty-input"
+                                               oninput="actualizarVistaPrevia()" />
+                                        <button type="button" onclick="changeQty(this, 1)" class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface text-label-md font-bold flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors flex-shrink-0">+</button>
+                                    </div>
+                                    <span class="text-label-md font-mono-data text-on-surface-variant">@producto.Precio.ToString("C2")</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="flex gap-md w-full p-lg pt-0 sticky bottom-0 bg-surface-container-lowest">
+            <button type="button" onclick="closeDetallesModal()"
+                    class="flex-1 px-md py-sm rounded-lg bg-primary text-on-primary font-bold hover:bg-on-primary-fixed-variant transition-all">
+                Listo
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openDetallesModal() {
+            document.getElementById('detallesModal').classList.remove('hidden');
+            document.getElementById('detallesModal').classList.add('flex');
+        }
+        function closeDetallesModal() {
+            document.getElementById('detallesModal').classList.add('hidden');
+            document.getElementById('detallesModal').classList.remove('flex');
+            actualizarVistaPrevia();
+        }
+
+        function toggleStepper(cb) {
+            const id = cb.getAttribute('data-id');
+            const stepperEl = document.getElementById('stepper-' + id);
+            if (cb.checked) {
+                stepperEl.classList.remove('hidden');
+                stepperEl.classList.add('flex');
+            } else {
+                stepperEl.classList.add('hidden');
+                stepperEl.classList.remove('flex');
+                document.getElementById('qty-' + id).value = 1;
+            }
+            actualizarVistaPrevia();
+        }
+
+        function changeQty(btn, delta) {
+            const stepperEl = btn.parentElement;
+            const input = stepperEl.querySelector('.qty-input');
+            let val = parseInt(input.value, 10) || 1;
+            val = Math.max(1, Math.min(99, val + delta));
+            input.value = val;
+            actualizarVistaPrevia();
+        }
+
+        function actualizarVistaPrevia() {
+            const mesaSelect = document.getElementById('ID_Mesa');
+            const estadoSelect = document.getElementById('Estado_Pedido');
+            const subtotalInput = document.getElementById('SubTotal');
+            const totalInput = document.getElementById('Total');
+            const detalleInput = document.getElementById('Detalle_Pedido');
+
+            document.getElementById('previewMesa').textContent = mesaSelect.options[mesaSelect.selectedIndex]?.text || '-';
+            document.getElementById('previewEstado').textContent = estadoSelect.value || '-';
+
+            const checkboxes = document.querySelectorAll('.producto-checkbox:checked');
+            const listaProductos = document.getElementById('previewProductos');
+            const resumen = document.getElementById('resumenProductosSeleccionados');
+
+            let subtotalCalculado = 0;
+            const nombres = [];
+            checkboxes.forEach(function (cb) {
+                const id = cb.getAttribute('data-id');
+                const precio = parseFloat(cb.getAttribute('data-precio') || 0);
+                const qty = parseInt((document.getElementById('qty-' + id) || {}).value || 1, 10);
+                subtotalCalculado += precio * qty;
+                nombres.push(cb.getAttribute('data-nombre'));
+            });
+
+            const igv = subtotalCalculado * 0.18;
+            const total = subtotalCalculado + igv;
+            subtotalInput.value = subtotalCalculado.toFixed(2);
+            totalInput.value = total.toFixed(2);
+            document.getElementById('previewSubTotal').textContent = subtotalCalculado.toFixed(2);
+            document.getElementById('previewIGV').textContent = igv.toFixed(2);
+            document.getElementById('previewTotal').textContent = total.toFixed(2);
+
+            if (checkboxes.length === 0) {
+                listaProductos.innerHTML = '<li class="text-label-md italic">Ninguno seleccionado</li>';
+                resumen.textContent = 'Ningún producto seleccionado.';
+                detalleInput.value = '';
+                return;
+            }
+
+            listaProductos.innerHTML = '';
+            checkboxes.forEach(function (cb) {
+                const id = cb.getAttribute('data-id');
+                const nombre = cb.getAttribute('data-nombre');
+                const precio = parseFloat(cb.getAttribute('data-precio') || 0);
+                const qty = parseInt((document.getElementById('qty-' + id) || {}).value || 1, 10);
+                const li = document.createElement('li');
+                li.className = 'flex items-center justify-between text-label-md';
+                li.innerHTML = '<span>' + qty + ' × ' + nombre + '</span><span class="font-mono-data">' + (precio * qty).toFixed(2) + '</span>';
+                listaProductos.appendChild(li);
+            });
+            resumen.textContent = nombres.join(', ');
+            detalleInput.value = nombres.join(', ');
+        }
+
+        var mesasConPedidoActivo = @Html.Raw(Json.Serialize(ViewBag.MesasActivas ?? new List<int>()));
+
+        function gestionarAvisoMesaActiva() {
+            const mesaSelect = document.getElementById('ID_Mesa');
+            const grupo = document.getElementById('grupoMesaActiva');
+            const idMesa = parseInt(mesaSelect.value, 10);
+            const tieneActivo = mesasConPedidoActivo.includes(idMesa);
+            grupo.classList.toggle('hidden', !tieneActivo);
+            if (!tieneActivo) {
+                document.getElementById('chkDesbloquearMesa').checked = false;
+            }
+        }
+
+        function toggleFecha() {
+            const input = document.getElementById('Fecha');
+            const btn = document.getElementById('btnToggleFecha');
+            const bloqueado = input.readOnly;
+            input.readOnly = !bloqueado;
+            btn.textContent = bloqueado ? 'Confirmar fecha' : 'Editar fecha';
+            if (bloqueado) {
+                btn.classList.replace('bg-surface-container-high', 'bg-tertiary-container');
+                btn.classList.replace('text-on-surface', 'text-on-tertiary-container');
+            } else {
+                btn.classList.replace('bg-tertiary-container', 'bg-surface-container-high');
+                btn.classList.replace('text-on-tertiary-container', 'text-on-surface');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('formPedido');
+            form.addEventListener('input', actualizarVistaPrevia);
+            form.addEventListener('change', actualizarVistaPrevia);
+            document.querySelectorAll('.producto-checkbox').forEach(function (cb) {
+                cb.addEventListener('change', actualizarVistaPrevia);
+            });
+            actualizarVistaPrevia();
+
+            const mesaSelect = document.getElementById('ID_Mesa');
+            mesaSelect.addEventListener('change', gestionarAvisoMesaActiva);
+            gestionarAvisoMesaActiva();
+
+            document.getElementById('chkDesbloquearMesa').addEventListener('change', function () {
+                // only the overlay warning; mesa select stays always interactive
+            });
+
+            document.getElementById('buscadorProductos').addEventListener('input', function () {
+                const filtro = this.value.trim().toLowerCase();
+                document.querySelectorAll('.producto-fila').forEach(function (fila) {
+                    const nombre = fila.getAttribute('data-filtro-nombre') || '';
+                    fila.style.display = nombre.includes(filtro) ? '' : 'none';
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,159 @@
+@model List<SistemaOnline.Models.Pedido>
+@{
+    Layout = "_DashboardLayout";
+    var mesa = (SistemaOnline.Models.Mesa_Restaurante)ViewBag.Mesa;
+    ViewData["Title"] = "Mesa " + mesa.Numero_Mesa;
+    ViewBag.Active = "dashboard";
+    bool mesaOcupada = Model.Any(p => new[]{"Pendiente","En Cocina","Preparando","Listo"}.Contains(p.Estado_Pedido));
+}
+
+<div class="flex items-center gap-sm mb-md flex-wrap">
+    <a asp-controller="Mesero" asp-action="Index" class="inline-flex items-center text-on-surface-variant hover:text-primary transition-colors duration-300">
+        <span class="material-symbols-outlined mr-sm">arrow_back</span>
+        <span class="font-title-sm">Volver al Mapa de Mesas</span>
+    </a>
+    <a asp-controller="Pedido" asp-action="Nuevo" asp-route-mesaId="@mesa.ID_Mesa"
+       class="inline-flex items-center gap-sm h-9 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]">
+        <span class="material-symbols-outlined text-[18px]">add</span>
+        Crear Nuevo Pedido
+    </a>
+</div>
+
+<div class="mb-lg flex items-center justify-between">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Mesa @mesa.Numero_Mesa</h2>
+        <p class="text-on-surface-variant">Cap. @mesa.Capacidad — @mesa.Ubicacion</p>
+    </div>
+    <span class="px-md py-sm rounded-full text-label-md font-bold @(mesaOcupada ? "bg-[#c62828] text-white" : "bg-[#2e7d32] text-white")">
+        @(mesaOcupada ? "Ocupada" : "Libre")
+    </span>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="min-h-[60vh] flex flex-col items-center justify-center text-center gap-md">
+        <span class="material-symbols-outlined text-[72px] text-outline/50">receipt_long</span>
+        <p class="text-on-surface-variant text-body-md">No hay pedidos activos en esta mesa.</p>
+        <a asp-controller="Mesero" asp-action="Index"
+           class="inline-flex items-center gap-sm h-11 px-lg bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Volver al mapa de mesas
+        </a>
+    </div>
+}
+
+<!-- Modal de confirmación: Marcar como Completado -->
+<div id="modalCompletar" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-[360px] overflow-hidden animate-fade-in">
+        <div class="bg-secondary flex flex-col items-center py-lg px-lg">
+            <span class="material-symbols-outlined text-on-secondary text-[48px]">check_circle</span>
+        </div>
+        <div class="p-lg flex flex-col items-center">
+            <h3 class="font-title-md text-title-md text-on-surface mb-sm">¿Marcar como Completado?</h3>
+            <p class="text-body-md text-on-surface-variant text-center mb-lg">El pedido pasará a estado <strong>Entregado</strong> y el Cajero podrá procesarlo.</p>
+            <div class="flex gap-md w-full">
+                <button type="button" onclick="cerrarConfirmacion()"
+                        class="flex-1 px-md py-sm rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-high font-bold transition-all">
+                    Cancelar
+                </button>
+                <button type="button" id="btnConfirmarCompletar" onclick="confirmarCompletar()"
+                        class="flex-1 px-md py-sm rounded-lg bg-secondary text-on-secondary font-bold hover:bg-secondary/80 transition-all">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+    @foreach (var p in Model)
+    {
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+            <div class="flex justify-between items-start mb-md">
+                <div>
+                    <h3 class="font-title-md text-title-md text-on-surface">Pedido #@p.ID_Pedido</h3>
+                    <p class="text-label-md text-on-surface-variant">@p.Fecha.ToString("dd/MM/yyyy")</p>
+                </div>
+                <span class="px-sm py-xs bg-tertiary-container text-on-tertiary-container rounded-full text-label-md">@p.Estado_Pedido</span>
+            </div>
+            <p class="text-body-md text-on-surface mb-md">@p.Detalle_Pedido</p>
+            <div class="space-y-sm mb-md">
+                @foreach (var det in p.Pedido_Detalles)
+                {
+                    <div class="flex justify-between text-body-md">
+                        <span>@det.Cantidad x @det.Producto?.Nombre_Plato</span>
+                        <span class="font-mono-data">@((det.Cantidad * det.PrecioUnitario).ToString("C2"))</span>
+                    </div>
+                }
+            </div>
+            <div class="flex justify-between items-center border-t border-outline-variant/20 pt-sm">
+                <span class="font-bold text-on-surface">Total</span>
+                <span class="font-bold text-primary">@p.Total.ToString("C2")</span>
+            </div>
+            <div class="mt-md flex gap-sm">
+                @if (p.Estado_Pedido == "Pendiente")
+                {
+                    <a asp-controller="Pedido" asp-action="Editar" asp-route-id="@p.ID_Pedido"
+                       class="flex-1 inline-flex items-center justify-center gap-sm h-10 px-md bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg transition-all hover:bg-surface-container-highest">
+                        <span class="material-symbols-outlined text-[18px]">edit</span> Editar
+                    </a>
+                }
+                else if (p.Estado_Pedido == "Listo")
+                {
+                    <form asp-controller="Mesero" asp-action="MarcarEntregado" asp-route-id="@p.ID_Pedido" method="post" class="flex-1"
+                          onsubmit="return false;" data-confirm-form>
+                        <button type="button"
+                                onclick="abrirConfirmacion(@p.ID_Pedido)"
+                                class="w-full inline-flex items-center justify-center gap-sm h-10 px-md bg-secondary hover:bg-secondary/80 text-on-secondary font-label-md text-label-md rounded-lg transition-all">
+                            <span class="material-symbols-outlined text-[18px]">check_circle</span> Marcar como Completado
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <div class="flex-1 inline-flex items-center justify-center gap-sm h-10 px-md bg-surface-container-low text-on-surface-variant font-label-md text-label-md rounded-lg cursor-not-allowed select-none">
+                        <span class="material-symbols-outlined text-[18px]">hourglass_top</span>
+                        @(p.Estado_Pedido == "Entregado" || p.Estado_Pedido == "Pagado" ? "Completado" : "En preparación")
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        var _pendingFormId = null;
+
+        function abrirConfirmacion(pedidoId) {
+            _pendingFormId = pedidoId;
+            var modal = document.getElementById('modalCompletar');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function cerrarConfirmacion() {
+            _pendingFormId = null;
+            var modal = document.getElementById('modalCompletar');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function confirmarCompletar() {
+            if (_pendingFormId === null) return;
+            // Find the form with matching action URL and submit it programmatically
+            var forms = document.querySelectorAll('[data-confirm-form]');
+            forms.forEach(function(form) {
+                if (form.action.includes('/' + _pendingFormId)) {
+                    form.onsubmit = null;
+                    form.submit();
+                }
+            });
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modalCompletar').addEventListener('click', function(e) {
+            if (e.target === this) cerrarConfirmacion();
+        });
+    </script>
+}

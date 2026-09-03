@@ -1,0 +1,51 @@
+@model List<SistemaOnline.ViewModels.UsuarioVM>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Usuarios";
+    ViewBag.Active = "negocio";
+    ViewData["Titulo"] = "Lista de Usuarios";
+    ViewData["Descripcion"] = "Administra los usuarios registrados.";
+    ViewData["Controlador"] = "Usuario";
+    ViewData["NuevoTexto"] = "Nuevo Usuario";
+    ViewData["BuscadorPlaceholder"] = "Buscar por nombre de usuario, email...";
+}
+<partial name="_CRUDListLayout" />
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg overflow-x-auto">
+        <table id="tablaPrincipal" class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="pb-md font-bold">ID</th>
+                    <th class="pb-md font-bold col-ellipsis">Nombre Usuario</th>
+                    <th class="pb-md font-bold col-ellipsis">Email</th>
+                    <th class="pb-md font-bold">Estado</th>
+                    <th class="pb-md font-bold">Rol</th>
+                    <th class="pb-md font-bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-md">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="py-md font-mono-data">@item.ID_Usuario</td>
+                        <td class="py-md font-bold col-ellipsis" title="@item.Nombre_Usuario">@item.Nombre_Usuario</td>
+                        <td class="py-md col-ellipsis" title="@item.Email">@item.Email</td>
+                        <td class="py-md">@(item.Estado ? "Activo" : "Inactivo")</td>
+                        <td class="py-md">@item.RolNombre</td>
+                        <td class="py-md">
+                            <div class="flex items-center gap-md">
+                                <a asp-controller="Usuario" asp-action="Editar" asp-route-id="@item.ID_Usuario" class="inline-flex items-center gap-xs text-tertiary hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span> Editar
+                                </a>
+                                <a asp-controller="Usuario" asp-action="Eliminar" asp-route-id="@item.ID_Usuario"  class="inline-flex items-center gap-xs text-error hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Pagination" />

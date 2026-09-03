@@ -1,0 +1,155 @@
+@model SistemaOnline.ViewModels.CajeroDashboardVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Panel de Caja";
+    ViewBag.Active = "dashboard";
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Panel de Caja</h2>
+    <p class="text-on-surface-variant">Facturación y métodos de pago.</p>
+</div>
+
+<div class="grid grid-cols-12 gap-lg">
+    <div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-lg">
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+                <span class="text-label-md bg-primary/10 text-primary px-xs rounded">Hoy</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none text-primary">@Model.TotalRecaudadoHoy.ToString("C2")</p>
+            <p class="text-on-surface-variant font-bold">Recaudado Hoy</p>
+        </div>
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-secondary" data-icon="receipt_long">receipt_long</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none">@Model.PagosHoyCount</p>
+            <p class="text-on-surface-variant font-bold">Pagos Procesados Hoy</p>
+        </div>
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-error" data-icon="pending_actions">pending_actions</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none text-error">@Model.PedidosPorCobrar</p>
+            <p class="text-on-surface-variant font-bold">Pedidos por Cobrar</p>
+        </div>
+    </div>
+
+    <!-- Pedidos pendientes -->
+    <div class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20 flex items-center justify-between gap-sm flex-wrap">
+            <h3 class="font-title-md text-title-md text-on-surface">Pedidos Por Cobrar (@(ViewBag.Orden == "asc" ? "Más Antiguos" : "Más Recientes"))</h3>
+            <a asp-controller="Cajero" asp-action="Index" asp-route-orden="@(ViewBag.Orden == "asc" ? "desc" : "asc")"
+               class="inline-flex items-center gap-xs h-9 px-sm bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-highest transition-all">
+                <span class="material-symbols-outlined text-[16px]">swap_vert</span>
+                Ver @(ViewBag.Orden == "asc" ? "Más Recientes" : "Más Antiguos")
+            </a>
+        </div>
+        <div class="p-lg">
+            @if (!Model.PedidosPendientes.Any())
+            {
+                <p class="text-on-surface-variant text-body-md">No hay pedidos entregados pendientes de cobro.</p>
+            }
+            else
+            {
+                <table class="w-full text-left">
+                    <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                        <tr>
+                            <th class="pb-md font-bold">ID</th>
+                            <th class="pb-md font-bold">Mesa</th>
+                            <th class="pb-md font-bold">Total</th>
+                            <th class="pb-md font-bold">Estado</th>
+                            <th class="pb-md font-bold"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-body-md">
+                        @foreach (var p in Model.PedidosPendientes)
+                        {
+                            var cobrable = p.Estado_Pedido == "Entregado";
+                            <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                                <td class="py-md font-mono-data">#@p.ID_Pedido</td>
+                                <td class="py-md">@(p.Mesa_Restaurante != null ? "Mesa " + p.Mesa_Restaurante.Numero_Mesa : "-")</td>
+                                <td class="py-md font-bold">@p.Total.ToString("C2")</td>
+                                <td class="py-md">
+                                    <span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full text-label-md">@p.Estado_Pedido</span>
+                                </td>
+                                <td class="py-md text-right">
+                                    @if (cobrable)
+                                    {
+                                        <a asp-controller="Comprobante_Pago" asp-action="Nuevo" asp-route-idPedido="@p.ID_Pedido" class="inline-flex items-center gap-xs h-9 px-sm bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md rounded-lg transition-all">
+                                            <span class="material-symbols-outlined text-[16px]">point_of_sale</span> Cobrar
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" disabled class="inline-flex items-center gap-xs h-9 px-sm bg-surface-container-high text-on-surface-variant font-label-md text-label-md rounded-lg cursor-not-allowed">
+                                            <span class="material-symbols-outlined text-[16px]">point_of_sale</span> Cobrar
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <!-- Métodos de pago -->
+    <div class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Métodos de Pago (Hoy)</h3>
+        </div>
+        <div class="p-lg space-y-md">
+            @if (!Model.MetodosPago.Any())
+            {
+                <p class="text-on-surface-variant text-body-md">Sin pagos registrados hoy.</p>
+            }
+            @foreach (var m in Model.MetodosPago)
+            {
+                <div class="flex justify-between items-center p-md bg-surface-container-high rounded-lg">
+                    <div>
+                        <p class="font-bold text-on-surface">@m.Metodo</p>
+                        <p class="text-label-md text-on-surface-variant">@m.Cantidad transacciones</p>
+                    </div>
+                    <span class="text-mono-data font-bold text-secondary">@m.Total.ToString("C2")</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Pagos recientes -->
+    <div class="col-span-12 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Pagos Recientes</h3>
+        </div>
+        <div class="p-lg">
+            <table class="w-full text-left">
+                <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                    <tr>
+                        <th class="pb-md font-bold">Pedido</th>
+                        <th class="pb-md font-bold">Fecha</th>
+                        <th class="pb-md font-bold">Método</th>
+                        <th class="pb-md font-bold">Monto</th>
+                        <th class="pb-md font-bold">Estado</th>
+                    </tr>
+                </thead>
+                <tbody class="text-body-md">
+                    @foreach (var pg in Model.PagosRecientes)
+                    {
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                            <td class="py-md font-mono-data">#@pg.ID_Pedido</td>
+                            <td class="py-md">@pg.Fecha_Hora_Pago.ToString("dd/MM HH:mm")</td>
+                            <td class="py-md">@pg.Metodo_Pago</td>
+                            <td class="py-md font-bold">@pg.Monto.ToString("C2")</td>
+                            <td class="py-md">
+                                <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">@pg.Estado</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

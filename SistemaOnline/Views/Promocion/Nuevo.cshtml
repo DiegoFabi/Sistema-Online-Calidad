@@ -1,0 +1,58 @@
+@model SistemaOnline.ViewModels.PromocionVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Nuevo Promocion";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nueva Promoción</h2>
+        <p class="text-on-surface-variant">Registra una nueva promoción.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="Promocion" asp-action="Nuevo" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Nombre">Nombre</label>
+                <input class="@Cls("Nombre")" type="text" required asp-for="Nombre" />
+                <span asp-validation-for="Nombre" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Descripcion">Descripción</label>
+                <input class="@Cls("Descripcion")" type="text" required asp-for="Descripcion" />
+                <span asp-validation-for="Descripcion" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Porcentaje_Descuento">Porcentaje de Descuento</label>
+                <input class="@Cls("Porcentaje_Descuento")" type="number" step="0.01" required asp-for="Porcentaje_Descuento" />
+                <span asp-validation-for="Porcentaje_Descuento" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Inicio">Fecha de Inicio</label>
+                <input class="@Cls("Fecha_Inicio")" type="date" required asp-for="Fecha_Inicio" />
+                <span asp-validation-for="Fecha_Inicio" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Fin">Fecha de Fin</label>
+                <input class="@Cls("Fecha_Fin")" type="date" required asp-for="Fecha_Fin" />
+                <span asp-validation-for="Fecha_Fin" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado">Activa</label>
+                <input class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20" asp-for="Estado" type="checkbox" />
+                <span asp-validation-for="Estado" class="text-error text-label-md"></span>
+            </div>
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">save</span> Guardar
+                </button>
+                <a asp-controller="Promocion" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@{
+    int paginaActual = ViewBag.Page ?? 1;
+    int pageSize = ViewBag.PageSize ?? 10;
+    int totalPages = ViewBag.TotalPages ?? 1;
+    int totalCount = ViewBag.TotalCount ?? 0;
+    string controlador = ViewData["Controlador"] as string ?? "";
+    string accion = ViewData["AccionLista"] as string ?? "Lista";
+
+    var extraParams = Context.Request.Query
+        .Where(q => !string.Equals(q.Key, "page", StringComparison.OrdinalIgnoreCase) && !string.Equals(q.Key, "pageSize", StringComparison.OrdinalIgnoreCase))
+        .ToDictionary(q => q.Key, q => q.Value.ToString());
+
+    string extraQueryString = string.Concat(extraParams.Select(kv => $"&{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
+    string urlSelectorTamano = Url.Action(accion, controlador) + "?page=1" + extraQueryString + "&pageSize=";
+}
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md mt-lg">
+    <div class="flex flex-wrap items-center gap-sm">
+        <label class="text-label-md text-on-surface-variant whitespace-nowrap" for="selectorTamanoPagina">Filas por página</label>
+        <select id="selectorTamanoPagina"
+                class="h-9 pl-sm pr-lg min-w-[88px] bg-surface-container-low border-none rounded-lg font-body-md text-body-md text-on-surface flex-shrink-0"
+                onchange="window.location.href = '@urlSelectorTamano' + this.value">
+            @foreach (var tam in SistemaOnline.Services.PaginationExtensions.TamanosPaginaPermitidos)
+            {
+                <option value="@tam" selected="@(tam == pageSize ? "selected" : null)">@tam</option>
+            }
+        </select>
+        <span class="text-label-md text-on-surface-variant whitespace-nowrap">@totalCount registro(s) — Página @paginaActual de @totalPages</span>
+    </div>
+    <div class="flex items-center gap-sm">
+        <a asp-controller="@controlador" asp-action="@accion" asp-all-route-data="extraParams" asp-route-page="@(paginaActual - 1)" asp-route-pageSize="@pageSize"
+           class="inline-flex items-center gap-xs h-9 px-md rounded-lg font-label-md text-label-md transition-all @(paginaActual <= 1 ? "bg-surface-container-high text-on-surface-variant/50 pointer-events-none" : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest")">
+            <span class="material-symbols-outlined text-[18px]">chevron_left</span> Anterior
+        </a>
+        <a asp-controller="@controlador" asp-action="@accion" asp-all-route-data="extraParams" asp-route-page="@(paginaActual + 1)" asp-route-pageSize="@pageSize"
+           class="inline-flex items-center gap-xs h-9 px-md rounded-lg font-label-md text-label-md transition-all @(paginaActual >= totalPages ? "bg-surface-container-high text-on-surface-variant/50 pointer-events-none" : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest")">
+            Siguiente <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+        </a>
+    </div>
+</div>

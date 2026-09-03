@@ -1,0 +1,116 @@
+﻿@model SistemaOnline.ViewModels.UsuarioVM;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rancho Sagrado - Registro</title>
+    <partial name="_DesignTokensHead" />
+    <style>
+            .auth-card-glass {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(8px);
+            }
+
+            .rancho-pattern {
+                background-color: #f8f9fa;
+                background-image: radial-gradient(#b9172f 0.5px, transparent 0.5px), radial-gradient(#b9172f 0.5px, #f8f9fa 0.5px);
+                background-size: 20px 20px;
+                background-position: 0 0,10px 10px;
+                opacity: 0.05;
+            }
+
+            @@keyframes fade-in {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .animate-fade-in {
+                animation: fade-in 0.4s ease-out forwards;
+            }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen flex items-center justify-center p-md overflow-hidden relative">
+    <div class="absolute inset-0 z-0">
+        <div class="rancho-pattern absolute inset-0"></div>
+    </div>
+    <main class="relative z-10 w-full max-w-[480px] animate-fade-in transition-all duration-500">
+        <div class="flex flex-col items-center mb-lg">
+            <div class="flex items-center gap-sm mb-base">
+                <div class="bg-primary p-base rounded-lg shadow-md">
+                    <span class="material-symbols-outlined text-white text-[32px]">restaurant_menu</span>
+                </div>
+                <h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Rancho Sagrado</h1>
+            </div>
+            <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Sistema Online de Gestión Operativa</p>
+        </div>
+        <div class="auth-card-glass shadow-xl rounded-xl p-lg border border-outline-variant/30">
+            <button class="mb-lg flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors" type="button" onclick="window.location.href='@Url.Action("Login", "Login")'">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                <span class="font-label-md text-label-md">Volver al inicio de sesion</span>
+            </button>
+            <div class="mb-lg">
+                <h2 class="font-title-md text-title-md text-on-surface mb-base">Registra tu cuenta</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">Crea tu acceso al sistema en minutos.</p>
+            </div>
+            <form class="space-y-md" asp-controller="Login" asp-action="Registro" method="post" autocomplete="off">
+                <div class="space-y-base">
+                    <label class="font-label-md text-label-md text-on-surface-variant block" for="Username">Nombre Completo</label>
+                    <div class="relative group">
+                        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">badge</span>
+                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" id="Username" placeholder="Nombre y apellidos" type="text" required asp-for="Nombre_Usuario" />
+                    </div>
+                </div>
+                <div class="space-y-base">
+                    <label class="font-label-md text-label-md text-on-surface-variant block" for="Email">Correo Electronico</label>
+                    <div class="relative group">
+                        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">mail</span>
+                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" id="Email" placeholder="admin@restaurante.com" type="email" required asp-for="Email" />
+                    </div>
+                </div>
+                <div class="space-y-base">
+                    <label class="font-label-md text-label-md text-on-surface-variant block" for="Password">Contraseña</label>
+                    <div class="relative group">
+                        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
+                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" id="Password" placeholder="Crea una contraseña segura" type="password" required asp-for="Password" />
+                    </div>
+                </div>
+                <div class="space-y-base">
+                    <label class="font-label-md text-label-md text-on-surface-variant block" for="RepeatPassword">Repite la Contraseña</label>
+                    <div class="relative group">
+                        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock_reset</span>
+                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" id="RepeatPassword" placeholder="Repite tu contraseña" type="password" required asp-for="RepeatPassword" />
+                    </div>
+                </div>
+                <button class="w-full h-12 bg-primary hover:bg-on-primary-fixed-variant text-white font-title-md text-title-md rounded-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-sm mt-lg" type="submit">
+                    Registrate
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </form>
+            @if (ViewData["Msg"] != null)
+            {
+                <div class="mt-md p-base rounded-lg bg-error-container text-on-error-container font-body-md text-body-md text-center">
+                    @ViewData["Msg"]
+                </div>
+            }
+            <div class="mt-lg pt-lg border-t border-outline-variant/30">
+                <p class="text-center font-body-md text-body-md text-on-surface-variant">
+                    ¿Ya tienes una cuenta?
+                    <a class="text-primary font-bold hover:underline" asp-controller="Login" asp-action="Login">Iniciar Sesion</a>
+                </p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

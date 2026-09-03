@@ -1,0 +1,54 @@
+@model List<SistemaOnline.Models.Inventario>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Inventario";
+    ViewBag.Active = "inventario";
+    ViewData["Controlador"] = "Dashboard";
+    ViewData["AccionLista"] = "Inventario";
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Inventario General</h2>
+    <p class="text-on-surface-variant">Control de stock de ingredientes del restaurante.</p>
+</div>
+
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg">
+        <table class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="pb-md font-bold">Ingrediente</th>
+                    <th class="pb-md font-bold">Stock Actual</th>
+                    <th class="pb-md font-bold">Mínimo</th>
+                    <th class="pb-md font-bold">Máximo</th>
+                    <th class="pb-md font-bold">Última Reposición</th>
+                    <th class="pb-md font-bold">Estado</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-md">
+                @foreach (var i in Model)
+                {
+                    bool critico = i.Cantidad_Stock <= i.Stock_Minimo;
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="py-md font-bold">@i.Ingrediente.Nombre_Ingrediente</td>
+                        <td class="py-md font-mono-data">@i.Cantidad_Stock @i.Ingrediente.Unidad_Medida</td>
+                        <td class="py-md font-mono-data">@i.Stock_Minimo</td>
+                        <td class="py-md font-mono-data">@i.Stock_Maximo</td>
+                        <td class="py-md">@i.Fecha_Ultima_Reposicion.ToString("dd/MM/yyyy")</td>
+                        <td class="py-md">
+                            @if (critico)
+                            {
+                                <span class="px-sm py-xs bg-error-container text-on-error-container rounded-full text-label-md">Crítico</span>
+                            }
+                            else
+                            {
+                                <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">Normal</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Pagination" />

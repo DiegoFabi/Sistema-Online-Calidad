@@ -1,0 +1,99 @@
+@model SistemaOnline.ViewModels.Comprobante_PagoVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Editar Comprobante de Pago";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Editar Comprobante de Pago</h2>
+        <p class="text-on-surface-variant">Actualiza la información del comprobante de pago.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="Comprobante_Pago" asp-action="Editar" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <input type="hidden" asp-for="ID_Comprobante" />
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Tipo_Comprobante">Tipo de Comprobante</label>
+                <input class="@Cls("Tipo_Comprobante")" type="text" required asp-for="Tipo_Comprobante" />
+                <span asp-validation-for="Tipo_Comprobante" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Numero_Comprobante">Número de Comprobante</label>
+                <input class="@Cls("Numero_Comprobante")" type="text" required asp-for="Numero_Comprobante" />
+                <span asp-validation-for="Numero_Comprobante" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Serie">Serie</label>
+                <input class="@Cls("Serie")" type="text" required asp-for="Serie" />
+                <span asp-validation-for="Serie" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Emision">Fecha de Emisión</label>
+                <input class="@Cls("Fecha_Emision")" type="date" required asp-for="Fecha_Emision" />
+                <span asp-validation-for="Fecha_Emision" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Sub_Total">Sub Total</label>
+                <input class="@Cls("Sub_Total")" type="number" step="0.01" required asp-for="Sub_Total" />
+                <span asp-validation-for="Sub_Total" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Monto_Total">Monto Total</label>
+                <input class="@Cls("Monto_Total")" type="number" step="0.01" required asp-for="Monto_Total" />
+                <span asp-validation-for="Monto_Total" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="IGV">IGV</label>
+                <input class="@Cls("IGV")" type="number" step="0.01" required asp-for="IGV" />
+                <span asp-validation-for="IGV" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado_Comprobante">Estado del Comprobante</label>
+                <select class="@Cls("Estado_Comprobante")" required asp-for="Estado_Comprobante">
+                    <option value="Emitido">Emitido</option>
+                    <option value="Anulado">Anulado</option>
+                </select>
+                <span asp-validation-for="Estado_Comprobante" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Metodo_Pago">Método de Pago</label>
+                <input class="@Cls("Metodo_Pago")" type="text" required asp-for="Metodo_Pago" />
+                <span asp-validation-for="Metodo_Pago" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Razon_Social">Razón Social</label>
+                <input class="@Cls("Razon_Social")" type="text" required asp-for="Razon_Social" />
+                <span asp-validation-for="Razon_Social" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="RUC">RUC</label>
+                <input class="@Cls("RUC")" type="text" required asp-for="RUC" />
+                <span asp-validation-for="RUC" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Direccion_Fiscal">Dirección Fiscal</label>
+                <input class="@Cls("Direccion_Fiscal")" type="text" required asp-for="Direccion_Fiscal" />
+                <span asp-validation-for="Direccion_Fiscal" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Pedido">Pedido</label>
+                <select class="@Cls("ID_Pedido")" asp-for="ID_Pedido" asp-items="Model.PedidosDisponibles">
+                    <option value="" disabled selected hidden>-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="ID_Pedido" class="text-error text-label-md"></span>
+            </div>
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">save</span> Guardar
+                </button>
+                <a asp-controller="Comprobante_Pago" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

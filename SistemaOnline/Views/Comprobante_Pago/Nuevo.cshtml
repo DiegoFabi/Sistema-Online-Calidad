@@ -1,0 +1,262 @@
+@model SistemaOnline.ViewModels.Comprobante_PagoVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Nuevo Comprobante de Pago";
+    ViewBag.Active = "facturacion";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+    var resumenPedidos = ViewBag.ResumenPedidos as List<SistemaOnline.ViewModels.ResumenPedidoVM> ?? new();
+}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Registrar Pago</h2>
+        <p class="text-on-surface-variant">Procesa el cobro del pedido.</p>
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form id="formComprobante" asp-controller="Comprobante_Pago" asp-action="Nuevo" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <input type="hidden" asp-for="EmitirComprobante" id="hiddenEmitirComprobante" value="false" />
+
+            <!-- Pedido -->
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Pedido</label>
+                <select class="@Cls("ID_Pedido")" asp-for="ID_Pedido" asp-items="Model.PedidosDisponibles" id="ID_Pedido" onchange="cargarResumenPedido(this.value)">
+                    <option value="" disabled selected hidden>-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="ID_Pedido" class="text-error text-label-md"></span>
+            </div>
+
+            <!-- Resumen del pedido -->
+            <div id="resumenPedidoBox" class="hidden bg-surface-container-low rounded-lg p-md space-y-xs text-body-md">
+                <p class="font-bold text-on-surface flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-[18px] text-primary">receipt_long</span> Resumen del Pedido
+                </p>
+                <div id="resumenItems" class="space-y-xs text-on-surface-variant"></div>
+                <div class="border-t border-outline-variant/20 pt-xs flex justify-between font-bold text-on-surface">
+                    <span>Total</span><span id="resumenTotal">-</span>
+                </div>
+            </div>
+
+            <!-- Montos (auto-llenados desde pedido) -->
+            <div class="grid grid-cols-3 gap-md">
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Sub Total</label>
+                    <input class="@Cls("Sub_Total") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="Sub_Total" id="Sub_Total" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">IGV (18%)</label>
+                    <input class="@Cls("IGV") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="IGV" id="IGV" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Monto Total</label>
+                    <input class="@Cls("Monto_Total") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="Monto_Total" id="Monto_Total" />
+                </div>
+            </div>
+
+            <!-- Método de Pago -->
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Método de Pago</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-sm" id="metodoPagoGroup">
+                    @foreach (var op in SistemaOnline.ViewModels.Comprobante_PagoVM.MetodosPago)
+                    {
+                        bool sel = Model.Metodo_Pago == op.Value;
+                        <label class="metodo-btn flex items-center justify-center gap-xs h-11 rounded-lg border-2 cursor-pointer transition-all select-none
+                            @(sel ? "border-primary bg-primary/10 text-primary font-bold" : "border-outline-variant bg-surface-container-low text-on-surface-variant hover:border-primary/50")"
+                               data-value="@op.Value">
+                            <input type="radio" name="_metodoPagoRadio" value="@op.Value" class="sr-only" @(sel ? "checked" : "") />
+                            <span class="material-symbols-outlined text-[18px]">
+                                @(op.Value == "Efectivo" ? "payments" : op.Value == "Tarjeta" ? "credit_card" : "smartphone")
+                            </span>
+                            @op.Text
+                        </label>
+                    }
+                </div>
+                <input type="hidden" asp-for="Metodo_Pago" id="Metodo_Pago" />
+                <span asp-validation-for="Metodo_Pago" class="text-error text-label-md"></span>
+            </div>
+
+            <!-- Fecha de Emisión -->
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Fecha de Emisión</label>
+                <div class="flex gap-sm">
+                    <input class="@Cls("Fecha_Emision") flex-1" type="date" asp-for="Fecha_Emision" id="Fecha_Emision" readonly />
+                    <button type="button" onclick="document.getElementById('Fecha_Emision').readOnly = false;" class="h-11 px-md bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-highest transition-all whitespace-nowrap">Editar fecha</button>
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Estado del Comprobante</label>
+                <select class="@Cls("Estado_Comprobante")" asp-for="Estado_Comprobante">
+                    <option value="Emitido">Emitido</option>
+                    <option value="Anulado" disabled>Anulado</option>
+                </select>
+            </div>
+
+            <!-- Toggle: Emitir Comprobante -->
+            <div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg border border-outline-variant/20">
+                <div class="flex-1">
+                    <p class="font-bold text-on-surface text-body-md">Emitir Comprobante (Boleta / Factura)</p>
+                    <p class="text-label-md text-on-surface-variant">Activa para ingresar datos de facturación.</p>
+                </div>
+                <button type="button" id="btnToggleComprobante" onclick="toggleComprobante()"
+                        class="relative inline-flex h-7 w-12 items-center rounded-full transition-colors bg-outline-variant focus:outline-none">
+                    <span id="toggleThumb" class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform translate-x-1"></span>
+                </button>
+            </div>
+
+            <!-- Bloque de facturación (oculto por defecto) -->
+            <div id="bloqueFacturacion" class="hidden space-y-md border border-outline-variant/30 rounded-lg p-md bg-surface-container-low/50">
+                <p class="font-bold text-on-surface flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-[18px] text-primary">business</span> Datos de Facturación
+                </p>
+
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Tipo de Comprobante</label>
+                    <select class="@Cls("Tipo_Comprobante")" asp-for="Tipo_Comprobante" id="Tipo_Comprobante" onchange="toggleRUC(this.value)">
+                        <option value="" disabled selected hidden>-- Seleccione --</option>
+                        <option value="Boleta">Boleta</option>
+                        <option value="Factura">Factura</option>
+                    </select>
+                    <span asp-validation-for="Tipo_Comprobante" class="text-error text-label-md"></span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-md">
+                    <div>
+                        <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Número de Comprobante</label>
+                        <input class="@Cls("Numero_Comprobante")" type="text" asp-for="Numero_Comprobante" />
+                        <span asp-validation-for="Numero_Comprobante" class="text-error text-label-md"></span>
+                    </div>
+                    <div>
+                        <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Serie</label>
+                        <input class="@Cls("Serie")" type="text" asp-for="Serie" />
+                        <span asp-validation-for="Serie" class="text-error text-label-md"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Razón Social</label>
+                    <input class="@Cls("Razon_Social")" type="text" asp-for="Razon_Social" />
+                    <span asp-validation-for="Razon_Social" class="text-error text-label-md"></span>
+                </div>
+
+                <div id="grupoRUC" class="hidden">
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">RUC</label>
+                    <input class="@Cls("RUC")" type="text" maxlength="11" asp-for="RUC" />
+                    <span asp-validation-for="RUC" class="text-error text-label-md"></span>
+                </div>
+
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Dirección Fiscal</label>
+                    <input class="@Cls("Direccion_Fiscal")" type="text" asp-for="Direccion_Fiscal" />
+                    <span asp-validation-for="Direccion_Fiscal" class="text-error text-label-md"></span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">point_of_sale</span> Cobrar
+                </button>
+                <a asp-controller="Cajero" asp-action="Index" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var resumenPedidos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(resumenPedidos));
+        var _comprobanteActivo = false;
+
+        // Método de pago — pill buttons
+        document.querySelectorAll('.metodo-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var val = btn.getAttribute('data-value');
+                document.getElementById('Metodo_Pago').value = val;
+                document.querySelectorAll('.metodo-btn').forEach(function (b) {
+                    b.classList.remove('border-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+                    b.classList.add('border-outline-variant', 'bg-surface-container-low', 'text-on-surface-variant');
+                });
+                btn.classList.add('border-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+                btn.classList.remove('border-outline-variant', 'bg-surface-container-low', 'text-on-surface-variant');
+            });
+        });
+
+        // Inicializar valor del hidden desde radio seleccionado
+        (function () {
+            var checked = document.querySelector('input[name="_metodoPagoRadio"]:checked');
+            if (checked) document.getElementById('Metodo_Pago').value = checked.value;
+        })();
+
+        // Toggle comprobante
+        function toggleComprobante() {
+            _comprobanteActivo = !_comprobanteActivo;
+            document.getElementById('hiddenEmitirComprobante').value = _comprobanteActivo ? 'true' : 'false';
+            var bloque = document.getElementById('bloqueFacturacion');
+            var btn = document.getElementById('btnToggleComprobante');
+            var thumb = document.getElementById('toggleThumb');
+            if (_comprobanteActivo) {
+                bloque.classList.remove('hidden');
+                btn.classList.replace('bg-outline-variant', 'bg-primary');
+                thumb.classList.replace('translate-x-1', 'translate-x-6');
+            } else {
+                bloque.classList.add('hidden');
+                btn.classList.replace('bg-primary', 'bg-outline-variant');
+                thumb.classList.replace('translate-x-6', 'translate-x-1');
+            }
+        }
+
+        // RUC visible solo para Factura
+        function toggleRUC(tipo) {
+            var grp = document.getElementById('grupoRUC');
+            tipo === 'Factura' ? grp.classList.remove('hidden') : grp.classList.add('hidden');
+        }
+
+        // Cargar resumen desde ViewBag data
+        function cargarResumenPedido(idStr) {
+            var id = parseInt(idStr, 10);
+            var pedido = resumenPedidos.find(function (p) { return (p.ID_Pedido || p.id_Pedido) === id; });
+            if (!pedido) { document.getElementById('resumenPedidoBox').classList.add('hidden'); return; }
+
+            var items = pedido.Items || pedido.items || [];
+            var html = '';
+            items.forEach(function (item) {
+                var nombre = item.Nombre || item.nombre;
+                var cantidad = item.Cantidad || item.cantidad;
+                var precio = item.PrecioUnitario || item.precioUnitario;
+                html += '<div class="flex justify-between"><span>' + cantidad + ' × ' + nombre + '</span><span class="font-mono-data">' + (cantidad * precio).toFixed(2) + '</span></div>';
+            });
+            document.getElementById('resumenItems').innerHTML = html;
+            var total = pedido.Total || pedido.total;
+            var subTotal = pedido.SubTotal || pedido.subTotal;
+            document.getElementById('resumenTotal').textContent = total.toFixed(2);
+            document.getElementById('resumenPedidoBox').classList.remove('hidden');
+
+            // Auto-fill montos
+            var igv = Math.round(subTotal * 0.18 * 100) / 100;
+            document.getElementById('Sub_Total').value = subTotal.toFixed(2);
+            document.getElementById('IGV').value = igv.toFixed(2);
+            document.getElementById('Monto_Total').value = total.toFixed(2);
+        }
+
+        // Cargar si hay pedido pre-seleccionado
+        document.addEventListener('DOMContentLoaded', function () {
+            var sel = document.getElementById('ID_Pedido');
+            if (sel && sel.value) cargarResumenPedido(sel.value);
+
+            // Restaurar toggle si hay errores de validación (EmitirComprobante=true en el modelo)
+            if (@(Model.EmitirComprobante ? "true" : "false")) {
+                _comprobanteActivo = false;
+                toggleComprobante();
+            }
+
+            // Restaurar RUC si tipo era Factura
+            var tipoSel = document.getElementById('Tipo_Comprobante');
+            if (tipoSel) toggleRUC(tipoSel.value);
+        });
+    </script>
+}

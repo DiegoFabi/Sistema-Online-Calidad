@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"] - Rancho Sagrado</title>
+    <partial name="_DesignTokensHead" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <style>
+        :root {
+        --color-primary: #b9172f;
+        --color-primary-dark: #92001f;
+        --color-surface: #f8f9fa;
+        --color-surface-low: #f3f4f5;
+        --color-sidebar-bg: #212529;
+        --color-header-bg: #f8f9fa;
+        }
+
+        #SideNavBar {
+        background-color: var(--color-sidebar-bg);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        #SideNavBar {
+        color: #e1e3e4;
+        }
+
+        #SideNavBar .text-on-surface-variant:not(#logoutModal *) {
+        color: #e1e3e4;
+        }
+
+        #SideNavBar .hover\:bg-surface-container-high:hover {
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        header {
+        background-color: var(--color-header-bg);
+        border-bottom: 2px solid #dee2e6;
+        }
+
+        .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        border: 2px solid #dee2e6;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e3bebd;
+        border-radius: 10px;
+        }
+
+        @@keyframes pulse-soft {
+        0%, 100% {
+        opacity: 1;
+        }
+
+        50% {
+        opacity: 0.7;
+        }
+        }
+
+        .animate-pulse-soft {
+        animation: pulse-soft 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Patrón compartido de modal con blur + overlay oscuro,
+        reutilizado por Configuración y por Detalles del Pedido */
+        .app-modal-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
+        }
+
+        .app-modal-panel {
+        background: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        #searchSuggestions {
+        background: #fff;
+        }
+
+        /* Efectos visibles de las preferencias de Configuración (solo UI, sin persistencia en backend) */
+        html.dark body {
+        background-color: #1c1410;
+        color: #f3e9e3;
+        }
+
+        html.dark #SideNavBar,
+        html.dark header,
+        html.dark .bg-surface-container-lowest,
+        html.dark .app-modal-panel {
+        background-color: #2a201b !important;
+        color: #f3e9e3 !important;
+        }
+
+        html.dark .bg-surface-container-low,
+        html.dark .bg-surface-container-high,
+        html.dark .bg-surface-container-highest,
+        html.dark .bg-slate-50 {
+        background-color: #3a2e27 !important;
+        color: #f3e9e3 !important;
+        }
+
+        html.dark .text-on-surface,
+        html.dark .text-on-surface-variant {
+        color: #f3e9e3 !important;
+        }
+
+        body.compact-view .p-lg {
+        padding: 8px !important;
+        }
+
+        body.compact-view .gap-lg {
+        gap: 8px !important;
+        }
+
+        body.compact-view .mb-lg {
+        margin-bottom: 8px !important;
+        }
+
+        body.compact-view table td,
+        body.compact-view table th {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        }
+
+        /* Tarjetas/elementos bloqueados por falta de pre-condiciones (Negocio/Gestión y similares) */
+        .card-bloqueada {
+        opacity: 0.7;
+        cursor: not-allowed;
+        pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+    <partial name="_Sidebar" />
+    <main class="pl-[280px] flex flex-col min-h-screen">
+        <header class="fixed top-0 right-0 left-[280px] h-[72px] flex items-center justify-between px-6 z-30 bg-surface shadow-sm">
+            <div class="flex items-center gap-md flex-1">
+                <h2 class="font-title-md text-title-md text-on-surface">@ViewData["Title"]</h2>
+                <div class="relative ml-lg w-full max-w-sm">
+                    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+                    <input id="globalSearchInput" type="text" autocomplete="off" placeholder="Buscar secciones..."
+                           class="w-full h-10 pl-[44px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+                    <div id="searchSuggestions"
+                         class="hidden absolute left-0 right-0 mt-1 rounded-lg shadow-lg border border-outline-variant/30 overflow-hidden z-50 max-h-80 overflow-y-auto">
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-lg">
+                <div class="relative">
+                    <button id="notifBellButton" type="button" class="relative text-on-surface-variant hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span id="notifBadge" class="absolute -top-1 -right-1 bg-error text-white text-[10px] leading-none rounded-full w-4 h-4 flex items-center justify-center"></span>
+                    </button>
+                    <div id="notifDropdown"
+                         class="hidden absolute right-0 mt-2 w-80 bg-surface-container-lowest rounded-lg shadow-lg border border-outline-variant/30 overflow-hidden z-50">
+                        <div class="px-md py-sm bg-primary text-on-primary font-bold text-body-md">Notificaciones</div>
+                        <div id="notifList" class="max-h-80 overflow-y-auto divide-y divide-outline-variant/20"></div>
+                        <div id="notifVacio" class="hidden px-md py-lg text-center text-on-surface-variant text-label-md">Sin notificaciones nuevas.</div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button id="userMenuButton" type="button"
+                            class="flex items-center gap-sm pl-md border-l border-outline-variant cursor-pointer">
+                        <div class="text-right hidden lg:block">
+                            <p class="text-body-md font-bold text-on-surface">@User.Identity?.Name</p>
+                            <p class="text-label-md text-on-surface-variant leading-none">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full border-2 border-primary-fixed shadow-sm bg-primary-container text-on-primary flex items-center justify-center font-bold">
+                            @((User.Identity?.Name ?? "?").Substring(0, 1).ToUpper())
+                        </div>
+                    </button>
+                    <div id="userMenuDropdown"
+                         class="hidden absolute right-0 mt-2 w-48 bg-surface-container-lowest rounded-lg shadow-lg border border-outline-variant/30 overflow-hidden z-50">
+                        <button type="button" onclick="openConfiguracionModal()"
+                                class="w-full flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-high text-left">
+                            <span class="material-symbols-outlined text-[18px]">settings</span>
+                            <span class="text-body-md">Configuración</span>
+                        </button>
+                        <button type="button" onclick="openLogoutModal()"
+                                class="w-full flex items-center gap-sm px-md py-sm text-error hover:bg-surface-container-high text-left">
+                            <span class="material-symbols-outlined text-[18px]">logout</span>
+                            <span class="text-body-md">Cerrar Sesión</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="mt-[72px] p-lg flex-1 overflow-y-auto custom-scrollbar bg-surface-muted">
+            @RenderBody()
+        </section>
+    </main>
+
+    <!-- Modal de Configuración (usa el patrón compartido app-modal-*) -->
+    <div id="configuracionModal" class="fixed inset-0 z-[100] hidden items-center justify-center app-modal-overlay">
+        <div class="app-modal-panel w-full max-w-[440px] flex flex-col animate-fade-in overflow-hidden">
+            <div class="bg-primary px-lg py-lg flex items-center justify-between">
+                <div class="flex items-center gap-sm text-on-primary">
+                    <span class="material-symbols-outlined">tune</span>
+                    <h3 class="font-title-md text-title-md">Configuración</h3>
+                </div>
+                <button type="button" onclick="closeConfiguracionModal()" class="text-on-primary/80 hover:text-on-primary">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-lg space-y-md">
+                <label class="flex items-center justify-between gap-md p-md rounded-lg bg-surface-container-low cursor-pointer">
+                    <div class="flex items-center gap-md">
+                        <span class="material-symbols-outlined text-primary">motion_photos_off</span>
+                        <div>
+                            <p class="font-bold text-on-surface">Desactivar animaciones</p>
+                            <p class="text-label-md text-on-surface-variant">Desactiva efectos como el confeti al guardar.</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="cfgDesactivarAnimaciones" class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20" />
+                </label>
+            </div>
+            <div class="flex gap-md w-full p-lg pt-0">
+                <button type="button" onclick="closeConfiguracionModal()"
+                        class="flex-1 px-md py-sm rounded-lg bg-primary text-on-primary hover:bg-on-primary-fixed-variant font-bold transition-all">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ---------- Buscador del header (filtrado por rol) ----------
+        (function () {
+        @{
+            var searchItems = new System.Text.StringBuilder();
+            searchItems.Append("const items = [");
+            if (User.IsInRole("Administrador"))
+            {
+                searchItems.Append("{ icon: 'dashboard', name: 'Dashboard', url: '" + Url.Action("Index","Dashboard") + "' },");
+                searchItems.Append("{ icon: 'group', name: 'Usuarios y Roles', url: '" + Url.Action("Usuarios","Dashboard") + "' },");
+                searchItems.Append("{ icon: 'inventory_2', name: 'Inventario', url: '" + Url.Action("Inventario","Dashboard") + "' },");
+                searchItems.Append("{ icon: 'bar_chart', name: 'Reportes', url: '" + Url.Action("Reportes","Dashboard") + "' },");
+                searchItems.Append("{ icon: 'supervisor_account', name: 'Supervisión', url: '" + Url.Action("Index","Administrador") + "' },");
+                searchItems.Append("{ icon: 'event', name: 'Reservaciones', url: '" + Url.Action("Reservaciones","Administrador") + "' },");
+                searchItems.Append("{ icon: 'schedule', name: 'Turnos', url: '" + Url.Action("Turnos","Administrador") + "' },");
+                searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos (Admin)', url: '" + Url.Action("Pedidos","Administrador") + "' },");
+                searchItems.Append("{ icon: 'admin_panel_settings', name: 'Administrar Negocio', url: '" + Url.Action("Advertencia","Negocio") + "' },");
+            }
+            if (User.IsInRole("Cajero"))
+            {
+                searchItems.Append("{ icon: 'dashboard', name: 'Dashboard', url: '" + Url.Action("Index","Cajero") + "' },");
+                searchItems.Append("{ icon: 'receipt_long', name: 'Facturación', url: '" + Url.Action("Facturacion","Cajero") + "' },");
+                searchItems.Append("{ icon: 'payments', name: 'Pagos', url: '" + Url.Action("Pagos","Cajero") + "' },");
+                searchItems.Append("{ icon: 'search', name: 'Buscar Clientes', url: '" + Url.Action("Clientes","Cajero") + "' },");
+            }
+            if (User.IsInRole("Mesero"))
+            {
+                searchItems.Append("{ icon: 'table_restaurant', name: 'Mapa de Mesas', url: '" + Url.Action("Index","Mesero") + "' },");
+                searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos', url: '" + Url.Action("Pedidos","Mesero") + "' },");
+                searchItems.Append("{ icon: 'notifications', name: 'Notificaciones', url: '" + Url.Action("Notificaciones","Mesero") + "' },");
+                searchItems.Append("{ icon: 'add', name: 'Nuevo Pedido', url: '" + Url.Action("Nuevo","Pedido") + "' },");
+            }
+            if (User.IsInRole("Chef"))
+            {
+                searchItems.Append("{ icon: 'dashboard', name: 'Monitor de Cocina', url: '" + Url.Action("Index","Cocina") + "' },");
+                searchItems.Append("{ icon: 'inventory_2', name: 'Ingredientes', url: '" + Url.Action("Ingredientes","Cocina") + "' },");
+                searchItems.Append("{ icon: 'list_alt', name: 'Detalle de Pedidos', url: '" + Url.Action("Detalle","Cocina") + "' },");
+            }
+            searchItems.Append("];");
+        }
+        @Html.Raw(searchItems.ToString())
+
+        const input = document.getElementById('globalSearchInput');
+        const suggestions = document.getElementById('searchSuggestions');
+        if (!input || !suggestions) return;
+
+        function render(list) {
+        if (list.length === 0) {
+        suggestions.classList.add('hidden');
+        suggestions.innerHTML = '';
+        return;
+        }
+        suggestions.innerHTML = list.map(function (item) {
+        return '<button type="button" data-url="' + item.url + '" ' +
+        'class="search-suggestion w-full flex items-center gap-sm px-md py-sm text-left hover:bg-surface-container-high text-on-surface">' +
+        '<span class="material-symbols-outlined text-[18px]">' + item.icon + '</span>' +
+        '<span class="text-body-md">' + item.name + '</span></button>';
+        }).join('');
+        suggestions.classList.remove('hidden');
+
+        suggestions.querySelectorAll('.search-suggestion').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+        window.location = btn.getAttribute('data-url');
+        });
+        });
+        }
+
+        input.addEventListener('keyup', function () {
+        const term = this.value.trim().toLowerCase();
+        if (!term) {
+        suggestions.classList.add('hidden');
+        return;
+        }
+        const filtrados = items.filter(function (item) {
+        return item.name.toLowerCase().includes(term);
+        });
+        render(filtrados);
+        });
+
+        document.addEventListener('click', function (e) {
+        if (!suggestions.contains(e.target) && e.target !== input) {
+        suggestions.classList.add('hidden');
+        }
+        });
+        })();
+
+        // ---------- Sistema de notificaciones (persistente en servidor) ----------
+        (function () {
+        const bell = document.getElementById('notifBellButton');
+        const dropdown = document.getElementById('notifDropdown');
+        const lista = document.getElementById('notifList');
+        const vacio = document.getElementById('notifVacio');
+        const badge = document.getElementById('notifBadge');
+        if (!bell || !dropdown || !lista) return;
+
+        function actualizarBadge() {
+        const pendientes = lista.querySelectorAll('.notif-item').length;
+        badge.textContent = pendientes > 0 ? pendientes : '';
+        badge.classList.toggle('hidden', pendientes === 0);
+        vacio.classList.toggle('hidden', pendientes !== 0);
+        }
+
+        function pintarNotificacion(n) {
+        const item = document.createElement('div');
+        item.className = 'notif-item flex items-start gap-sm px-md py-sm hover:bg-surface-container-high';
+        item.dataset.id = n.id;
+        item.innerHTML =
+        '<span class="material-symbols-outlined text-primary text-[20px]">' + n.icono + '</span>' +
+        '<div class="flex-1">' +
+        '<p class="text-body-md font-bold text-on-surface">' + n.titulo + '</p>' +
+        '<p class="text-label-md text-on-surface-variant">' + n.detalle + '</p>' +
+        '</div>' +
+        '<button type="button" class="notif-leida text-label-md text-primary hover:underline whitespace-nowrap">Marcar como leída</button>';
+        item.querySelector('.notif-leida').addEventListener('click', function (e) {
+        e.stopPropagation();
+        fetch('@Url.Action("MarcarLeida", "Notificacion")?id=' + n.id, { method: 'POST' })
+        .finally(function () {
+        item.remove();
+        actualizarBadge();
+        });
+        });
+        lista.appendChild(item);
+        }
+
+        function cargarNotificaciones() {
+        fetch('@Url.Action("Listar", "Notificacion")')
+        .then(function (r) { return r.json(); })
+        .then(function (notificaciones) {
+        const idsActuales = Array.from(lista.querySelectorAll('.notif-item')).map(function (el) { return el.dataset.id; });
+        notificaciones.forEach(function (n) {
+        if (idsActuales.indexOf(String(n.id)) === -1) {
+        pintarNotificacion(n);
+        }
+        });
+        actualizarBadge();
+        });
+        }
+
+        cargarNotificaciones();
+        setInterval(cargarNotificaciones, 15000);
+
+        bell.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target) && e.target !== bell) {
+        dropdown.classList.add('hidden');
+        }
+        });
+        })();
+
+        // ---------- Menú flotante de usuario ----------
+        (function () {
+        const button = document.getElementById('userMenuButton');
+        const dropdown = document.getElementById('userMenuDropdown');
+        if (!button || !dropdown) return;
+
+        button.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target) && e.target !== button) {
+        dropdown.classList.add('hidden');
+        }
+        });
+        })();
+
+        // ---------- Confeti (respeta preferencia "Desactivar animaciones") ----------
+        function lanzarConfetti() {
+        if (localStorage.getItem('app_desactivar_animaciones') === 'true') return;
+        if (typeof confetti !== 'function') return;
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        }
+
+        // ---------- Modal de Configuración (solo UI, persistido en localStorage) ----------
+        function openConfiguracionModal() {
+        document.getElementById('userMenuDropdown').classList.add('hidden');
+        document.getElementById('configuracionModal').classList.remove('hidden');
+        document.getElementById('configuracionModal').classList.add('flex');
+        }
+        function closeConfiguracionModal() {
+        document.getElementById('configuracionModal').classList.add('hidden');
+        document.getElementById('configuracionModal').classList.remove('flex');
+        }
+
+        // Close modals (configuracion + logout) when clicking on the overlay
+        document.addEventListener('click', function (e) {
+        var cfgModal = document.getElementById('configuracionModal');
+        if (cfgModal && !cfgModal.classList.contains('hidden')) {
+            if (e.target === cfgModal) closeConfiguracionModal();
+        }
+        var logoutModal = document.getElementById('logoutModal');
+        if (logoutModal && !logoutModal.classList.contains('hidden')) {
+            if (e.target === logoutModal) {
+                logoutModal.classList.add('hidden');
+                logoutModal.classList.remove('flex');
+            }
+        }
+        });
+
+        (function () {
+        const desactivarAnimaciones = document.getElementById('cfgDesactivarAnimaciones');
+        if (!desactivarAnimaciones) return;
+
+        desactivarAnimaciones.checked = localStorage.getItem('app_desactivar_animaciones') === 'true';
+
+        desactivarAnimaciones.addEventListener('change', function () {
+        localStorage.setItem('app_desactivar_animaciones', desactivarAnimaciones.checked);
+        });
+        })();
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

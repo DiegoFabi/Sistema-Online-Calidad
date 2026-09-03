@@ -1,0 +1,19 @@
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Sistema no configurado";
+}
+
+<div class="max-w-lg mx-auto mt-xl">
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg flex flex-col items-center text-center gap-md">
+        <span class="material-symbols-outlined text-[48px] text-on-surface-variant">settings</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface font-extrabold">Sistema en configuración</h2>
+        <p class="text-body-md text-on-surface-variant">
+            El sistema aún no ha sido configurado por completo. Contacta al administrador para que registre los datos necesarios antes de continuar.
+        </p>
+        <a asp-controller="Login" asp-action="Login"
+           onclick="history.back(); return false;"
+           class="inline-flex items-center gap-sm h-11 px-lg bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+            <span class="material-symbols-outlined">arrow_back</span> Volver
+        </a>
+    </div>
+</div>

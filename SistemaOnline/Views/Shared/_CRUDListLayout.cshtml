@@ -1,0 +1,147 @@
+@{
+    string titulo = ViewData["Titulo"] as string ?? "Listado";
+    string descripcion = ViewData["Descripcion"] as string ?? "";
+    string controlador = ViewData["Controlador"] as string ?? "";
+    string nuevoTexto = ViewData["NuevoTexto"] as string ?? "Nuevo";
+    string buscadorPlaceholder = ViewData["BuscadorPlaceholder"] as string ?? "Buscar...";
+}
+
+<style>
+    .animate-entry {
+        animation: fadeInSlide 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @@keyframes fadeInSlide {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .btn-hover-effect {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        .btn-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(var(--primary-rgb), 0.3);
+        }
+
+    .col-ellipsis {
+        max-width: 220px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="animate-entry">
+    <div class="mb-lg">
+        @{
+            string backController = "Negocio";
+            string backAction = "Gestion";
+            string backLabel = "Volver a la Gestión de Negocio";
+            if (User.IsInRole("Mesero")) { backController = "Mesero"; backAction = "Index"; backLabel = "Volver al Panel de Mesas"; }
+            else if (User.IsInRole("Cajero")) { backController = "Cajero"; backAction = "Index"; backLabel = "Volver al Panel de Caja"; }
+            else if (User.IsInRole("Chef")) { backController = "Cocina"; backAction = "Index"; backLabel = "Volver al Monitor de Cocina"; }
+        }
+        <a asp-controller="@backController" asp-action="@backAction"
+           class="inline-flex items-center text-on-surface-variant hover:text-primary mb-md transition-colors duration-300">
+            <span class="material-symbols-outlined mr-sm">arrow_back</span>
+            <span class="font-title-sm">@backLabel</span>
+        </a>
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md">
+            <div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">@titulo</h2>
+                <p class="text-on-surface-variant">@descripcion</p>
+            </div>
+            <a asp-controller="@controlador" asp-action="Nuevo"
+               class="btn-hover-effect inline-flex items-center gap-sm h-11 px-md bg-primary text-on-primary font-title-md rounded-lg shadow-md">
+                <span class="material-symbols-outlined">add</span>
+                @nuevoTexto
+            </a>
+        </div>
+    </div>
+
+    <div class="mb-md relative max-w-md">
+        <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+        <input id="buscadorTabla" type="text" placeholder="@buscadorPlaceholder"
+               class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+    </div>
+</div>
+
+<!-- Modal global de confirmación de eliminación -->
+<div id="modalEliminarGlobal" class="fixed inset-0 z-[300] hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-[360px] overflow-hidden animate-fade-in mx-md">
+        <div class="bg-error-container flex flex-col items-center py-lg px-lg">
+            <span class="material-symbols-outlined text-error text-[48px]">delete_forever</span>
+        </div>
+        <div class="p-lg flex flex-col items-center">
+            <h3 class="font-title-md text-title-md text-on-surface mb-xs">¿Eliminar registro?</h3>
+            <p class="text-body-md text-on-surface-variant text-center mb-lg">Esta acción no se puede deshacer.</p>
+            <div class="flex gap-md w-full">
+                <button type="button" onclick="cerrarModalEliminar()"
+                        class="flex-1 h-11 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-high font-bold transition-all">
+                    Cancelar
+                </button>
+                <a id="btnConfirmarEliminar" href="#"
+                   class="flex-1 h-11 rounded-lg bg-error text-white font-bold hover:bg-error/90 transition-all inline-flex items-center justify-center gap-xs">
+                    <span class="material-symbols-outlined text-[18px]">delete</span> Eliminar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const buscador = document.getElementById('buscadorTabla');
+        if (!buscador) return;
+
+        buscador.addEventListener('input', function () {
+            const filtro = this.value.trim().toLowerCase();
+            const tabla = document.getElementById('tablaPrincipal');
+            if (!tabla) return;
+
+            tabla.querySelectorAll('tbody tr').forEach(function (fila) {
+                const esVisible = fila.textContent.toLowerCase().includes(filtro);
+                fila.style.transition = "opacity 0.2s ease";
+                fila.style.opacity = esVisible ? "1" : "0";
+                setTimeout(() => { fila.style.display = esVisible ? '' : 'none'; }, 200);
+            });
+        });
+    })();
+
+    function abrirModalEliminar(url) {
+        document.getElementById('btnConfirmarEliminar').href = url;
+        var modal = document.getElementById('modalEliminarGlobal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function cerrarModalEliminar() {
+        var modal = document.getElementById('modalEliminarGlobal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    document.getElementById('modalEliminarGlobal').addEventListener('click', function (e) {
+        if (e.target === this) cerrarModalEliminar();
+    });
+
+    // Intercept all Eliminar links and route them through the modal
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('a[href*="/Eliminar/"]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                abrirModalEliminar(link.href);
+            });
+        });
+    });
+</script>

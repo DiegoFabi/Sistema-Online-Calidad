@@ -1,0 +1,31 @@
+@model List<SistemaOnline.Models.Pedido>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Notificaciones";
+    ViewBag.Active = "notificaciones";
+    ViewData["Controlador"] = "Mesero";
+    ViewData["AccionLista"] = "Notificaciones";
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Notificaciones de Atención</h2>
+    <p class="text-on-surface-variant">Pedidos listos en cocina que esperan ser servidos.</p>
+</div>
+
+<div class="space-y-md">
+    @if (!Model.Any())
+    {
+        <p class="text-on-surface-variant text-body-md">No hay pedidos listos por servir.</p>
+    }
+    @foreach (var p in Model)
+    {
+        <div class="flex gap-md p-lg bg-secondary-container text-on-secondary-container rounded-xl shadow-sm animate-pulse-soft">
+            <span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+            <div>
+                <p class="font-bold">Pedido #@p.ID_Pedido — Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</p>
+                <p class="text-label-md opacity-80">@p.Detalle_Pedido</p>
+            </div>
+        </div>
+    }
+</div>
+<partial name="_Pagination" />

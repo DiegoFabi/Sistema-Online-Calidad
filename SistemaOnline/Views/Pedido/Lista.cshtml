@@ -1,0 +1,62 @@
+@model List<SistemaOnline.ViewModels.PedidoVM>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Pedidos";
+    ViewBag.Active = "negocio";
+    ViewData["Titulo"] = "Lista de Pedidos";
+    ViewData["Descripcion"] = "Administra los pedidos registrados.";
+    ViewData["Controlador"] = "Pedido";
+    ViewData["NuevoTexto"] = "Nuevo Pedido";
+    ViewData["BuscadorPlaceholder"] = "Buscar por estado, empleado, mesa...";
+}
+<partial name="_CRUDListLayout" />
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg overflow-x-auto">
+        <table id="tablaPrincipal" class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="pb-md font-bold">ID</th>
+                    <th class="pb-md font-bold">Fecha</th>
+                    <th class="pb-md font-bold">Estado</th>
+                    <th class="pb-md font-bold col-ellipsis">Detalle</th>
+                    <th class="pb-md font-bold">SubTotal</th>
+                    <th class="pb-md font-bold">Total</th>
+                    <th class="pb-md font-bold col-ellipsis">Empleado</th>
+                    <th class="pb-md font-bold">Mesa</th>
+                    <th class="pb-md font-bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-md">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="py-md font-mono-data">@item.ID_Pedido</td>
+                        <td class="py-md font-mono-data">@item.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td class="py-md font-bold">@item.Estado_Pedido</td>
+                        <td class="py-md col-ellipsis" title="@item.Detalle_Pedido">@item.Detalle_Pedido</td>
+                        <td class="py-md font-mono-data">@item.SubTotal</td>
+                        <td class="py-md font-mono-data">@item.Total</td>
+                        <td class="py-md col-ellipsis" title="@item.EmpleadoNombre">@item.EmpleadoNombre</td>
+                        <td class="py-md">@item.MesaNumero</td>
+                        <td class="py-md">
+                            <div class="flex items-center gap-md">
+                                <a asp-controller="Pedido" asp-action="Editar" asp-route-id="@item.ID_Pedido" class="inline-flex items-center gap-xs text-tertiary hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span> Editar
+                                </a>
+                                <a asp-controller="Pedido" asp-action="Eliminar" asp-route-id="@item.ID_Pedido"  class="inline-flex items-center gap-xs text-error hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Pagination" />
+
+@if (TempData["Confetti"] != null)
+{
+    <script>document.addEventListener('DOMContentLoaded', function () { lanzarConfetti(); });</script>
+}
