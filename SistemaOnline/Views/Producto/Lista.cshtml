@@ -1,0 +1,57 @@
+@model List<SistemaOnline.ViewModels.ProductoVM>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Productos";
+    ViewBag.Active = "negocio";
+    ViewData["Titulo"] = "Lista de Productos";
+    ViewData["Descripcion"] = "Administra los productos del restaurante.";
+    ViewData["Controlador"] = "Producto";
+    ViewData["NuevoTexto"] = "Nuevo Producto";
+    ViewData["BuscadorPlaceholder"] = "Buscar por nombre, categoría...";
+}
+<partial name="_CRUDListLayout" />
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg overflow-x-auto">
+        <table id="tablaPrincipal" class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="pb-md font-bold">ID</th>
+                    <th class="pb-md font-bold col-ellipsis">Nombre del Plato</th>
+                    <th class="pb-md font-bold col-ellipsis">Descripción</th>
+                    <th class="pb-md font-bold">Tiempo de Preparación</th>
+                    <th class="pb-md font-bold">Precio</th>
+                    <th class="pb-md font-bold">Disponible</th>
+                    <th class="pb-md font-bold col-ellipsis">Categoría</th>
+                    <th class="pb-md font-bold col-ellipsis">Categoría (relación)</th>
+                    <th class="pb-md font-bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-md">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="py-md font-mono-data">@item.ID_Producto</td>
+                        <td class="py-md font-bold col-ellipsis" title="@item.Nombre_Plato">@item.Nombre_Plato</td>
+                        <td class="py-md col-ellipsis" title="@item.Descripcion">@item.Descripcion</td>
+                        <td class="py-md font-mono-data">@item.Tiempo_Preparacion</td>
+                        <td class="py-md font-mono-data">@item.Precio</td>
+                        <td class="py-md">@(item.Disponibilidad ? "Sí" : "No")</td>
+                        <td class="py-md col-ellipsis" title="@item.Categoria">@item.Categoria</td>
+                        <td class="py-md col-ellipsis" title="@item.CategoriaRelNombre">@item.CategoriaRelNombre</td>
+                        <td class="py-md">
+                            <div class="flex items-center gap-md">
+                                <a asp-controller="Producto" asp-action="Editar" asp-route-id="@item.ID_Producto" class="inline-flex items-center gap-xs text-tertiary hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span> Editar
+                                </a>
+                                <a asp-controller="Producto" asp-action="Eliminar" asp-route-id="@item.ID_Producto"  class="inline-flex items-center gap-xs text-error hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Pagination" />

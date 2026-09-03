@@ -1,0 +1,80 @@
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Administrar Negocio";
+    ViewBag.Active = "negocio";
+}
+
+@{
+    var tablas = new[]
+    {
+        new { Nombre = "Roles", Controlador = "Rol", Icono = "shield_person" },
+        new { Nombre = "Usuarios", Controlador = "Usuario", Icono = "group" },
+        new { Nombre = "Empleados", Controlador = "Empleado", Icono = "badge" },
+        new { Nombre = "Proveedores", Controlador = "Proveedor", Icono = "local_shipping" },
+        new { Nombre = "Contratos", Controlador = "Contrato", Icono = "description" },
+        new { Nombre = "Turnos", Controlador = "Turno", Icono = "schedule" },
+        new { Nombre = "Clientes", Controlador = "Cliente", Icono = "person" },
+        new { Nombre = "Mesas", Controlador = "Mesa_Restaurante", Icono = "table_restaurant" },
+        new { Nombre = "Reservaciones", Controlador = "Reservacion", Icono = "event" },
+        new { Nombre = "Cartas", Controlador = "Carta", Icono = "menu_book" },
+        new { Nombre = "Categorías de Producto", Controlador = "Producto_Categoria", Icono = "category" },
+        new { Nombre = "Productos", Controlador = "Producto", Icono = "restaurant_menu" },
+        new { Nombre = "Categorías de Ingrediente", Controlador = "Categoria_Ingrediente", Icono = "kitchen" },
+        new { Nombre = "Ingredientes", Controlador = "Ingrediente", Icono = "egg" },
+        new { Nombre = "Inventario", Controlador = "Inventario", Icono = "inventory_2" },
+        new { Nombre = "Pedidos", Controlador = "Pedido", Icono = "receipt_long" },
+        new { Nombre = "Pagos", Controlador = "Pago", Icono = "payments" },
+        new { Nombre = "Comprobantes de Pago", Controlador = "Comprobante_Pago", Icono = "receipt" },
+        new { Nombre = "Promociones", Controlador = "Promocion", Icono = "sell" },
+    };
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Administrar Negocio</h2>
+    <p class="text-on-surface-variant">Acceso directo a la edición de todas las tablas del sistema.</p>
+</div>
+
+<div class="mb-lg relative max-w-md">
+    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+    <input id="buscadorTablas" type="text" placeholder="Buscar tabla o entidad..."
+           class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+</div>
+
+@{
+    var bloqueados = ViewBag.Bloqueados as Dictionary<string, string> ?? new Dictionary<string, string>();
+}
+<div id="gridTablas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+    @foreach (var t in tablas)
+    {
+        bool bloqueado = bloqueados.ContainsKey(t.Controlador);
+        <a data-nombre="@t.Nombre.ToLower()" asp-controller="@t.Controlador" asp-action="Lista"
+           tabindex="@(bloqueado ? "-1" : "0")" aria-disabled="@bloqueado.ToString().ToLower()"
+           onclick="@(bloqueado ? "return false;" : null)"
+           class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg flex items-center gap-md transition-all @(bloqueado ? "card-bloqueada" : "hover:shadow-md hover:border-primary/30")">
+            <div class="@(bloqueado ? "bg-error-container text-error" : "bg-primary-fixed/30 text-primary") rounded-lg p-base">
+                <span class="material-symbols-outlined">@(bloqueado ? "lock" : t.Icono)</span>
+            </div>
+            <div>
+                @if (bloqueado)
+                {
+                    <p class="text-label-md text-error font-bold mb-1">@bloqueados[t.Controlador]</p>
+                }
+                <h3 class="font-title-md text-title-md text-on-surface">@t.Nombre</h3>
+                <p class="text-label-md text-on-surface-variant">Ver y administrar registros</p>
+            </div>
+        </a>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        const buscador = document.getElementById('buscadorTablas');
+        const tarjetas = document.querySelectorAll('#gridTablas > a');
+        buscador.addEventListener('input', () => {
+            const filtro = buscador.value.trim().toLowerCase();
+            tarjetas.forEach(t => {
+                t.style.display = t.dataset.nombre.includes(filtro) ? '' : 'none';
+            });
+        });
+    </script>
+}

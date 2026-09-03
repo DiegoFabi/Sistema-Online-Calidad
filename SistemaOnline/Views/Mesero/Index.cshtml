@@ -1,0 +1,76 @@
+@model SistemaOnline.ViewModels.MeseroDashboardVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Mapa de Mesas";
+    ViewBag.Active = "dashboard";
+    ViewData["Controlador"] = "Mesero";
+    ViewData["AccionLista"] = "Index";
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Mapa de Mesas</h2>
+    <p class="text-on-surface-variant">Estado en tiempo real de las mesas del restaurante.</p>
+</div>
+
+<div class="grid grid-cols-12 gap-lg mb-lg">
+    <div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-lg">
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none text-secondary">@Model.MesasLibres</p>
+            <p class="text-on-surface-variant font-bold">Mesas Libres</p>
+        </div>
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-primary" data-icon="event_busy">event_busy</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none text-primary">@Model.MesasOcupadas</p>
+            <p class="text-on-surface-variant font-bold">Mesas Ocupadas</p>
+        </div>
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-tertiary" data-icon="restaurant_menu">restaurant_menu</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none">@Model.PedidosActivos</p>
+            <p class="text-on-surface-variant font-bold">Pedidos Activos</p>
+        </div>
+    </div>
+</div>
+
+@if (Model.PedidosListos.Any())
+{
+    <div class="bg-secondary-container text-on-secondary-container rounded-xl p-lg mb-lg animate-pulse-soft">
+        <h3 class="font-title-md text-title-md mb-sm">Pedidos Listos para Servir</h3>
+        <div class="flex flex-wrap gap-sm">
+            @foreach (var p in Model.PedidosListos)
+            {
+                <span class="px-md py-sm bg-surface-container-lowest rounded-lg font-bold text-on-surface">
+                    Mesa @(p.Mesa_Restaurante?.Numero_Mesa) — Pedido #@p.ID_Pedido
+                </span>
+            }
+        </div>
+    </div>
+}
+
+<!-- Bento Grid de Mesas -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-lg">
+    @foreach (var mesa in Model.Mesas)
+    {
+        bool ocupada = Model.MesasConPedidoActivo.Contains(mesa.ID_Mesa);
+        string estadoLabel = ocupada ? "Ocupada" : "Libre";
+        // Verde para libre, rojo para ocupada
+        string cardCls = ocupada
+            ? "bg-[#c62828] border-[#b71c1c]"
+            : "bg-[#2e7d32] border-[#1b5e20]";
+        string textCls = "text-white";
+        <a asp-controller="Mesero" asp-action="Mesa" asp-route-id="@mesa.ID_Mesa"
+           class="@cardCls aspect-square rounded-xl shadow-sm border-2 flex flex-col items-center justify-center p-md transition-all hover:scale-105 hover:brightness-110 cursor-pointer">
+            <span class="material-symbols-outlined text-3xl @textCls" data-icon="table_restaurant">table_restaurant</span>
+            <p class="font-bold text-headline-lg-mobile mt-sm @textCls">@mesa.Numero_Mesa</p>
+            <p class="text-label-md @textCls">@estadoLabel</p>
+            <p class="text-label-md opacity-80 @textCls">Cap. @mesa.Capacidad — @mesa.Ubicacion</p>
+        </a>
+    }
+</div>
+<partial name="_Pagination" />

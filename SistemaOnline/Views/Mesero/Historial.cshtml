@@ -1,0 +1,62 @@
+@model List<SistemaOnline.Models.Pedido>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Historial de Pedidos";
+    ViewBag.Active = "historial";
+}
+
+<div class="mb-lg flex items-center justify-between flex-wrap gap-sm">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Historial de Pedidos</h2>
+        <p class="text-on-surface-variant">Pedidos entregados, pagados o cancelados.</p>
+    </div>
+    <a asp-controller="Mesero" asp-action="Pedidos"
+       class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+        <span class="material-symbols-outlined">arrow_back</span> Pedidos en Curso
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="min-h-[50vh] flex flex-col items-center justify-center text-center gap-md">
+        <span class="material-symbols-outlined text-[72px] text-outline/50">history</span>
+        <p class="text-on-surface-variant text-body-md">No hay pedidos en el historial.</p>
+    </div>
+}
+else
+{
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+        @foreach (var p in Model)
+        {
+            string estadoBadgeCls = p.Estado_Pedido switch {
+                "Pagado"     => "bg-secondary-container text-on-secondary-container",
+                "Entregado"  => "bg-primary-container text-on-primary-container",
+                "Cancelado"  => "bg-error-container text-on-error-container",
+                _            => "bg-surface-container-high text-on-surface-variant"
+            };
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg flex flex-col opacity-90">
+                <div class="flex justify-between items-start mb-md">
+                    <div>
+                        <h3 class="font-title-md text-title-md text-on-surface">Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</h3>
+                        <p class="text-label-md text-on-surface-variant">Pedido #@p.ID_Pedido · @p.Fecha.ToString("dd/MM/yyyy")</p>
+                    </div>
+                    <span class="px-sm py-xs @estadoBadgeCls rounded-full text-label-md">@p.Estado_Pedido</span>
+                </div>
+                <div class="space-y-sm mb-md flex-1">
+                    @foreach (var det in p.Pedido_Detalles)
+                    {
+                        <div class="flex justify-between text-body-md text-on-surface-variant">
+                            <span>@det.Cantidad x @det.Producto?.Nombre_Plato</span>
+                            <span class="font-mono-data">@((det.Cantidad * det.PrecioUnitario).ToString("C2"))</span>
+                        </div>
+                    }
+                </div>
+                <div class="flex justify-between items-center border-t border-outline-variant/20 pt-sm">
+                    <span class="font-bold text-on-surface-variant">Total</span>
+                    <span class="font-bold text-on-surface">@p.Total.ToString("C2")</span>
+                </div>
+            </div>
+        }
+    </div>
+    <partial name="_Pagination" />
+}

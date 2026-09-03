@@ -1,0 +1,46 @@
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Administrar Negocio";
+    ViewBag.Active = "negocio";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <div class="flex items-center gap-md mb-md">
+            <span class="material-symbols-outlined text-[40px] text-error">warning</span>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Advertencia</h2>
+        </div>
+        <p class="text-on-surface-variant mb-md">
+            Estás a punto de acceder al panel de <strong>Administración del Negocio</strong>.
+            Desde aquí podrás <strong>crear, editar y eliminar registros directamente en todas las tablas
+            del sistema</strong> (usuarios, roles, productos, ingredientes, inventario, pedidos, contratos,
+            reservaciones, etc.).
+        </p>
+        <p class="text-on-surface-variant mb-lg">
+            Cualquier cambio realizado en esta sección impacta de forma inmediata y permanente la base de
+            datos del negocio. Procede con cuidado.
+        </p>
+
+        @if (ViewData["Msg"] != null)
+        {
+            <div class="mb-md p-base rounded-lg bg-error-container text-on-error-container font-body-md text-body-md text-center">
+                @ViewData["Msg"]
+            </div>
+        }
+
+        <form asp-controller="Negocio" asp-action="Confirmar" method="post" class="space-y-md">
+            <label class="flex items-start gap-sm cursor-pointer">
+                <input type="checkbox" name="aceptaTerminos" value="true" required
+                       class="mt-1 w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" />
+                <span class="text-body-md text-on-surface">
+                    Entiendo los riesgos y acepto que tengo acceso completo de edición a todas las tablas del sistema.
+                </span>
+            </label>
+            <button type="submit"
+                    class="w-full h-12 bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-sm">
+                Continuar
+                <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+        </form>
+    </div>
+</div>

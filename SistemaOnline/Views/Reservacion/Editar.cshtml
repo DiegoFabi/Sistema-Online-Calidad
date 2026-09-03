@@ -1,0 +1,73 @@
+@model SistemaOnline.ViewModels.ReservacionVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Editar Reservación";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Editar Reservación</h2>
+        <p class="text-on-surface-variant">Actualiza la información de la reservación.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="Reservacion" asp-action="Editar" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <input type="hidden" asp-for="ID_Reservacion" />
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Hora">Fecha y Hora</label>
+                <input class="@Cls("Fecha_Hora")" type="datetime-local" required asp-for="Fecha_Hora" />
+                <span asp-validation-for="Fecha_Hora" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Numero_Personas">Número de Personas</label>
+                <input class="@Cls("Numero_Personas")" type="number" required asp-for="Numero_Personas" />
+                <span asp-validation-for="Numero_Personas" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Ocasion_Especial">Ocasión Especial</label>
+                <input class="@Cls("Ocasion_Especial")" type="text" required asp-for="Ocasion_Especial" />
+                <span asp-validation-for="Ocasion_Especial" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado_Reservacion">Estado de la Reservación</label>
+                <select class="@Cls("Estado_Reservacion")" required asp-for="Estado_Reservacion">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Cancelada">Cancelada</option>
+                    <option value="Completada">Completada</option>
+                </select>
+                <span asp-validation-for="Estado_Reservacion" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Notas">Notas</label>
+                <input class="@Cls("Notas")" type="text" required asp-for="Notas" />
+                <span asp-validation-for="Notas" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Cliente">Cliente</label>
+                <select class="@Cls("ID_Cliente")" asp-for="ID_Cliente" asp-items="Model.ClientesDisponibles">
+                    <option value="" disabled selected hidden>-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="ID_Cliente" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Mesa">Mesa</label>
+                <select class="@Cls("ID_Mesa")" asp-for="ID_Mesa" asp-items="Model.MesasDisponibles">
+                    <option value="" disabled selected hidden>-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="ID_Mesa" class="text-error text-label-md"></span>
+            </div>
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">save</span> Guardar
+                </button>
+                <a asp-controller="Reservacion" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

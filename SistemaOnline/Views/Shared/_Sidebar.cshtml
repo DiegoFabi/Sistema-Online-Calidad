@@ -1,0 +1,182 @@
+@{
+    string activo = ViewBag.Active as string ?? "";
+    string Cls(string item) => item == activo
+        ? "flex items-center gap-md px-md py-sm transition-colors duration-150 active:scale-95 text-primary font-bold border-r-4 border-primary bg-primary-fixed/10"
+        : "flex items-center gap-md px-md py-sm transition-colors duration-150 active:scale-95 text-on-surface-variant hover:bg-surface-container-high";
+}
+<aside class="fixed left-0 top-0 h-full z-40 h-screen w-[280px] flex flex-col bg-surface-container-low shadow-sm" id="SideNavBar">
+    <div class="p-lg flex flex-col items-center text-center">
+        <img src="~/images/logo-rancho-sagrado.png" alt="El Rancho Sagrado" class="w-20 h-20 object-contain mb-sm" />
+        <h1 class="font-title-md text-title-md font-bold text-primary leading-tight">El Rancho Sagrado</h1>
+        <p class="text-on-surface-variant text-label-md">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</p>
+    </div>
+    <nav class="flex-1 px-sm space-y-base">
+        @if (User.IsInRole("Administrador"))
+        {
+            <a class="@Cls("dashboard")" asp-controller="Dashboard" asp-action="Index">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-body-md">Dashboard</span>
+            </a>
+            <a class="@Cls("usuarios")" asp-controller="Dashboard" asp-action="Usuarios">
+                <span class="material-symbols-outlined" data-icon="group">group</span>
+                <span class="font-body-md">Usuarios y Roles</span>
+            </a>
+            <a class="@Cls("inventario")" asp-controller="Dashboard" asp-action="Inventario">
+                <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                <span class="font-body-md">Inventario</span>
+            </a>
+            <a class="@Cls("reportes")" asp-controller="Dashboard" asp-action="Reportes">
+                <span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+                <span class="font-body-md">Reportes</span>
+            </a>
+            <a class="@Cls("supervision")" asp-controller="Administrador" asp-action="Index">
+                <span class="material-symbols-outlined" data-icon="supervisor_account">supervisor_account</span>
+                <span class="font-body-md">Supervisión</span>
+            </a>
+            <a class="@Cls("reservaciones")" asp-controller="Administrador" asp-action="Reservaciones">
+                <span class="material-symbols-outlined" data-icon="event">event</span>
+                <span class="font-body-md">Reservaciones</span>
+            </a>
+            <a class="@Cls("turnos")" asp-controller="Administrador" asp-action="Turnos">
+                <span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+                <span class="font-body-md">Turnos</span>
+            </a>
+            <a class="@Cls("pedidos")" asp-controller="Administrador" asp-action="Pedidos">
+                <span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+                <span class="font-body-md">Pedidos</span>
+            </a>
+            <a class="@Cls("negocio")" asp-controller="Negocio" asp-action="Advertencia">
+                <span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+                <span class="font-body-md">Administrar Negocio</span>
+            </a>
+        }
+        @if (User.IsInRole("Cajero"))
+        {
+            <a class="@Cls("dashboard")" asp-controller="Cajero" asp-action="Index">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-body-md">Dashboard</span>
+            </a>
+            <a class="@Cls("facturacion")" asp-controller="Cajero" asp-action="Facturacion">
+                <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+                <span class="font-body-md">Facturación</span>
+            </a>
+            <a class="@Cls("pagos")" asp-controller="Cajero" asp-action="Pagos">
+                <span class="material-symbols-outlined" data-icon="payments">payments</span>
+                <span class="font-body-md">Pagos</span>
+            </a>
+            <a class="@Cls("clientes")" asp-controller="Cajero" asp-action="Clientes">
+                <span class="material-symbols-outlined" data-icon="search">search</span>
+                <span class="font-body-md">Buscar Clientes</span>
+            </a>
+        }
+        @if (User.IsInRole("Mesero"))
+        {
+            <a class="@Cls("dashboard")" asp-controller="Mesero" asp-action="Index">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-body-md">Mapa de Mesas</span>
+            </a>
+            <a class="@Cls("pedidos")" asp-controller="Mesero" asp-action="Pedidos">
+                <span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+                <span class="font-body-md">Pedidos</span>
+            </a>
+            <a class="@Cls("historial")" asp-controller="Mesero" asp-action="Historial">
+                <span class="material-symbols-outlined" data-icon="history">history</span>
+                <span class="font-body-md">Historial</span>
+            </a>
+            <a class="@Cls("notificaciones")" asp-controller="Mesero" asp-action="Notificaciones">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                <span class="font-body-md">Notificaciones</span>
+            </a>
+        }
+        @if (User.IsInRole("Chef"))
+        {
+            <a class="@Cls("dashboard")" asp-controller="Cocina" asp-action="Index">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-body-md">Kanban de Pedidos</span>
+            </a>
+            <a class="@Cls("ingredientes")" asp-controller="Cocina" asp-action="Ingredientes">
+                <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                <span class="font-body-md">Ingredientes</span>
+            </a>
+            <a class="@Cls("detalle")" asp-controller="Cocina" asp-action="Detalle">
+                <span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+                <span class="font-body-md">Detalle de Pedidos</span>
+            </a>
+        }
+    </nav>
+
+    <!-- Modal de Confirmacion de Cierre de Sesion -->
+    <div id="logoutModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-[340px] flex flex-col items-center overflow-hidden animate-fade-in">
+            <div class="w-full bg-error-container flex flex-col items-center py-lg">
+                <span class="material-symbols-outlined text-error text-[48px]">warning</span>
+            </div>
+            <div class="p-lg flex flex-col items-center w-full">
+                <h3 class="font-title-md text-title-md text-on-surface mb-sm">¿Cerrar sesión?</h3>
+                <p class="text-body-md text-on-surface-variant text-center mb-lg">¿Estás seguro de que deseas salir del sistema?</p>
+
+                <div class="flex gap-md w-full">
+                    <button type="button" onclick="closeLogoutModal()"
+                            class="flex-1 px-md py-sm rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-high font-bold transition-all">
+                        Cancelar
+                    </button>
+                    <form asp-controller="Login" asp-action="Logout" method="post" class="flex-1">
+                        <button type="submit"
+                                class="w-full px-md py-sm rounded-lg bg-error text-white hover:bg-error/90 font-bold transition-all">
+                            Cerrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            function openLogoutModal() {
+                document.getElementById('logoutModal').classList.remove('hidden');
+                document.getElementById('logoutModal').classList.add('flex');
+            }
+            function closeLogoutModal() {
+                document.getElementById('logoutModal').classList.add('hidden');
+                document.getElementById('logoutModal').classList.remove('flex');
+            }
+    </script>
+
+    <div class="px-sm py-md border-t border-outline-variant/30 space-y-sm">
+        @if (User.IsInRole("Administrador") || User.IsInRole("Mesero"))
+        {
+            <a asp-controller="Pedido" asp-action="Nuevo"
+               class="w-full flex items-center gap-md px-md py-sm text-on-primary bg-primary hover:bg-on-primary-fixed-variant rounded-lg transition-colors shadow-sm shadow-primary/20">
+                <span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                <span class="font-body-md font-bold">Nuevo Pedido</span>
+            </a>
+        }
+        else if (User.IsInRole("Cajero"))
+        {
+            <a asp-controller="Cajero" asp-action="Facturacion"
+               class="w-full flex items-center gap-md px-md py-sm text-on-primary bg-primary hover:bg-on-primary-fixed-variant rounded-lg transition-colors shadow-sm shadow-primary/20">
+                <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+                <span class="font-body-md font-bold">Ir a Facturación</span>
+            </a>
+        }
+        else if (User.IsInRole("Chef"))
+        {
+            <a asp-controller="Cocina" asp-action="Index"
+               class="w-full flex items-center gap-md px-md py-sm text-on-primary bg-primary hover:bg-on-primary-fixed-variant rounded-lg transition-colors shadow-sm shadow-primary/20">
+                <span class="material-symbols-outlined" data-icon="monitor_heart">monitor_heart</span>
+                <span class="font-body-md font-bold">Monitor de Cocina</span>
+            </a>
+        }
+        <button type="button" onclick="openConfiguracionModal()"
+                class="w-full flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="font-body-md">Configuración</span>
+        </button>
+        <!-- Botón que activa el modal -->
+        <button type="button" onclick="openLogoutModal()"
+                class="w-full flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-error rounded-lg transition-colors">
+            <span class="material-symbols-outlined" data-icon="logout">logout</span>
+            <span class="font-body-md">Cerrar Sesión</span>
+        </button>
+    </div>
+</aside>

@@ -1,0 +1,58 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Acceso Denegado</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Work Sans', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 24px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 40px 32px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .icon { font-size: 48px; color: #b9172f; margin-bottom: 16px; }
+        h1 { font-size: 1.5rem; font-weight: 800; color: #b9172f; margin-bottom: 8px; }
+        p { color: #6c757d; font-size: 1rem; margin-bottom: 24px; line-height: 1.5; }
+        .btn {
+            display: inline-block;
+            background-color: #b9172f;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: background 0.15s;
+        }
+        .btn:hover { background-color: #92001f; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">🔒</div>
+        <h1>Acceso Denegado</h1>
+        <p>No tienes permisos para acceder a esta sección del sistema.</p>
+        <button class="btn" onclick="history.back()">← Volver</button>
+    </div>
+</body>
+</html>

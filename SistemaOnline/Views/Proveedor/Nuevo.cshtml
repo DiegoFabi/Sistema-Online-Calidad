@@ -1,0 +1,69 @@
+@model SistemaOnline.ViewModels.ProveedorVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Nuevo Proveedor";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nuevo Proveedor</h2>
+        <p class="text-on-surface-variant">Registra un nuevo proveedor.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="Proveedor" asp-action="Nuevo" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Nombre_Empresa">Nombre Empresa</label>
+                <input class="@Cls("Nombre_Empresa")" type="text" required asp-for="Nombre_Empresa" />
+                <span asp-validation-for="Nombre_Empresa" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="RUC">RUC</label>
+                <input class="@Cls("RUC")" type="text" required asp-for="RUC" />
+                <span asp-validation-for="RUC" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Email_Contacto">Email de Contacto</label>
+                <input class="@Cls("Email_Contacto")" type="email" required asp-for="Email_Contacto" />
+                <span asp-validation-for="Email_Contacto" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Telefono">Teléfono</label>
+                <div class="flex gap-sm">
+                    <input class="@Cls("Telefono") flex-1" type="tel" pattern="[0-9+\-() ]*" maxlength="9" required asp-for="Telefono" />
+                    <button type="button" onclick="onSetDefault('Telefono')" class="h-11 px-md bg-error text-on-error font-label-md text-label-md rounded-lg hover:opacity-90 transition-all whitespace-nowrap">Sin teléfono</button>
+                </div>
+                <span asp-validation-for="Telefono" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Direccion">Dirección</label>
+                <input class="@Cls("Direccion")" type="text" required asp-for="Direccion" />
+                <span asp-validation-for="Direccion" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Tipo_Suministro">Tipo de Suministro</label>
+                <input class="@Cls("Tipo_Suministro")" type="text" required asp-for="Tipo_Suministro" />
+                <span asp-validation-for="Tipo_Suministro" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado">Estado del Proveedor</label>
+                <select class="@Cls("Estado")" required asp-for="Estado">
+                    <option value="Activo" selected>Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-error text-label-md"></span>
+            </div>
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">save</span> Guardar
+                </button>
+                <a asp-controller="Proveedor" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

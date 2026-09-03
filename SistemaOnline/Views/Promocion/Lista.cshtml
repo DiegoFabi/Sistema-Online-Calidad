@@ -1,0 +1,55 @@
+@model List<SistemaOnline.ViewModels.PromocionVM>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Promociones";
+    ViewBag.Active = "negocio";
+    ViewData["Titulo"] = "Lista de Promociones";
+    ViewData["Descripcion"] = "Administra las promociones del restaurante.";
+    ViewData["Controlador"] = "Promocion";
+    ViewData["NuevoTexto"] = "Nueva Promocion";
+    ViewData["BuscadorPlaceholder"] = "Buscar por nombre, descripción...";
+}
+<partial name="_CRUDListLayout" />
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg overflow-x-auto">
+        <table id="tablaPrincipal" class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="pb-md font-bold">ID</th>
+                    <th class="pb-md font-bold col-ellipsis">Nombre</th>
+                    <th class="pb-md font-bold col-ellipsis">Descripción</th>
+                    <th class="pb-md font-bold">% Descuento</th>
+                    <th class="pb-md font-bold">Fecha Inicio</th>
+                    <th class="pb-md font-bold">Fecha Fin</th>
+                    <th class="pb-md font-bold">Estado</th>
+                    <th class="pb-md font-bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-md">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="py-md font-mono-data">@item.ID_Promocion</td>
+                        <td class="py-md font-bold col-ellipsis" title="@item.Nombre">@item.Nombre</td>
+                        <td class="py-md col-ellipsis" title="@item.Descripcion">@item.Descripcion</td>
+                        <td class="py-md font-mono-data">@item.Porcentaje_Descuento</td>
+                        <td class="py-md font-mono-data">@item.Fecha_Inicio.ToString("dd/MM/yyyy")</td>
+                        <td class="py-md font-mono-data">@item.Fecha_Fin.ToString("dd/MM/yyyy")</td>
+                        <td class="py-md">@(item.Estado ? "Activa" : "Inactiva")</td>
+                        <td class="py-md">
+                            <div class="flex items-center gap-md">
+                                <a asp-controller="Promocion" asp-action="Editar" asp-route-id="@item.ID_Promocion" class="inline-flex items-center gap-xs text-tertiary hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span> Editar
+                                </a>
+                                <a asp-controller="Promocion" asp-action="Eliminar" asp-route-id="@item.ID_Promocion"  class="inline-flex items-center gap-xs text-error hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Pagination" />

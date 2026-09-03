@@ -1,0 +1,46 @@
+﻿@model List<SistemaOnline.Models.Mesa_Restaurante>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rancho Sagrado - Reservaciones</title>
+    <partial name="_DesignTokensHead" />
+</head>
+<body class="bg-[#f8f9fa] text-on-surface font-body-md min-h-screen">
+    <header class="bg-[#212529] text-white px-8 py-6 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[36px]">restaurant_menu</span>
+            <h1 class="text-3xl font-extrabold tracking-tight">Rancho Sagrado</h1>
+        </div>
+        <nav class="flex gap-4 text-lg font-bold">
+            <a class="px-4 py-2 rounded-full hover:bg-white/20" asp-controller="Kiosco" asp-action="Index">Carta</a>
+            <a class="px-4 py-2 rounded-full bg-white/20" asp-controller="Kiosco" asp-action="Reservaciones">Reservaciones</a>
+            <a class="px-4 py-2 rounded-full hover:bg-white/20" asp-controller="Login" asp-action="Login">Iniciar Sesión</a>
+        </nav>
+    </header>
+
+    <main class="px-8 py-10 max-w-4xl mx-auto">
+        <h2 class="text-4xl font-extrabold mb-2">Reserva tu mesa</h2>
+        <p class="text-lg text-[#5b4040] mb-8">Mesas disponibles para hoy. Inicia sesión para confirmar tu reservación.</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+            @foreach (var m in Model)
+            {
+                <div class="bg-white rounded-2xl shadow-lg p-6 text-center border border-[#e3bebd]">
+                    <span class="material-symbols-outlined text-[#b9172f] text-[40px]">table_restaurant</span>
+                    <p class="text-xl font-bold mt-2">Mesa @m.Numero_Mesa</p>
+                    <p class="text-[#5b4040]">Capacidad: @m.Capacidad</p>
+                </div>
+            }
+        </div>
+
+        <a asp-controller="Login" asp-action="Login" class="inline-block bg-[#b9172f] text-white rounded-full px-8 py-3 font-bold hover:bg-[#92001f] transition-colors">
+            Iniciar sesión para reservar
+        </a>
+    </main>
+</body>
+</html>
