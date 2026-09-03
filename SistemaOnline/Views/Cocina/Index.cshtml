@@ -1,0 +1,214 @@
+@model SistemaOnline.ViewModels.CocinaDashboardVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Monitor de Cocina";
+    ViewBag.Active = "dashboard";
+}
+
+<div class="mb-lg flex justify-between items-end">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Monitor de Cocina</h2>
+        <p class="text-on-surface-variant">Gestión visual de la producción de pedidos en tiempo real.</p>
+    </div>
+    <div class="flex items-center gap-sm">
+        @if (Model.AlertasInventario > 0)
+        {
+            <span class="px-md py-sm bg-error-container text-on-error-container rounded-full text-label-md font-bold animate-pulse-soft">
+                @Model.AlertasInventario ingredientes con stock crítico
+            </span>
+        }
+        <span class="text-label-md text-on-surface-variant" id="ultimaActualizacion"></span>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+    <!-- Pendientes -->
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20 flex justify-between items-center">
+            <h3 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+                <span class="w-2 h-2 rounded-full bg-primary inline-block"></span> Pendientes
+            </h3>
+            <span class="px-sm py-xs bg-primary/10 text-primary rounded-full text-label-md font-bold">@Model.Pendientes.Count</span>
+        </div>
+        <div class="p-lg space-y-md">
+            @foreach (var p in Model.Pendientes)
+            {
+                double maxMin = p.Pedido_Detalles.Any() ? p.Pedido_Detalles.Max(d => d.Producto?.Tiempo_Preparacion ?? 0) : 0;
+                <div class="bg-surface-container-high rounded-xl p-md"
+                     data-fecha-iso="@p.Fecha.ToString("o")"
+                     data-max-min="@maxMin.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                    <div class="flex justify-between items-start mb-xs">
+                        <p class="font-bold text-on-surface">Pedido #@p.ID_Pedido — Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</p>
+                        <span class="timer text-label-md font-mono-data text-on-surface-variant whitespace-nowrap"></span>
+                    </div>
+                    <div class="progress-bar w-full h-1 rounded-full bg-surface-container-highest mb-sm overflow-hidden">
+                        <div class="progress-fill h-full rounded-full transition-all duration-500" style="width:0%"></div>
+                    </div>
+                    <ul class="text-label-md text-on-surface-variant mb-md space-y-1">
+                        @foreach (var det in p.Pedido_Detalles)
+                        {
+                            <li class="flex justify-between">
+                                <span>@det.Cantidad × @det.Producto?.Nombre_Plato</span>
+                                @if ((det.Producto?.Tiempo_Preparacion ?? 0) > 0)
+                                {
+                                    <span class="text-outline font-mono-data">@det.Producto!.Tiempo_Preparacion min</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <form method="post" asp-controller="Cocina" asp-action="AvanzarEstado">
+                        <input type="hidden" name="id" value="@p.ID_Pedido" />
+                        <input type="hidden" name="nuevoEstado" value="Preparando" />
+                        <button class="w-full py-xs bg-primary text-on-primary rounded-lg text-label-md font-bold hover:bg-on-primary-fixed-variant transition-colors" type="submit">
+                            Empezar a Preparar
+                        </button>
+                    </form>
+                </div>
+            }
+            @if (!Model.Pendientes.Any())
+            {
+                <p class="text-label-md text-on-surface-variant italic text-center py-lg">Sin pedidos pendientes</p>
+            }
+        </div>
+    </div>
+
+    <!-- Preparando -->
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20 flex justify-between items-center">
+            <h3 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+                <span class="w-2 h-2 rounded-full bg-tertiary inline-block animate-pulse"></span> Preparando
+            </h3>
+            <span class="px-sm py-xs bg-tertiary-container text-on-tertiary-container rounded-full text-label-md font-bold">@Model.Preparando.Count</span>
+        </div>
+        <div class="p-lg space-y-md">
+            @foreach (var p in Model.Preparando)
+            {
+                double maxMin = p.Pedido_Detalles.Any() ? p.Pedido_Detalles.Max(d => d.Producto?.Tiempo_Preparacion ?? 0) : 0;
+                <div class="bg-surface-container-high rounded-xl p-md"
+                     data-fecha-iso="@p.Fecha.ToString("o")"
+                     data-max-min="@maxMin.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                    <div class="flex justify-between items-start mb-xs">
+                        <p class="font-bold text-on-surface">Pedido #@p.ID_Pedido — Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</p>
+                        <span class="timer text-label-md font-mono-data text-on-surface-variant whitespace-nowrap"></span>
+                    </div>
+                    <div class="progress-bar w-full h-1.5 rounded-full bg-surface-container-highest mb-sm overflow-hidden">
+                        <div class="progress-fill h-full rounded-full transition-all duration-500" style="width:0%"></div>
+                    </div>
+                    <ul class="text-label-md text-on-surface-variant mb-md space-y-1">
+                        @foreach (var det in p.Pedido_Detalles)
+                        {
+                            <li class="flex justify-between">
+                                <span>@det.Cantidad × @det.Producto?.Nombre_Plato</span>
+                                @if ((det.Producto?.Tiempo_Preparacion ?? 0) > 0)
+                                {
+                                    <span class="text-outline font-mono-data">@det.Producto!.Tiempo_Preparacion min</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <form method="post" asp-controller="Cocina" asp-action="AvanzarEstado">
+                        <input type="hidden" name="id" value="@p.ID_Pedido" />
+                        <input type="hidden" name="nuevoEstado" value="Listo" />
+                        <button class="w-full py-xs bg-secondary text-on-secondary rounded-lg text-label-md font-bold hover:opacity-90 transition-colors" type="submit">
+                            Marcar como Listo
+                        </button>
+                    </form>
+                </div>
+            }
+            @if (!Model.Preparando.Any())
+            {
+                <p class="text-label-md text-on-surface-variant italic text-center py-lg">Sin pedidos en preparación</p>
+            }
+        </div>
+    </div>
+
+    <!-- Listos -->
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20 flex justify-between items-center">
+            <h3 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+                <span class="w-2 h-2 rounded-full bg-secondary inline-block"></span> Listos
+            </h3>
+            <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md font-bold">@Model.Listos.Count</span>
+        </div>
+        <div class="p-lg space-y-md">
+            @foreach (var p in Model.Listos)
+            {
+                double maxMin = p.Pedido_Detalles.Any() ? p.Pedido_Detalles.Max(d => d.Producto?.Tiempo_Preparacion ?? 0) : 0;
+                <div class="bg-surface-container-high rounded-xl p-md border border-secondary/20"
+                     data-fecha-iso="@p.Fecha.ToString("o")"
+                     data-max-min="@maxMin.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                    <div class="flex justify-between items-start mb-xs">
+                        <p class="font-bold text-on-surface">Pedido #@p.ID_Pedido — Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</p>
+                        <span class="timer text-label-md font-mono-data text-on-surface-variant whitespace-nowrap"></span>
+                    </div>
+                    <ul class="text-label-md text-on-surface-variant space-y-1">
+                        @foreach (var det in p.Pedido_Detalles)
+                        {
+                            <li class="flex justify-between">
+                                <span>@det.Cantidad × @det.Producto?.Nombre_Plato</span>
+                                @if ((det.Producto?.Tiempo_Preparacion ?? 0) > 0)
+                                {
+                                    <span class="text-outline font-mono-data">@det.Producto!.Tiempo_Preparacion min</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <div class="mt-sm pt-sm border-t border-outline-variant/10">
+                        <span class="text-label-md text-secondary font-bold flex items-center gap-xs">
+                            <span class="material-symbols-outlined text-[16px]">check_circle</span> Listo para servir
+                        </span>
+                    </div>
+                </div>
+            }
+            @if (!Model.Listos.Any())
+            {
+                <p class="text-label-md text-on-surface-variant italic text-center py-lg">Sin pedidos listos</p>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function fmtElapsed(seconds) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return (m > 0 ? m + 'm ' : '') + s + 's';
+    }
+
+    function updateTimers() {
+        const now = new Date();
+        document.querySelectorAll('[data-fecha-iso]').forEach(function (card) {
+            const fecha = new Date(card.getAttribute('data-fecha-iso'));
+            const maxMin = parseFloat(card.getAttribute('data-max-min') || 0);
+            const elapsed = Math.max(0, Math.floor((now - fecha) / 1000));
+
+            const timerEl = card.querySelector('.timer');
+            if (timerEl) timerEl.textContent = fmtElapsed(elapsed);
+
+            const fillEl = card.querySelector('.progress-fill');
+            if (fillEl && maxMin > 0) {
+                const pct = Math.min(100, (elapsed / (maxMin * 60)) * 100);
+                fillEl.style.width = pct + '%';
+                if (pct < 60) {
+                    fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-secondary';
+                } else if (pct < 90) {
+                    fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-tertiary';
+                } else {
+                    fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-error';
+                }
+            }
+        });
+
+        const ts = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const el = document.getElementById('ultimaActualizacion');
+        if (el) el.textContent = 'Actualizado: ' + ts;
+    }
+
+    updateTimers();
+    setInterval(updateTimers, 1000);
+
+    // Auto-refresh page every 30 seconds
+    setTimeout(function () { location.reload(); }, 30000);
+</script>
+}

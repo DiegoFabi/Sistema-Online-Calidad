@@ -1,0 +1,120 @@
+@model SistemaOnline.ViewModels.AdminDashboardVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Panel de Supervisión";
+    ViewBag.Active = "supervision";
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Panel de Supervisión</h2>
+    <p class="text-on-surface-variant">Supervisión de reservaciones, turnos y operaciones del día.</p>
+</div>
+
+<div class="grid grid-cols-12 gap-lg">
+    <!-- KPI cards -->
+    <div class="col-span-12 grid grid-cols-1 md:grid-cols-4 gap-lg">
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-primary" data-icon="event">event</span>
+                <span class="text-label-md bg-primary/10 text-primary px-xs rounded">Hoy</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none">@Model.ReservacionesHoy</p>
+            <p class="text-on-surface-variant font-bold">Reservaciones Hoy</p>
+        </div>
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-secondary" data-icon="restaurant_menu">restaurant_menu</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none">@Model.PedidosActivos</p>
+            <p class="text-on-surface-variant font-bold">Pedidos Activos</p>
+        </div>
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-tertiary" data-icon="table_restaurant">table_restaurant</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none">@Model.MesasOcupadas</p>
+            <p class="text-on-surface-variant font-bold">Mesas Ocupadas</p>
+        </div>
+        <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+            <div class="flex justify-between mb-sm">
+                <span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+            </div>
+            <p class="text-display-lg font-display-lg leading-none text-error">@Model.ContratosPorVencer</p>
+            <p class="text-on-surface-variant font-bold">Contratos por Vencer</p>
+        </div>
+    </div>
+
+    <!-- Próximas reservaciones -->
+    <div class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Próximas Reservaciones</h3>
+        </div>
+        <div class="p-lg">
+            <table class="w-full text-left">
+                <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                    <tr>
+                        <th class="pb-md font-bold">Fecha/Hora</th>
+                        <th class="pb-md font-bold">Cliente</th>
+                        <th class="pb-md font-bold">Mesa</th>
+                        <th class="pb-md font-bold">Personas</th>
+                        <th class="pb-md font-bold">Estado</th>
+                    </tr>
+                </thead>
+                <tbody class="text-body-md">
+                    @foreach (var r in Model.ProximasReservaciones)
+                    {
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                            <td class="py-md font-mono-data">@r.Fecha_Hora.ToString("dd/MM HH:mm")</td>
+                            <td class="py-md">@(r.Cliente != null ? r.Cliente.Nombre + " " + r.Cliente.Apellidos : "-")</td>
+                            <td class="py-md">@(r.Mesa_Restaurante != null ? "Mesa " + r.Mesa_Restaurante.Numero_Mesa : "-")</td>
+                            <td class="py-md font-mono-data">@r.Numero_Personas</td>
+                            <td class="py-md">
+                                <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">@r.Estado_Reservacion</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Alertas de contratos -->
+    <div class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Alertas de Contratos</h3>
+        </div>
+        <div class="p-lg space-y-md">
+            @if (!Model.AlertasContratos.Any())
+            {
+                <p class="text-on-surface-variant text-body-md">No hay contratos próximos a vencer.</p>
+            }
+            @foreach (var c in Model.AlertasContratos)
+            {
+                <div class="flex gap-md p-md bg-surface-container-high rounded-lg border-l-4 border-primary">
+                    <span class="material-symbols-outlined text-primary" data-icon="assignment_late">assignment_late</span>
+                    <div>
+                        <p class="font-bold text-on-surface">@c.Empleado?.Nombre @c.Empleado?.Apellidos</p>
+                        <p class="text-label-md text-on-surface-variant">Vence el @c.Fecha_Fin.ToString("dd/MM/yyyy") — @c.Tipo_Contrato</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Turnos -->
+    <div class="col-span-12 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Estado de Turnos</h3>
+        </div>
+        <div class="p-lg grid grid-cols-1 md:grid-cols-3 gap-lg">
+            @foreach (var t in Model.Turnos)
+            {
+                <div class="bg-surface-container-high rounded-xl p-lg">
+                    <p class="font-bold text-on-surface">@t.Nombre_Turno</p>
+                    <p class="text-label-md text-on-surface-variant mb-sm">@t.Hora_Inicio - @t.Hora_Fin (@t.Dias_Semana)</p>
+                    <p class="text-label-md font-bold text-secondary">@t.Empleado_Turnos.Count empleados asignados</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,118 @@
+@model SistemaOnline.ViewModels.ContratoVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Editar Contrato";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Editar Contrato</h2>
+        <p class="text-on-surface-variant">Actualiza la información del contrato.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="Contrato" asp-action="Editar" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <input type="hidden" asp-for="ID_Contrato" />
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Inicio">Fecha Inicio</label>
+                <input class="@Cls("Fecha_Inicio")" type="date" required asp-for="Fecha_Inicio" />
+                <span asp-validation-for="Fecha_Inicio" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Fin">Fecha Fin</label>
+                <input class="@Cls("Fecha_Fin")" type="date" required asp-for="Fecha_Fin" />
+                <span asp-validation-for="Fecha_Fin" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Tipo_Contrato">Tipo Contrato</label>
+                <input class="@Cls("Tipo_Contrato")" type="text" required asp-for="Tipo_Contrato" />
+                <span asp-validation-for="Tipo_Contrato" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Salario">Salario</label>
+                <input class="@Cls("Salario")" type="number" step="0.01" required asp-for="Salario" />
+                <span asp-validation-for="Salario" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Clausula">Cláusula</label>
+                <input class="@Cls("Clausula")" type="text" required asp-for="Clausula" />
+                <span asp-validation-for="Clausula" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Tipo de Participante</label>
+                <input type="hidden" asp-for="TipoParticipante" id="TipoParticipante" />
+                <div class="flex gap-sm">
+                    <button type="button" id="btnEmpleado" onclick="seleccionarTipoParticipante('Empleado')"
+                            class="flex-1 h-9 px-md rounded-lg border-2 font-label-md text-label-md font-semibold transition-all">
+                        Empleado
+                    </button>
+                    <button type="button" id="btnProveedor" onclick="seleccionarTipoParticipante('Proveedor')"
+                            class="flex-1 h-9 px-md rounded-lg border-2 font-label-md text-label-md font-semibold transition-all">
+                        Proveedor
+                    </button>
+                </div>
+            </div>
+            <div id="grupoEmpleado">
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Empleado">Empleado</label>
+                <select class="@Cls("ID_Empleado")" asp-for="ID_Empleado" asp-items="Model.EmpleadosDisponibles">
+                    <option value="" disabled selected hidden>-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="ID_Empleado" class="text-error text-label-md"></span>
+            </div>
+            <div id="grupoProveedor" class="hidden">
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Proveedor">Proveedor</label>
+                <select class="@Cls("ID_Proveedor")" asp-for="ID_Proveedor" asp-items="Model.ProveedoresDisponibles">
+                    <option value="" disabled selected hidden>-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="ID_Proveedor" class="text-error text-label-md"></span>
+            </div>
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">save</span> Guardar
+                </button>
+                <a asp-controller="Contrato" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function seleccionarTipoParticipante(tipo) {
+        document.getElementById('TipoParticipante').value = tipo;
+
+        var btnEmpleado = document.getElementById('btnEmpleado');
+        var btnProveedor = document.getElementById('btnProveedor');
+        var grupoEmpleado = document.getElementById('grupoEmpleado');
+        var grupoProveedor = document.getElementById('grupoProveedor');
+        var selectEmpleado = grupoEmpleado.querySelector('select');
+        var selectProveedor = grupoProveedor.querySelector('select');
+
+        var esEmpleado = tipo === 'Empleado';
+
+        btnEmpleado.classList.toggle('bg-error', esEmpleado);
+        btnEmpleado.classList.toggle('text-white', esEmpleado);
+        btnEmpleado.classList.toggle('border-error', true);
+        btnEmpleado.classList.toggle('bg-white', !esEmpleado);
+        btnEmpleado.classList.toggle('text-error', !esEmpleado);
+
+        btnProveedor.classList.toggle('bg-error', !esEmpleado);
+        btnProveedor.classList.toggle('text-white', !esEmpleado);
+        btnProveedor.classList.toggle('border-error', true);
+        btnProveedor.classList.toggle('bg-white', esEmpleado);
+        btnProveedor.classList.toggle('text-error', esEmpleado);
+
+        grupoEmpleado.classList.toggle('hidden', !esEmpleado);
+        grupoProveedor.classList.toggle('hidden', esEmpleado);
+        selectEmpleado.disabled = !esEmpleado;
+        selectProveedor.disabled = esEmpleado;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        seleccionarTipoParticipante(document.getElementById('TipoParticipante').value || 'Empleado');
+    });
+</script>

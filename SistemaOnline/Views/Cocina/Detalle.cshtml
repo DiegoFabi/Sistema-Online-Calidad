@@ -1,0 +1,50 @@
+@model List<SistemaOnline.Models.Pedido>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Detalle de Pedidos";
+    ViewBag.Active = "detalle";
+    ViewData["Controlador"] = "Cocina";
+    ViewData["AccionLista"] = "Detalle";
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Detalle de Pedidos</h2>
+    <p class="text-on-surface-variant">Historial completo de pedidos con su detalle de productos.</p>
+</div>
+
+<div class="space-y-md">
+    @foreach (var p in Model)
+    {
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+            <div class="flex justify-between items-center mb-md">
+                <div>
+                    <h3 class="font-title-md text-title-md text-on-surface">Pedido #@p.ID_Pedido — Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</h3>
+                    <p class="text-label-md text-on-surface-variant">@p.Fecha.ToString("dd/MM/yyyy")</p>
+                </div>
+                <span class="px-sm py-xs bg-tertiary-container text-on-tertiary-container rounded-full text-label-md">@p.Estado_Pedido</span>
+            </div>
+            <table class="w-full text-left">
+                <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                    <tr>
+                        <th class="pb-md font-bold">Producto</th>
+                        <th class="pb-md font-bold">Cantidad</th>
+                        <th class="pb-md font-bold">Precio Unit.</th>
+                        <th class="pb-md font-bold">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody class="text-body-md">
+                    @foreach (var det in p.Pedido_Detalles)
+                    {
+                        <tr class="border-b border-outline-variant/10">
+                            <td class="py-md">@det.Producto?.Nombre_Plato</td>
+                            <td class="py-md font-mono-data">@det.Cantidad</td>
+                            <td class="py-md font-mono-data">@det.PrecioUnitario.ToString("C2")</td>
+                            <td class="py-md font-mono-data">@((det.Cantidad * det.PrecioUnitario).ToString("C2"))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+<partial name="_Pagination" />

@@ -1,0 +1,118 @@
+@model SistemaOnline.ViewModels.EmpleadoVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Nuevo Empleado";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nuevo Empleado</h2>
+        <p class="text-on-surface-variant">Registra un nuevo empleado.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="Empleado" asp-action="Nuevo" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Nombre">Nombre</label>
+                <input class="@Cls("Nombre")" type="text" required asp-for="Nombre" />
+                <span asp-validation-for="Nombre" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Apellidos">Apellidos</label>
+                <input class="@Cls("Apellidos")" type="text" required asp-for="Apellidos" />
+                <span asp-validation-for="Apellidos" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Direccion">Dirección</label>
+                <input class="@Cls("Direccion")" type="text" required asp-for="Direccion" />
+                <span asp-validation-for="Direccion" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Cargo">Cargo</label>
+                <select class="@Cls("Cargo")" asp-for="Cargo" asp-items="Model.CargosDisponibles">
+                    <option value="">-- Seleccione un Cargo --</option>
+                </select>
+                <span asp-validation-for="Cargo" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Telefono">Teléfono</label>
+                <div class="flex gap-sm">
+                    <input class="@Cls("Telefono") flex-1" type="tel" pattern="[0-9+\-() ]*" maxlength="9" required asp-for="Telefono" />
+                    <button type="button" onclick="onSetDefault('Telefono')" class="h-11 px-md bg-error text-on-error font-label-md text-label-md rounded-lg hover:opacity-90 transition-all whitespace-nowrap">Sin teléfono</button>
+                </div>
+                <span asp-validation-for="Telefono" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado">Estado Laboral</label>
+                <select class="@Cls("Estado")" asp-for="Estado">
+                    <option value="" disabled selected hidden>-- Seleccione un Estado --</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="Pendiente">Pendiente</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="DNI">DNI</label>
+                <input class="@Cls("DNI")" type="text" required asp-for="DNI" />
+                <span asp-validation-for="DNI" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Usuario">Cuenta de Usuario</label>
+                <select class="@Cls("ID_Usuario")" asp-for="ID_Usuario" asp-items="Model.UsuariosDisponibles">
+                    <option value="" disabled selected hidden>-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="ID_Usuario" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Turno">Turno Asignado</label>
+                <select class="@Cls("ID_Turno")" asp-for="ID_Turno" asp-items="Model.TurnosDisponibles">
+                    <option value="">-- Seleccione un Turno --</option>
+                </select>
+                <span asp-validation-for="ID_Turno" class="text-error text-label-md"></span>
+            </div>
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">save</span> Guardar
+                </button>
+
+                <a asp-controller="Empleado" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('Cargo').addEventListener('change', function () {
+            const cargo = this.value;
+            const select = document.getElementById('ID_Usuario');
+            select.innerHTML = '<option value="" disabled selected hidden>-- Cargando... --</option>';
+
+            if (!cargo) {
+                select.innerHTML = '<option value="" disabled selected hidden>-- Seleccione --</option>';
+                return;
+            }
+
+            fetch('/Empleado/UsuariosPorCargo?cargo=' + encodeURIComponent(cargo))
+                .then(r => r.json())
+                .then(function (data) {
+                    select.innerHTML = '<option value="">-- Ninguno --</option>';
+                    data.forEach(function (u) {
+                        const opt = document.createElement('option');
+                        opt.value = u.value;
+                        opt.textContent = u.text;
+                        select.appendChild(opt);
+                    });
+                    if (data.length === 0) {
+                        select.innerHTML = '<option value="">-- Sin usuarios para este cargo --</option>';
+                    }
+                });
+        });
+    </script>
+}

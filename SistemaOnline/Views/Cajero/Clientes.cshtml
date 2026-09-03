@@ -1,0 +1,49 @@
+@model List<SistemaOnline.Models.Cliente>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Buscar Clientes";
+    ViewBag.Active = "clientes";
+    ViewData["Controlador"] = "Cajero";
+    ViewData["AccionLista"] = "Clientes";
+}
+
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Buscador de Clientes</h2>
+    <p class="text-on-surface-variant">Consulta de información de clientes para facturación.</p>
+</div>
+
+<form method="get" class="mb-lg">
+    <div class="relative w-full max-w-md">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+        <input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-full text-body-md focus:ring-2 focus:ring-primary/20" name="buscar" value="@ViewBag.Buscar" placeholder="Buscar por nombre, DNI o email..." type="text" />
+    </div>
+</form>
+
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg">
+        <table class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="pb-md font-bold">Nombre</th>
+                    <th class="pb-md font-bold">DNI</th>
+                    <th class="pb-md font-bold">Teléfono</th>
+                    <th class="pb-md font-bold">Email</th>
+                    <th class="pb-md font-bold">RUC</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-md">
+                @foreach (var c in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="py-md font-bold">@c.Nombre @c.Apellidos</td>
+                        <td class="py-md font-mono-data">@c.DNI</td>
+                        <td class="py-md">@c.Telefono</td>
+                        <td class="py-md">@c.Email</td>
+                        <td class="py-md font-mono-data">@c.RUC</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Pagination" />

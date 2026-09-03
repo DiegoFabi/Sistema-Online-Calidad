@@ -1,0 +1,51 @@
+@model List<SistemaOnline.ViewModels.CartaVM>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Cartas";
+    ViewBag.Active = "negocio";
+    ViewData["Titulo"] = "Lista de Cartas";
+    ViewData["Descripcion"] = "Administra las cartas del restaurante.";
+    ViewData["Controlador"] = "Carta";
+    ViewData["NuevoTexto"] = "Nueva Carta";
+    ViewData["BuscadorPlaceholder"] = "Buscar por nombre, descripción...";
+}
+<partial name="_CRUDListLayout" />
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg overflow-x-auto">
+        <table id="tablaPrincipal" class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="pb-md font-bold">ID</th>
+                    <th class="pb-md font-bold col-ellipsis">Nombre</th>
+                    <th class="pb-md font-bold">Cantidad de Platos</th>
+                    <th class="pb-md font-bold col-ellipsis">Descripción</th>
+                    <th class="pb-md font-bold">Precio</th>
+                    <th class="pb-md font-bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-md">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="py-md font-mono-data">@item.ID_Carta</td>
+                        <td class="py-md font-bold col-ellipsis" title="@item.Nombre_Carta">@item.Nombre_Carta</td>
+                        <td class="py-md font-mono-data">@item.Cantidad_Platos</td>
+                        <td class="py-md col-ellipsis" title="@item.Descripcion">@item.Descripcion</td>
+                        <td class="py-md font-mono-data">@item.Precio</td>
+                        <td class="py-md">
+                            <div class="flex items-center gap-md">
+                                <a asp-controller="Carta" asp-action="Editar" asp-route-id="@item.ID_Carta" class="inline-flex items-center gap-xs text-tertiary hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span> Editar
+                                </a>
+                                <a asp-controller="Carta" asp-action="Eliminar" asp-route-id="@item.ID_Carta"  class="inline-flex items-center gap-xs text-error hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Pagination" />

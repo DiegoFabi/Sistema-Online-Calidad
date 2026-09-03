@@ -1,0 +1,217 @@
+@model SistemaOnline.ViewModels.AdminDashboardVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Panel de Administrador";
+    ViewBag.Active = "dashboard";
+}
+
+<style>
+    @@media print {
+        #SideNavBar, header, #botonExportarPdf {
+            display: none !important;
+        }
+
+        main {
+            padding-left: 0 !important;
+        }
+
+        section {
+            margin-top: 0 !important;
+        }
+    }
+</style>
+
+<div id="dashboardReporte" class="flex justify-between items-end mb-lg">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Panel de Administrador</h2>
+        <p class="text-on-surface-variant">Resumen operativo y analítica en tiempo real de Rancho Sagrado.</p>
+    </div>
+    <button id="botonExportarPdf" type="button" onclick="window.print()"
+            class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+        <span class="material-symbols-outlined">picture_as_pdf</span>
+        Exportar a PDF
+    </button>
+</div>
+
+<div class="grid grid-cols-12 gap-lg">
+    <!-- Ventas -->
+    <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20 relative overflow-hidden">
+        <div class="flex justify-between items-start mb-lg">
+            <div>
+                <h3 class="font-title-md text-title-md text-on-surface">Ventas Totales</h3>
+                <p class="text-label-md text-on-surface-variant">Histórico acumulado</p>
+            </div>
+            <div class="text-right">
+                <span class="text-display-lg font-display-lg text-primary">@Model.VentasTotales.ToString("C2")</span>
+                <p class="text-label-md text-secondary font-bold flex items-center justify-end">
+                    <span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span>
+                    @Model.VentasHoy.ToString("C2") generadas hoy
+                </p>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 gap-lg mt-lg">
+            <div class="bg-surface-container-high rounded-xl p-lg">
+                <p class="text-display-lg font-display-lg leading-none text-primary">@Model.PedidosActivos</p>
+                <p class="text-on-surface-variant font-bold mt-sm">Pedidos Activos</p>
+            </div>
+            <div class="bg-surface-container-high rounded-xl p-lg">
+                <p class="text-display-lg font-display-lg leading-none text-secondary">@Model.ClientesTotales</p>
+                <p class="text-on-surface-variant font-bold mt-sm">Clientes Registrados</p>
+            </div>
+            <div class="bg-surface-container-high rounded-xl p-lg">
+                <p class="text-display-lg font-display-lg leading-none text-error">@Model.AlertasInventario</p>
+                <p class="text-on-surface-variant font-bold mt-sm">Alertas de Inventario</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Distribución de Pedidos por Estado -->
+    <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20 flex flex-col">
+        <h3 class="font-title-md text-title-md text-on-surface mb-lg">Pedidos por Estado</h3>
+        @{
+            int totalPedidosEstado = Model.PedidosPorEstado.Sum(e => e.Cantidad);
+            string gradiente = "";
+            double acumulado = 0;
+            foreach (var estado in Model.PedidosPorEstado)
+            {
+                double porcentaje = totalPedidosEstado > 0 ? (double)estado.Cantidad / totalPedidosEstado * 100 : 0;
+                double inicio = acumulado;
+                double fin = acumulado + porcentaje;
+                gradiente += $"{estado.Color} {inicio.ToString(System.Globalization.CultureInfo.InvariantCulture)}% {fin.ToString(System.Globalization.CultureInfo.InvariantCulture)}%, ";
+                acumulado = fin;
+            }
+            gradiente = gradiente.TrimEnd(',', ' ');
+        }
+        <div class="flex-1 flex items-center justify-center">
+            @if (totalPedidosEstado == 0)
+            {
+                <p class="text-on-surface-variant text-body-md">Sin pedidos registrados.</p>
+            }
+            else
+            {
+                <div class="relative w-40 h-40 rounded-full" style="background: conic-gradient(@gradiente);">
+                    <div class="absolute inset-[18%] bg-surface-container-lowest rounded-full flex items-center justify-center flex-col">
+                        <span class="text-display-lg font-display-lg text-on-surface leading-none">@totalPedidosEstado</span>
+                        <span class="text-label-md text-on-surface-variant">pedidos</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="grid grid-cols-2 gap-sm mt-lg">
+            @foreach (var estado in Model.PedidosPorEstado)
+            {
+                <div class="flex items-center gap-xs">
+                    <span class="w-3 h-3 rounded-full inline-block" style="background-color: @estado.Color;"></span>
+                    <span class="text-label-md text-on-surface-variant">@estado.Estado (@estado.Cantidad)</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Ventas por Mes -->
+    <div class="col-span-12 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+        <h3 class="font-title-md text-title-md text-on-surface mb-lg">Ventas por Mes</h3>
+        @{
+            decimal maxVenta = Model.VentasPorMes.Any() ? Model.VentasPorMes.Max(v => v.Total) : 0;
+        }
+        <div class="h-56 flex items-end gap-base px-sm">
+            @foreach (var venta in Model.VentasPorMes)
+            {
+                decimal alturaPorcentaje = maxVenta > 0 ? (venta.Total / maxVenta) * 100 : 0;
+                <div class="flex-1 flex flex-col items-center justify-end h-full">
+                    <span class="text-label-md text-on-surface-variant mb-xs">@venta.Total.ToString("C0")</span>
+                    <div class="w-full bg-primary-container rounded-t-sm transition-all" style="height: @(alturaPorcentaje)%; min-height: 2px;"></div>
+                </div>
+            }
+        </div>
+        <div class="flex justify-between mt-sm text-label-md text-on-surface-variant font-mono-data px-sm">
+            @foreach (var venta in Model.VentasPorMes)
+            {
+                <span class="flex-1 text-center">@venta.Mes</span>
+            }
+        </div>
+    </div>
+
+    <!-- Top Empleados -->
+    <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20 flex flex-col">
+        <h3 class="font-title-md text-title-md text-on-surface mb-lg">Mejores Empleados</h3>
+        <div class="space-y-lg flex-1">
+            @if (!Model.TopEmpleados.Any())
+            {
+                <p class="text-on-surface-variant text-body-md">Sin datos de ventas por empleado.</p>
+            }
+            @foreach (var emp in Model.TopEmpleados)
+            {
+                <div class="flex items-center gap-md">
+                    <div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold">
+                        @emp.NombreCompleto.Substring(0, 1)
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center">
+                            <p class="text-body-md font-bold">@emp.NombreCompleto</p>
+                            <span class="text-mono-data text-on-surface-variant">@emp.TotalVendido.ToString("C2")</span>
+                        </div>
+                        <p class="text-label-md text-on-surface-variant">@emp.CantidadPedidos pedidos atendidos</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Pedidos Recientes -->
+    <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20 flex justify-between items-center">
+            <h3 class="font-title-md text-title-md text-on-surface">Pedidos Recientes</h3>
+        </div>
+        <div class="p-lg">
+            <table class="w-full text-left">
+                <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                    <tr>
+                        <th class="pb-md font-bold">ID</th>
+                        <th class="pb-md font-bold">Mesa</th>
+                        <th class="pb-md font-bold">Total</th>
+                        <th class="pb-md font-bold">Estado</th>
+                    </tr>
+                </thead>
+                <tbody class="text-body-md">
+                    @foreach (var pedido in Model.PedidosRecientes)
+                    {
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                            <td class="py-md font-mono-data">#@pedido.ID_Pedido</td>
+                            <td class="py-md">@(pedido.Mesa_Restaurante != null ? "Mesa " + pedido.Mesa_Restaurante.Numero_Mesa : "-")</td>
+                            <td class="py-md font-bold">@pedido.Total.ToString("C2")</td>
+                            <td class="py-md">
+                                <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">@pedido.Estado_Pedido</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Inventario Crítico -->
+    <div class="col-span-12 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Inventario Crítico</h3>
+        </div>
+        <div class="p-lg space-y-md">
+            @if (!Model.InventarioCritico.Any())
+            {
+                <p class="text-on-surface-variant text-body-md">No hay ingredientes en estado crítico.</p>
+            }
+            @foreach (var item in Model.InventarioCritico)
+            {
+                <div class="flex gap-md p-md bg-error-container text-on-error-container rounded-lg animate-pulse-soft">
+                    <span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+                    <div>
+                        <p class="font-bold">@item.Ingrediente.Nombre_Ingrediente</p>
+                        <p class="text-label-md opacity-80">
+                            Stock actual: @item.Cantidad_Stock @item.Ingrediente.Unidad_Medida (Mínimo: @item.Stock_Minimo)
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
