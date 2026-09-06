@@ -1,0 +1,902 @@
+-- ==============================================================================
+-- 1. Rol
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Rol ON;
+INSERT INTO dbo.Rol (ID_Rol, Nombre_Rol) VALUES (1, 'Administrador');
+INSERT INTO dbo.Rol (ID_Rol, Nombre_Rol) VALUES (2, 'Cajero');
+INSERT INTO dbo.Rol (ID_Rol, Nombre_Rol) VALUES (3, 'Mesero');
+INSERT INTO dbo.Rol (ID_Rol, Nombre_Rol) VALUES (4, 'Cliente');
+INSERT INTO dbo.Rol (ID_Rol, Nombre_Rol) VALUES (5, 'Chef');
+SET IDENTITY_INSERT dbo.Rol OFF;
+GO
+
+-- ==============================================================================
+-- 2. Turno
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Turno ON;
+INSERT INTO dbo.Turno (ID_Turno, Nombre_Turno, Hora_Inicio, Hora_Fin, Dias_Semana) VALUES (1, 'Mañana', '06:00:00', '14:00:00', 'Lunes-Viernes');
+INSERT INTO dbo.Turno (ID_Turno, Nombre_Turno, Hora_Inicio, Hora_Fin, Dias_Semana) VALUES (2, 'Tarde', '14:00:00', '22:00:00', 'Lunes-Viernes');
+INSERT INTO dbo.Turno (ID_Turno, Nombre_Turno, Hora_Inicio, Hora_Fin, Dias_Semana) VALUES (3, 'Noche', '22:00:00', '06:00:00', 'Lunes-Sábado');
+SET IDENTITY_INSERT dbo.Turno OFF;
+GO
+
+-- ==============================================================================
+-- 3. Categoria_Ingrediente
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Categoria_Ingrediente ON;
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (1, 'Carnes');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (2, 'Pescados y Mariscos');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (3, 'Verduras y Hortalizas');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (4, 'Frutas');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (5, 'Lácteos');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (6, 'Cereales y Granos');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (7, 'Legumbres');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (8, 'Condimentos y Especias');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (9, 'Aceites y Grasas');
+INSERT INTO dbo.Categoria_Ingrediente (ID_Cat_Ingrediente, Nombre_Categoria) VALUES (10, 'Harinas y Derivados');
+SET IDENTITY_INSERT dbo.Categoria_Ingrediente OFF;
+GO
+
+-- ==============================================================================
+-- 4. Carta
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Carta ON;
+INSERT INTO dbo.Carta (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (1, 'Carta Principal', 45, 'Carta principal del restaurante Rancho Sagrado', 0.00);
+INSERT INTO dbo.Carta (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (2, 'Carta de Temporada', 5, 'Platos especiales de temporada y eventos', 0.00);
+SET IDENTITY_INSERT dbo.Carta OFF;
+GO
+
+-- ==============================================================================
+-- 5. Mesa_Restaurante
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Mesa_Restaurante ON;
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (1, 1, 4, 'Salón Principal', 'Ocupada');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (2, 2, 4, 'Salón Principal', 'Disponible');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (3, 3, 4, 'Salón Principal', 'Disponible');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (4, 4, 6, 'Salón Principal', 'Ocupada');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (5, 5, 6, 'Salón Principal', 'Disponible');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (6, 6, 6, 'Salón Principal', 'Disponible');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (7, 7, 2, 'Terraza', 'Reservada');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (8, 8, 2, 'Terraza', 'Disponible');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (9, 9, 4, 'Terraza', 'Ocupada');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (10, 10, 4, 'Terraza', 'Disponible');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (11, 11, 8, 'Sala Privada', 'Reservada');
+INSERT INTO dbo.Mesa_Restaurante (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (12, 12, 8, 'Sala Privada', 'Disponible');
+SET IDENTITY_INSERT dbo.Mesa_Restaurante OFF;
+GO
+
+-- ==============================================================================
+-- 6. Cliente
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Cliente ON;
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (1, 'Carlos', 'García Sánchez', '931455603', 'carlos.garcia0@correo.com', '1999-08-27', 'Av. Arequipa 100, Lima', '40000000', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (2, 'Ana', 'Rodríguez Flores', '934882305', 'ana.rodriguez1@correo.com', '1989-05-08', 'Jr. Bolívar 103, Lima', '40000137', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (3, 'Jorge', 'Fernández Castillo', '917489709', 'jorge.fernandez2@correo.com', '1998-07-18', 'Av. La Marina 106, Lima', '40000274', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (4, 'Carmen', 'López Chávez', '932706266', 'carmen.lopez3@correo.com', '1972-08-01', 'Jr. Tacna 109, Lima', '40000411', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (5, 'Diego', 'Martínez Huamán', '929813640', 'diego.martinez4@correo.com', '1979-08-28', 'Av. Grau 112, Lima', '40000548', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (6, 'Patricia', 'Pérez Espinoza', '910999828', 'patricia.perez5@correo.com', '2001-05-19', 'Calle Los Pinos 115, Lima', '40000685', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (7, 'Ricardo', 'Gómez Aguilar', '917806804', 'ricardo.gomez6@correo.com', '1973-11-10', 'Av. Brasil 118, Lima', '40000822', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (8, 'Valeria', 'Sánchez Cabrera', '910890399', 'valeria.sanchez7@correo.com', '1971-06-06', 'Jr. Ayacucho 121, Lima', '40000959', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (9, 'Manuel', 'Ramírez Rodríguez', '934025631', 'manuel.ramirez8@correo.com', '1972-02-13', 'Av. Salaverry 124, Lima', '40001096', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (10, 'Fiorella', 'Torres Martínez', '917396759', 'fiorella.torres9@correo.com', '1977-11-16', 'Calle Las Palmeras 127, Lima', '40001233', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (11, 'Raúl', 'Flores Sánchez', '919334531', 'raul.flores10@correo.com', '2006-06-17', 'Av. Arequipa 130, Lima', '40001370', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (12, 'Karina', 'Rivera Flores', '933425670', 'karina.rivera11@correo.com', '1979-03-23', 'Jr. Bolívar 133, Lima', '40001507', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (13, 'Iván', 'Vargas Castillo', '919323815', 'ivan.vargas12@correo.com', '1997-05-21', 'Av. La Marina 136, Lima', '40001644', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (14, 'Estefanía', 'Castillo Chávez', '935618611', 'estefania.castillo13@correo.com', '1985-07-21', 'Jr. Tacna 139, Lima', '40001781', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (15, 'Renzo', 'Rojas Huamán', '913112034', 'renzo.rojas14@correo.com', '1982-07-25', 'Av. Grau 142, Lima', '40001918', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (16, 'Yolanda', 'Medina Espinoza', '922045349', 'yolanda.medina15@correo.com', '1983-11-07', 'Calle Los Pinos 145, Lima', '40002055', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (17, 'Sergio', 'Chávez Aguilar', '918875847', 'sergio.chavez16@correo.com', '2004-01-15', 'Av. Brasil 148, Lima', '40002192', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (18, 'Marisol', 'Paredes Cabrera', '927992829', 'marisol.paredes17@correo.com', '1999-02-27', 'Jr. Ayacucho 151, Lima', '40002329', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (19, 'Pablo', 'Quispe Rodríguez', '912644095', 'pablo.quispe18@correo.com', '1971-04-18', 'Av. Salaverry 154, Lima', '40002466', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (20, 'Cecilia', 'Huamán Martínez', '937830202', 'cecilia.huaman19@correo.com', '1965-11-04', 'Calle Las Palmeras 157, Lima', '40002603', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (21, 'Carlos', 'Salazar Sánchez', '939710830', 'carlos.salazar20@correo.com', '1982-11-21', 'Av. Arequipa 160, Lima', '40002740', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (22, 'Ana', 'Cárdenas Flores', '916452134', 'ana.cardenas21@correo.com', '2002-08-15', 'Jr. Bolívar 163, Lima', '40002877', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (23, 'Jorge', 'Espinoza Castillo', '932188315', 'jorge.espinoza22@correo.com', '1992-04-14', 'Av. La Marina 166, Lima', '40003014', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (24, 'Carmen', 'Delgado Chávez', '912677374', 'carmen.delgado23@correo.com', '1992-07-20', 'Jr. Tacna 169, Lima', '40003151', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (25, 'Diego', 'Núñez Huamán', '922754919', 'diego.nuñez24@correo.com', '1989-01-21', 'Av. Grau 172, Lima', '40003288', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (26, 'Patricia', 'Aguilar Espinoza', '931330030', 'patricia.aguilar25@correo.com', '1983-06-21', 'Calle Los Pinos 175, Lima', '40003425', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (27, 'Ricardo', 'Reyes Aguilar', '922421212', 'ricardo.reyes26@correo.com', '1984-05-27', 'Av. Brasil 178, Lima', '40003562', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (28, 'Valeria', 'Mendoza Cabrera', '932487347', 'valeria.mendoza27@correo.com', '1988-09-16', 'Jr. Ayacucho 181, Lima', '40003699', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (29, 'Manuel', 'Cabrera Rodríguez', '932936053', 'manuel.cabrera28@correo.com', '2001-10-31', 'Av. Salaverry 184, Lima', '40003836', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (30, 'Fiorella', 'Bravo Martínez', '931306335', 'fiorella.bravo29@correo.com', '1995-12-10', 'Calle Las Palmeras 187, Lima', '40003973', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (31, 'Raúl', 'García Sánchez', '934465435', 'raul.garcia30@correo.com', '1991-06-19', 'Av. Arequipa 190, Lima', '40004110', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (32, 'Karina', 'Rodríguez Flores', '925510878', 'karina.rodriguez31@correo.com', '1982-04-27', 'Jr. Bolívar 193, Lima', '40004247', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (33, 'Iván', 'Fernández Castillo', '931474828', 'ivan.fernandez32@correo.com', '1971-05-26', 'Av. La Marina 196, Lima', '40004384', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (34, 'Estefanía', 'López Chávez', '932971842', 'estefania.lopez33@correo.com', '1986-08-14', 'Jr. Tacna 199, Lima', '40004521', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (35, 'Renzo', 'Martínez Huamán', '917685577', 'renzo.martinez34@correo.com', '2004-03-29', 'Av. Grau 202, Lima', '40004658', NULL);
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (36, NULL, NULL, '014420651', 'contacto1@corporación.com', NULL, 'Av. Javier Prado 500, San Isidro, Lima', NULL, '20100000000');
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (37, NULL, NULL, '014280746', 'contacto2@inversiones.com', NULL, 'Av. Javier Prado 520, San Isidro, Lima', NULL, '20100091111');
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (38, NULL, NULL, '014069403', 'contacto3@grupo.com', NULL, 'Av. Javier Prado 540, San Isidro, Lima', NULL, '20100182222');
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (39, NULL, NULL, '014221231', 'contacto4@comercial.com', NULL, 'Av. Javier Prado 560, San Isidro, Lima', NULL, '20100273333');
+INSERT INTO dbo.Cliente (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (40, NULL, NULL, '014957492', 'contacto5@consultora.com', NULL, 'Av. Javier Prado 580, San Isidro, Lima', NULL, '20100364444');
+SET IDENTITY_INSERT dbo.Cliente OFF;
+GO
+
+-- ==============================================================================
+-- 7. Proveedor
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Proveedor ON;
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (1, 'Distribuidora Cárnica Andina SAC', '20100112233', 'ventas@carnicandina.pe', '014567890', 'Av. Argentina 1450, Lima', 'Carnes rojas y aves', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (2, 'Pescados del Litoral EIRL', '20100223344', 'contacto@pescadoslitoral.pe', '014678901', 'Av. Sáenz Peña 890, Callao', 'Pescados y mariscos frescos', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (3, 'AgroFresh Perú SAC', '20100334455', 'pedidos@agrofresh.pe', '014789012', 'Mercado Mayorista N°2, Lima', 'Verduras y hortalizas', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (4, 'Frutícola San Martín SRL', '20100445566', 'ventas@fruticolasm.pe', '014890123', 'Av. Colonial 2200, Lima', 'Frutas nacionales e importadas', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (5, 'Lácteos Gloria Distribución', '20100556677', 'distribucion@lacteosdist.pe', '014901234', 'Av. Industrial 780, Lima', 'Lácteos y derivados', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (6, 'Molinos del Norte SAC', '20100667788', 'ventas@molinosnorte.pe', '015012345', 'Av. Universitaria 3400, Lima', 'Cereales, granos y harinas', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (7, 'Especias & Condimentos Perú EIRL', '20100778899', 'contacto@especiasperu.pe', '015123456', 'Jr. Huallaga 560, Lima', 'Condimentos y especias', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (8, 'Aceites y Grasas del Pacífico SAC', '20100889900', 'ventas@aceitespacifico.pe', '015234567', 'Av. Néstor Gambetta 1200, Callao', 'Aceites y grasas vegetales', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (9, 'Legumbres Andinas SRL', '20100990011', 'ventas@legumbresandinas.pe', '015345678', 'Av. Tupac Amaru 900, Lima', 'Legumbres y menestras', 'Activo');
+INSERT INTO dbo.Proveedor (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (10, 'Bebidas & Insumos del Sur SAC', '20101001122', 'pedidos@bebidasinsumos.pe', '015456789', 'Av. Circunvalación 450, Arequipa', 'Bebidas e insumos varios', 'Inactivo');
+SET IDENTITY_INSERT dbo.Proveedor OFF;
+GO
+
+-- ==============================================================================
+-- 8. Empleado
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Empleado ON;
+-- ID_Usuario se completa tras la sección de Usuario (ver UPDATE al final de este bloque)
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (1, 'Rosa', 'Flores Huanca', 'Jr. Bolívar 145, Lima', 'Chef', '912345678', 'Activo', '60128374', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (2, 'Julio', 'Castillo Medina', 'Jr. Tacna 456, Piura', 'Chef', '946723891', 'Activo', '38201745', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (3, 'Ana', 'Rojas Paredes', 'Av. Grau 901, Trujillo', 'Mesero', '934561278', 'Activo', '52109384', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (4, 'Valeria', 'Elizabeth Soto', 'Av. La Marina 233, Lima', 'Cajero', '923456789', 'Activo', '61047382', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (5, 'Camila', 'Torres Salinas', 'Jr. Cusco 321, Lima', 'Mesero', '911223344', 'Activo', '45678912', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (6, 'Bruno', 'Guzmán Ríos', 'Av. Brasil 780, Lima', 'Mesero', '922334455', 'Activo', '48912376', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (7, 'Milagros', 'Cárdenas Vega', 'Jr. Ayacucho 210, Lima', 'Mesero', '933445566', 'Activo', '50123487', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (8, 'Renzo', 'Delgado Fuentes', 'Av. Salaverry 654, Lima', 'Mesero', '944556677', 'Activo', '53214698', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (9, 'Estefanía', 'Núñez Blas', 'Calle Los Pinos 88, Lima', 'Mesero', '955667788', 'Activo', '56328471', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (10, 'Gonzalo', 'Aguilar Peña', 'Jr. Puno 145, Lima', 'Mesero', '966778899', 'Pendiente', '59437182', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (11, 'Karina', 'Mendoza Ibarra', 'Av. Angamos 900, Lima', 'Chef', '977889900', 'Activo', '62549371', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (12, 'Sergio', 'Bravo Chumpitaz', 'Jr. Junín 234, Lima', 'Chef', '988990011', 'Activo', '64758291', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (13, 'Pilar', 'Reyes Cabrera', 'Av. Colonial 1500, Lima', 'Chef', '999001122', 'Inactivo', '67891234', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (14, 'Iván', 'Espinoza Cruz', 'Jr. Amazonas 77, Lima', 'Cajero', '910112233', 'Activo', '70123456', NULL);
+INSERT INTO dbo.Empleado (ID_Empleado, Nombre, Apellidos, Direccion, Cargo, Telefono, Estado, DNI, ID_Usuario) VALUES (15, 'Marisol', 'Huamán Quispe', 'Av. Universitaria 500, Lima', 'Cajero', '921223344', 'Activo', '72345618', NULL);
+SET IDENTITY_INSERT dbo.Empleado OFF;
+GO
+
+-- ==============================================================================
+-- 9. Usuario
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Usuario ON;
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (1, 'Tigre Capo', 'admin@ranchosagrado.pe', 'aQwr@2', 1, 1);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (2, 'Valeria Elizabeth', 'valeria.caja@ranchosagrado.pe', 'caja456', 1, 2);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (3, 'Iván Espinoza', 'ivan.caja@ranchosagrado.pe', 'caja789', 1, 2);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (4, 'Marisol Huamán', 'marisol.caja@ranchosagrado.pe', 'caja321', 1, 2);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (5, 'Ana Rojas', 'ana.mesero@ranchosagrado.pe', 'mesero456', 1, 3);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (6, 'Camila Torres', 'camila.mesero@ranchosagrado.pe', 'mesero789', 1, 3);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (7, 'Bruno Guzmán', 'bruno.mesero@ranchosagrado.pe', 'mesero321', 1, 3);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (8, 'Milagros Cárdenas', 'milagros.mesero@ranchosagrado.pe', 'mesero654', 1, 3);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (9, 'Renzo Delgado', 'renzo.mesero@ranchosagrado.pe', 'mesero987', 1, 3);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (10, 'Rosa Flores', 'rosa.chef@ranchosagrado.pe', 'chef123', 1, 5);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (11, 'Julio Castillo', 'julio.chef@ranchosagrado.pe', 'chef456', 1, 5);
+INSERT INTO dbo.Usuario (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (12, 'Karina Mendoza', 'karina.chef@ranchosagrado.pe', 'chef789', 1, 5);
+SET IDENTITY_INSERT dbo.Usuario OFF;
+GO
+
+-- ==============================================================================
+-- 9.1 Empleado.ID_Usuario (vinculacion 1:1 opcional Empleado-Usuario)
+-- ==============================================================================
+UPDATE dbo.Empleado SET ID_Usuario = 10 WHERE ID_Empleado = 1;
+UPDATE dbo.Empleado SET ID_Usuario = 11 WHERE ID_Empleado = 2;
+UPDATE dbo.Empleado SET ID_Usuario = 5 WHERE ID_Empleado = 3;
+UPDATE dbo.Empleado SET ID_Usuario = 2 WHERE ID_Empleado = 4;
+UPDATE dbo.Empleado SET ID_Usuario = 6 WHERE ID_Empleado = 5;
+UPDATE dbo.Empleado SET ID_Usuario = 7 WHERE ID_Empleado = 6;
+UPDATE dbo.Empleado SET ID_Usuario = 8 WHERE ID_Empleado = 7;
+UPDATE dbo.Empleado SET ID_Usuario = 9 WHERE ID_Empleado = 8;
+UPDATE dbo.Empleado SET ID_Usuario = 12 WHERE ID_Empleado = 11;
+UPDATE dbo.Empleado SET ID_Usuario = 3 WHERE ID_Empleado = 14;
+UPDATE dbo.Empleado SET ID_Usuario = 4 WHERE ID_Empleado = 15;
+GO
+
+-- ==============================================================================
+-- 10. Producto_Categoria (catalogo fijo, ligado a Carta)
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Producto_Categoria ON;
+INSERT INTO dbo.Producto_Categoria (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (1, 'Platos Principales', 'Platos de fondo del restaurante', 1);
+INSERT INTO dbo.Producto_Categoria (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (2, 'Bebidas', 'Bebidas frías y calientes', 1);
+INSERT INTO dbo.Producto_Categoria (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (3, 'Postres', 'Postres y dulces para finalizar la comida', 1);
+INSERT INTO dbo.Producto_Categoria (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (4, 'Entradas', 'Aperitivos y entradas del restaurante', 1);
+INSERT INTO dbo.Producto_Categoria (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (5, 'Especiales de Temporada', 'Platos exclusivos de temporada', 2);
+SET IDENTITY_INSERT dbo.Producto_Categoria OFF;
+GO
+
+-- ==============================================================================
+-- 11. Ingrediente
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Ingrediente ON;
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (1, 'Lomo de Res', 'kg', 'Corte fino de res para salteados y parrilla', 45.00, 1, 1);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (2, 'Corazón de Res', 'kg', 'Corazón de res para anticuchos', 18.00, 1, 1);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (3, 'Pollo Entero', 'kg', 'Pollo fresco para hornear o guisar', 12.00, 1, 1);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (4, 'Cerdo Pierna', 'kg', 'Pierna de cerdo para pachamanca y estofados', 22.00, 1, 1);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (5, 'Cuy', 'unidad', 'Cuy andino entero para preparaciones típicas', 35.00, 1, 1);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (6, 'Cabrito', 'kg', 'Cabrito norteño para guisos con chicha', 28.00, 1, 1);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (7, 'Corvina Fresca', 'kg', 'Corvina del litoral peruano para ceviche y sudado', 32.00, 1, 2);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (8, 'Pulpo', 'kg', 'Pulpo fresco para tiradito y mariscos', 40.00, 1, 2);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (9, 'Langostinos', 'kg', 'Langostinos pelados para arroz y cazuelas', 50.00, 1, 2);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (10, 'Conchas de Abanico', 'kg', 'Conchas frescas de Paracas para mariscos mixtos', 38.00, 1, 2);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (11, 'Papa Amarilla', 'kg', 'Papa amarilla peruana para causa y huancaína', 4.00, 1, 3);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (12, 'Cebolla Morada', 'kg', 'Cebolla morada para sarsa criolla y ceviche', 3.50, 1, 3);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (13, 'Tomate', 'kg', 'Tomate redondo fresco para ensaladas y salsas', 3.00, 1, 3);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (14, 'Choclo Peruano', 'unidad', 'Choclo andino de grano grande para acompañamientos', 2.00, 1, 3);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (15, 'Cilantro Fresco', 'atado', 'Cilantro para seco y salsas criollas', 1.00, 1, 3);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (16, 'Limón Peruano', 'kg', 'Limón peruano ácido para ceviche y pisco sour', 3.50, 1, 4);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (17, 'Maracuyá', 'kg', 'Maracuyá para jugos y salsas agridulces', 6.00, 1, 4);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (18, 'Maíz Morado', 'kg', 'Maíz morado seco para chicha y mazamorra', 5.00, 1, 4);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (19, 'Leche Evaporada', 'lata', 'Leche evaporada para cremas y postres peruanos', 4.50, 1, 5);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (20, 'Queso Fresco', 'kg', 'Queso fresco para salsa huancaína y causa', 12.00, 1, 5);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (21, 'Arroz Extra', 'kg', 'Arroz blanco de grano largo para acompañamientos', 4.00, 1, 6);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (22, 'Cebada Perlada', 'kg', 'Cebada para emoliente y sopas', 3.00, 1, 6);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (23, 'Cancha Serrana', 'kg', 'Maíz tostado para acompañar ceviche', 4.50, 1, 6);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (24, 'Frejol Canario', 'kg', 'Frejol peruano para tacu tacu y guisos', 6.00, 1, 7);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (25, 'Habas Secas', 'kg', 'Habas para pachamanca y sopas andinas', 4.50, 1, 7);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (26, 'Ají Amarillo', 'kg', 'Ají amarillo fresco o en pasta para salsas criollas', 8.00, 1, 8);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (27, 'Ají Panca', 'kg', 'Ají panca seco o en pasta para marinados', 7.00, 1, 8);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (28, 'Ají Limo', 'kg', 'Ají limo picante para ceviche y tiradito', 9.00, 1, 8);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (29, 'Sillao', 'litro', 'Salsa de soya para arroz chaufa y marinados chifa', 6.00, 1, 8);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (30, 'Comino Molido', 'kg', 'Comino para aderezo de guisos y salsas criollas', 12.00, 1, 8);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (31, 'Aceite Vegetal', 'litro', 'Aceite para freír papas y saltear ingredientes', 7.00, 1, 9);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (32, 'Mantequilla', 'kg', 'Mantequilla para repostería y salsas cremosas', 14.00, 1, 9);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (33, 'Harina de Trigo', 'kg', 'Harina para rebozados, masas y repostería', 3.50, 1, 10);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (34, 'Camote Amarillo', 'kg', 'Camote para picarones y guarniciones de cuy', 3.00, 1, 3);
+INSERT INTO dbo.Ingrediente (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (35, 'Chicha de Jora', 'litro', 'Chicha de jora para marinados y seco de res', 5.00, 1, 8);
+SET IDENTITY_INSERT dbo.Ingrediente OFF;
+GO
+
+-- ==============================================================================
+-- 12. Producto
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Producto ON;
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (1, 'Lomo Saltado', 'Tiras de res salteadas con cebolla, tomate y papas fritas al estilo criollo', 20, 28.50, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (2, 'Ají de Gallina', 'Pollo deshilachado en cremosa salsa de ají amarillo con papa y huevo duro', 35, 27.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (3, 'Ceviche Clásico', 'Pescado fresco marinado en limón con cebolla morada, ají limo y cancha serrana', 15, 32.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (4, 'Arroz con Mariscos', 'Arroz al estilo criollo con mezcla de mariscos frescos en salsa de ají amarillo', 30, 34.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (5, 'Seco de Res', 'Guiso de res con cilantro, chicha de jora y frejoles verdes', 50, 26.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (6, 'Causa Limeña', 'Masa de papa amarilla con ají amarillo rellena de atún o pollo con mayonesa', 25, 22.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (7, 'Arroz Chaufa', 'Arroz salteado estilo chifa con huevo, cebolla china, pollo y sillao', 20, 24.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (8, 'Tacu Tacu con Lomo', 'Tacu tacu de frejol con tiras de lomo fino y salsa criolla', 30, 31.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (9, 'Pollo a la Brasa', 'Pollo marinado en especias criollas horneado lento con papas y ensalada', 45, 29.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (10, 'Sudado de Pescado', 'Pescado cocido en caldo de tomate, ají y cilantro con chicha de jora', 25, 30.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (11, 'Anticuchos de Corazón', 'Corazón de res marinado en ají panca y especias a la parrilla con choclo y papa', 20, 23.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (12, 'Pachamanca de Cerdo', 'Cerdo marinado en hierbas y ají, cocido en horno de tierra con habas y camote', 60, 36.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (13, 'Cabrito con Frejoles', 'Cabrito norteño estofado en chicha de jora con frejoles y yuca', 55, 38.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (14, 'Cuy al Horno', 'Cuy entero marinado en ají panca y hierbas andinas horneado con papas nativas', 60, 45.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (15, 'Chupe de Camarones', 'Sopa cremosa de camarones con papa, choclo, huevo y queso fresco', 35, 33.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (16, 'Tallarines Verdes con Bistec', 'Tallarines en salsa de albahaca con bistec de res a la plancha', 25, 26.50, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (17, 'Arroz con Pato', 'Arroz verde con pato al estilo norteño y culantro', 45, 32.50, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (18, 'Parihuela', 'Sopa marinera de mariscos con ají panca y culantro', 30, 35.00, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (19, 'Rocoto Relleno', 'Rocoto relleno de carne molida gratinado con queso, acompañado de pastel de papa', 35, 27.50, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (20, 'Estofado de Pollo', 'Pollo guisado en salsa de tomate con papas y zanahoria', 40, 24.50, 1, 1);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (21, 'Tequeños con Huancaína', 'Tequeños de queso acompañados de salsa huancaína', 12, 14.00, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (22, 'Ceviche de Champiñones', 'Champiñones marinados en limón con ají limo y choclo desgranado', 10, 18.00, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (23, 'Papa a la Huancaína', 'Rodajas de papa sancochada en salsa cremosa de ají amarillo y queso fresco', 10, 16.00, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (24, 'Causa de Pollo', 'Pequeña causa individual rellena de pollo y palta', 15, 15.00, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (25, 'Tiradito en Salsa de Ají Amarillo', 'Finas láminas de pescado bañadas en salsa cremosa de ají amarillo', 12, 19.00, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (26, 'Anticuchos Mixtos', 'Mini brochetas de corazón y pollo a la parrilla', 15, 17.00, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (27, 'Choritos a la Chalaca', 'Choritos al vapor con salsa criolla de cebolla, tomate y limón', 15, 20.00, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (28, 'Sopa Criolla', 'Sopa de fideos con leche, carne y huevo escalfado', 20, 16.50, 1, 4);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (29, 'Picarones', 'Buñuelos de camote y zapallo bañados en miel de chancaca con canela', 20, 14.00, 1, 3);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (30, 'Mazamorra Morada', 'Postre de maíz morado con frutas secas y canela al estilo limeño', 30, 12.00, 1, 3);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (31, 'Arroz con Leche', 'Postre cremoso de arroz con leche evaporada, canela y clavo de olor', 25, 11.00, 1, 3);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (32, 'Suspiro Limeño', 'Manjar blanco cubierto de merengue italiano perfumado con Oporto', 20, 13.00, 1, 3);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (33, 'Turrón de Doña Pepa', 'Turrón tradicional bañado en miel de chancaca y grageas de colores', 25, 10.00, 1, 3);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (34, 'Crema Volteada', 'Flan casero bañado en caramelo', 20, 10.50, 1, 3);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (35, 'Alfajores Rellenos', 'Alfajores artesanales rellenos de manjar blanco', 15, 9.00, 1, 3);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (36, 'Chicha Morada', 'Bebida peruana de maíz morado con piña, membrillo y canela', 5, 9.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (37, 'Pisco Sour', 'Cóctel peruano de pisco quebranta con limón, jarabe y clara de huevo', 5, 16.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (38, 'Limonada Serrana', 'Limonada natural con menta y azúcar de caña servida fría', 5, 8.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (39, 'Emoliente Caliente', 'Infusión tradicional de hierbas con cebada, linaza y limón', 5, 7.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (40, 'Jugo de Maracuyá', 'Jugo natural de maracuyá con azúcar y agua purificada', 5, 8.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (41, 'Agua Mineral', 'Agua mineral natural o con gas en botella personal', 5, 5.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (42, 'Inca Kola', 'Gaseosa nacional peruana sabor original en botella 500ml', 5, 6.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (43, 'Té de Hierbas', 'Infusión de manzanilla, muña o menta con miel de abeja', 5, 6.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (44, 'Café Pasado', 'Café peruano de altura preparado al paso con leche o solo', 5, 8.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (45, 'Chicha de Jora Artesanal', 'Bebida fermentada tradicional de maíz jora', 5, 10.00, 1, 2);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (46, 'Cuy Chactado', 'Cuy frito a la piedra acompañado de papas nativas y mote', 50, 48.00, 1, 5);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (47, 'Timbal de Quinoa con Camarones', 'Quinoa saltada con camarones y vegetales de temporada', 30, 37.00, 1, 5);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (48, 'Adobo de Chancho Arequipeño', 'Cerdo marinado en chicha de jora y ají panca, cocción lenta', 55, 34.00, 1, 5);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (49, 'Malarrabia Norteña', 'Plátano maduro frito con tasajo, cebolla y huevo frito', 30, 26.50, 1, 5);
+INSERT INTO dbo.Producto (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (50, 'Chairo Andino', 'Sopa andina de cordero con chuño, habas y verduras de altura', 40, 29.00, 1, 5);
+SET IDENTITY_INSERT dbo.Producto OFF;
+GO
+
+-- ==============================================================================
+-- 13. Promocion
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Promocion ON;
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (1, 'Martes de Ceviche', '20% de descuento en la carta de ceviches todos los martes', 20.00, '2026-01-06 00:00:00', '2026-12-31 23:59:59', 1);
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (2, 'Happy Hour Bebidas', '15% de descuento en bebidas de 5pm a 7pm', 15.00, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1);
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (3, 'Aniversario Rancho Sagrado', '25% de descuento en platos principales por aniversario', 25.00, '2026-08-15 00:00:00', '2026-09-15 23:59:59', 1);
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (4, 'Combo Familiar Fin de Semana', '10% de descuento en pedidos para 4 o más personas', 10.00, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1);
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (5, 'Postre Gratis por Compra Mínima', 'Descuento equivalente al postre en compras mayores a S/80', 12.00, '2026-03-01 00:00:00', '2026-06-30 23:59:59', 0);
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (6, 'Temporada de Cuy', '18% de descuento en la línea de especiales de temporada', 18.00, '2026-06-01 00:00:00', '2026-08-31 23:59:59', 1);
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (7, 'Miércoles del Chef', 'Descuento especial en platos recomendados por el chef', 15.00, '2026-02-01 00:00:00', '2026-05-31 23:59:59', 0);
+INSERT INTO dbo.Promocion (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (8, 'Bienvenida Delivery', '10% de descuento en el primer pedido de nuevos clientes', 10.00, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1);
+SET IDENTITY_INSERT dbo.Promocion OFF;
+GO
+
+-- ==============================================================================
+-- 14. Contrato_Empleado
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Contrato_Empleado ON;
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (1, '2026-01-24', '2029-08-31', 'Indefinido', 1937.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Chef, con beneficios de ley (CTS, gratificaciones, EsSalud).', 1);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (2, '2025-12-15', '2029-08-31', 'Indefinido', 1974.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Chef, con beneficios de ley (CTS, gratificaciones, EsSalud).', 2);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (3, '2026-06-28', '2027-06-28', 'Plazo Fijo', 1311.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Mesero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 3);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (4, '2025-09-26', '2029-08-31', 'Indefinido', 1598.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Cajero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 4);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (5, '2025-08-17', '2029-08-31', 'Indefinido', 1385.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Mesero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 5);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (6, '2026-05-14', '2027-05-14', 'Plazo Fijo', 1422.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Mesero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 6);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (7, '2025-05-29', '2029-08-31', 'Indefinido', 1208.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Mesero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 7);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (8, '2025-04-19', '2029-08-31', 'Indefinido', 1245.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Mesero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 8);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (9, '2026-03-30', '2027-03-30', 'Plazo Fijo', 1282.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Mesero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 9);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (10, '2025-01-29', '2029-08-31', 'Indefinido', 1319.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Mesero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 10);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (11, '2024-12-20', '2029-08-31', 'Indefinido', 2307.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Chef, con beneficios de ley (CTS, gratificaciones, EsSalud).', 11);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (12, '2026-02-13', '2027-02-13', 'Plazo Fijo', 2344.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Chef, con beneficios de ley (CTS, gratificaciones, EsSalud).', 12);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (13, '2024-06-13', '2026-06-13', 'Indefinido', 2381.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Chef, con beneficios de ley (CTS, gratificaciones, EsSalud).', 13);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (14, '2024-08-22', '2029-08-31', 'Indefinido', 1566.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Cajero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 14);
+INSERT INTO dbo.Contrato_Empleado (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (15, '2025-12-30', '2026-12-30', 'Plazo Fijo', 1603.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Cajero, con beneficios de ley (CTS, gratificaciones, EsSalud).', 15);
+SET IDENTITY_INSERT dbo.Contrato_Empleado OFF;
+GO
+
+-- ==============================================================================
+-- 15. Contrato_Proveedor
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Contrato_Proveedor ON;
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (1, '2026-08-02', '2027-08-02', 'Contrato Marco Anual', 'Suministro periódico de carnes rojas y aves bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 1);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (2, '2026-07-08', '2027-07-08', 'Contrato Puntual', 'Suministro periódico de pescados y mariscos frescos bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 2);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (3, '2026-06-13', '2027-06-13', 'Contrato Marco Anual', 'Suministro periódico de verduras y hortalizas bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 3);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (4, '2026-05-19', '2027-05-19', 'Contrato Marco Anual', 'Suministro periódico de frutas nacionales e importadas bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 4);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (5, '2026-04-24', '2027-04-24', 'Contrato Puntual', 'Suministro periódico de lácteos y derivados bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 5);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (6, '2026-03-30', '2027-03-30', 'Contrato Marco Anual', 'Suministro periódico de cereales, granos y harinas bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 6);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (7, '2026-03-05', '2027-03-05', 'Contrato Marco Anual', 'Suministro periódico de condimentos y especias bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 7);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (8, '2026-02-08', '2027-02-08', 'Contrato Puntual', 'Suministro periódico de aceites y grasas vegetales bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 8);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (9, '2026-01-14', '2027-01-14', 'Contrato Marco Anual', 'Suministro periódico de legumbres y menestras bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 9);
+INSERT INTO dbo.Contrato_Proveedor (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (10, '2025-05-14', '2026-05-14', 'Contrato Marco Anual', 'Suministro periódico de bebidas e insumos varios bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 10);
+SET IDENTITY_INSERT dbo.Contrato_Proveedor OFF;
+GO
+
+-- ==============================================================================
+-- 16. Empleado_Turno
+-- ==============================================================================
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (1, 1);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (2, 2);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (3, 3);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (1, 4);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (2, 5);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (3, 6);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (1, 7);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (2, 8);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (3, 9);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (1, 10);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (2, 11);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (3, 12);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (1, 13);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (2, 14);
+INSERT INTO dbo.Empleado_Turno (ID_Turno, ID_Empleado) VALUES (3, 15);
+GO
+
+-- ==============================================================================
+-- 17. Producto_Ingrediente
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Producto_Ingrediente ON;
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (1, 0.313, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #1)', 6, 1);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (2, 0.785, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #1)', 3, 1);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (3, 0.155, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #1)', 11, 1);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (4, 1.036, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #2)', 24, 2);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (5, 1.170, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #2)', 1, 2);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (6, 0.902, 'g', 'Insumo base de la receta (ver ficha técnica del plato #2)', 2, 2);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (7, 1.326, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #3)', 30, 3);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (8, 0.539, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #3)', 13, 3);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (9, 1.073, 'g', 'Insumo base de la receta (ver ficha técnica del plato #3)', 2, 3);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (10, 0.932, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #4)', 6, 4);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (11, 0.912, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #4)', 21, 4);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (12, 0.739, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #4)', 1, 4);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (13, 1.276, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #5)', 13, 5);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (14, 1.423, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #5)', 4, 5);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (15, 0.764, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #5)', 1, 5);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (16, 1.030, 'g', 'Insumo base de la receta (ver ficha técnica del plato #6)', 2, 6);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (17, 0.185, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #6)', 11, 6);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (18, 1.082, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #6)', 27, 6);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (19, 1.006, 'g', 'Insumo base de la receta (ver ficha técnica del plato #7)', 2, 7);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (20, 1.490, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #7)', 4, 7);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (21, 1.251, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #7)', 30, 7);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (22, 0.498, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #8)', 13, 8);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (23, 0.640, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #8)', 11, 8);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (24, 1.036, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #8)', 1, 8);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (25, 0.132, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #9)', 30, 9);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (26, 0.746, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #9)', 21, 9);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (27, 0.335, 'g', 'Insumo base de la receta (ver ficha técnica del plato #9)', 2, 9);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (28, 0.264, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #10)', 4, 10);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (29, 0.183, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #10)', 24, 10);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (30, 1.176, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #10)', 27, 10);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (31, 0.281, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #11)', 21, 11);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (32, 0.447, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #11)', 1, 11);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (33, 0.647, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #11)', 30, 11);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (34, 1.320, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #12)', 21, 12);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (35, 0.213, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #12)', 11, 12);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (36, 0.729, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #12)', 1, 12);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (37, 0.869, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #13)', 4, 13);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (38, 1.337, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #13)', 1, 13);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (39, 1.247, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #13)', 13, 13);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (40, 1.310, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #14)', 30, 14);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (41, 0.490, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #14)', 3, 14);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (42, 0.681, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #14)', 5, 14);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (43, 0.602, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #15)', 11, 15);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (44, 1.338, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #15)', 3, 15);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (45, 1.441, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #15)', 13, 15);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (46, 0.311, 'g', 'Insumo base de la receta (ver ficha técnica del plato #16)', 2, 16);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (47, 0.347, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #16)', 21, 16);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (48, 0.425, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #16)', 5, 16);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (49, 0.427, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #17)', 13, 17);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (50, 0.779, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #17)', 24, 17);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (51, 0.925, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #17)', 3, 17);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (52, 0.468, 'g', 'Insumo base de la receta (ver ficha técnica del plato #18)', 2, 18);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (53, 0.106, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #18)', 21, 18);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (54, 0.687, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #18)', 27, 18);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (55, 0.617, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #19)', 24, 19);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (56, 0.893, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #19)', 4, 19);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (57, 1.434, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #19)', 6, 19);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (58, 1.067, 'g', 'Insumo base de la receta (ver ficha técnica del plato #20)', 2, 20);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (59, 0.822, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #20)', 13, 20);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (60, 0.965, 'g', 'Insumo base de la receta (ver ficha técnica del plato #20)', 26, 20);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (61, 1.047, 'g', 'Insumo base de la receta (ver ficha técnica del plato #21)', 2, 21);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (62, 0.176, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #21)', 21, 21);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (63, 1.359, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #22)', 1, 22);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (64, 1.192, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #22)', 21, 22);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (65, 1.324, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #23)', 4, 23);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (66, 1.217, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #23)', 12, 23);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (67, 0.649, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #24)', 24, 24);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (68, 0.659, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #24)', 13, 24);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (69, 0.245, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #25)', 11, 25);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (70, 0.988, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #25)', 27, 25);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (71, 0.187, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #26)', 6, 26);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (72, 0.194, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #26)', 12, 26);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (73, 0.392, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #27)', 21, 27);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (74, 0.327, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #27)', 12, 27);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (75, 0.576, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #28)', 6, 28);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (76, 0.174, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #28)', 5, 28);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (77, 0.100, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #29)', 18, 29);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (78, 0.312, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #30)', 18, 30);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (79, 0.242, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #31)', 34, 31);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (80, 0.609, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #32)', 18, 32);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (81, 0.136, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #33)', 11, 33);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (82, 1.324, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #34)', 33, 34);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (83, 0.960, 'unidad', 'Insumo base de la receta (ver ficha técnica del plato #35)', 19, 35);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (84, 0.308, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #46)', 34, 46);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (85, 0.453, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #46)', 27, 46);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (86, 0.586, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #47)', 21, 47);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (87, 0.610, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #47)', 27, 47);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (88, 0.272, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #48)', 6, 48);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (89, 1.289, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #48)', 3, 48);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (90, 1.490, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #49)', 3, 49);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (91, 0.752, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #49)', 24, 49);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (92, 0.777, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #50)', 4, 50);
+INSERT INTO dbo.Producto_Ingrediente (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (93, 0.220, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #50)', 21, 50);
+SET IDENTITY_INSERT dbo.Producto_Ingrediente OFF;
+GO
+
+-- ==============================================================================
+-- 18. Proveedor_Ingrediente (relacion proveedor-insumo, PK compuesta)
+-- ==============================================================================
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (1, 1);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (1, 2);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (1, 3);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (1, 4);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (1, 5);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (1, 6);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (2, 7);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (2, 8);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (2, 9);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (2, 10);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (3, 11);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (3, 12);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (3, 13);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (3, 14);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (3, 15);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (3, 34);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (4, 16);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (4, 17);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (4, 18);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (5, 19);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (5, 20);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (6, 21);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (6, 22);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (6, 23);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (7, 26);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (7, 27);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (7, 28);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (7, 29);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (7, 30);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (7, 35);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (8, 31);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (8, 32);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (9, 24);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (9, 25);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (10, 7);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (10, 8);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (10, 9);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (10, 10);
+INSERT INTO dbo.Proveedor_Ingrediente (ID_Proveedor, ID_Ingrediente) VALUES (10, 31);
+GO
+
+-- ==============================================================================
+-- 19. Producto_Promocion
+-- ==============================================================================
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (3, 1);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (10, 1);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (22, 1);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (25, 1);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (36, 2);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (37, 2);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (38, 2);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (40, 2);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (43, 2);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (44, 2);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (1, 3);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (2, 3);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (5, 3);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (9, 3);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (12, 3);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (17, 3);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (4, 4);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (9, 4);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (12, 4);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (17, 4);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (46, 4);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (29, 5);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (30, 5);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (31, 5);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (32, 5);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (46, 6);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (47, 6);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (48, 6);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (49, 6);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (50, 6);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (15, 7);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (16, 7);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (18, 7);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (19, 7);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (7, 8);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (9, 8);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (21, 8);
+INSERT INTO dbo.Producto_Promocion (ID_Producto, ID_Promocion) VALUES (23, 8);
+GO
+
+-- ==============================================================================
+-- 20. Inventario
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Inventario ON;
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (1, 9.53, '2026-08-17', 11.79, 73.56, 1);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (2, 25.44, '2026-08-06', 11.78, 87.41, 2);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (3, 61.89, '2026-08-28', 12.68, 82.67, 3);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (4, 31.85, '2026-08-03', 11.70, 53.44, 4);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (5, 57.04, '2026-08-17', 15.40, 64.18, 5);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (6, 27.29, '2026-08-31', 14.81, 95.71, 6);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (7, 20.93, '2026-08-03', 17.48, 74.34, 7);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (8, 4.79, '2026-08-17', 8.63, 35.56, 8);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (9, 25.62, '2026-08-22', 13.86, 66.27, 9);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (10, 41.67, '2026-08-23', 12.50, 83.12, 10);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (11, 58.59, '2026-08-29', 11.10, 68.88, 11);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (12, 30.22, '2026-08-22', 15.62, 82.18, 12);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (13, 8.66, '2026-08-28', 5.45, 34.08, 13);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (14, 85.46, '2026-08-04', 17.70, 98.17, 14);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (15, 12.37, '2026-08-30', 15.27, 74.12, 15);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (16, 42.13, '2026-08-29', 12.05, 95.45, 16);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (17, 44.11, '2026-08-21', 13.49, 64.67, 17);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (18, 29.43, '2026-08-07', 6.31, 33.63, 18);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (19, 60.48, '2026-08-31', 18.84, 85.50, 19);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (20, 12.12, '2026-08-14', 5.90, 42.41, 20);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (21, 42.03, '2026-08-07', 7.83, 47.26, 21);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (22, 2.53, '2026-08-18', 6.96, 45.76, 22);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (23, 64.76, '2026-08-06', 19.85, 79.44, 23);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (24, 16.94, '2026-08-26', 13.89, 111.00, 24);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (25, 51.05, '2026-08-28', 10.91, 80.93, 25);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (26, 13.72, '2026-08-31', 5.63, 25.82, 26);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (27, 36.36, '2026-08-29', 16.59, 88.19, 27);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (28, 19.37, '2026-08-31', 6.11, 29.54, 28);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (29, 7.70, '2026-08-13', 14.02, 76.93, 29);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (30, 62.02, '2026-08-26', 12.26, 77.22, 30);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (31, 27.76, '2026-08-12', 14.41, 75.56, 31);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (32, 30.19, '2026-08-14', 8.74, 41.60, 32);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (33, 50.26, '2026-08-12', 7.95, 62.01, 33);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (34, 8.60, '2026-08-15', 6.18, 25.89, 34);
+INSERT INTO dbo.Inventario (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (35, 67.38, '2026-08-23', 19.44, 96.30, 35);
+SET IDENTITY_INSERT dbo.Inventario OFF;
+GO
+
+-- ==============================================================================
+-- 21. Reservacion
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Reservacion ON;
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (1, '2026-08-22 19:30:00', 3, 'Aniversario', 'Completada', 'Reservación por aniversario, coordinar decoración si aplica.', 4, 6);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (2, '2026-09-07 21:00:00', 4, 'Reunión de Negocios', 'Pendiente', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 7, 11);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (3, '2026-08-30 19:30:00', 6, 'Cena Familiar', 'Cancelada', 'Reservación por cena familiar, coordinar decoración si aplica.', 10, 4);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (4, '2026-08-25 19:30:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 13, 9);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (5, '2026-09-13 13:00:00', 4, 'Ninguna', 'Pendiente', 'Sin observaciones adicionales.', 16, 2);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (6, '2026-09-13 20:00:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 19, 7);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (7, '2026-08-27 12:30:00', 4, 'Aniversario', 'Cancelada', 'Reservación por aniversario, coordinar decoración si aplica.', 22, 12);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (8, '2026-08-12 19:00:00', 2, 'Reunión de Negocios', 'Completada', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 25, 5);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (9, '2026-09-08 12:30:00', 2, 'Cena Familiar', 'Confirmada', 'Reservación por cena familiar, coordinar decoración si aplica.', 28, 10);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (10, '2026-08-21 13:00:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 31, 3);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (11, '2026-08-26 21:00:00', 2, 'Ninguna', 'Cancelada', 'Sin observaciones adicionales.', 34, 8);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (12, '2026-08-14 19:30:00', 2, 'Cumpleaños', 'Completada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 2, 1);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (13, '2026-09-07 20:00:00', 3, 'Aniversario', 'Confirmada', 'Reservación por aniversario, coordinar decoración si aplica.', 5, 6);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (14, '2026-09-09 12:30:00', 8, 'Reunión de Negocios', 'Pendiente', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 8, 11);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (15, '2026-09-02 20:00:00', 6, 'Cena Familiar', 'Confirmada', 'Reservación por cena familiar, coordinar decoración si aplica.', 11, 4);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (16, '2026-09-12 21:00:00', 3, 'Celebración Especial', 'Confirmada', 'Reservación por celebración especial, coordinar decoración si aplica.', 14, 9);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (17, '2026-08-19 21:00:00', 4, 'Ninguna', 'Completada', 'Sin observaciones adicionales.', 17, 2);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (18, '2026-09-04 12:30:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 20, 7);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (19, '2026-08-21 21:00:00', 8, 'Aniversario', 'Cancelada', 'Reservación por aniversario, coordinar decoración si aplica.', 23, 12);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (20, '2026-08-17 12:30:00', 2, 'Reunión de Negocios', 'Completada', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 26, 5);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (21, '2026-08-13 19:30:00', 2, 'Cena Familiar', 'Completada', 'Reservación por cena familiar, coordinar decoración si aplica.', 29, 10);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (22, '2026-08-22 20:00:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 32, 3);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (23, '2026-09-02 19:30:00', 2, 'Ninguna', 'Pendiente', 'Sin observaciones adicionales.', 35, 8);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (24, '2026-09-12 13:00:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 3, 1);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (25, '2026-08-23 21:00:00', 3, 'Aniversario', 'Completada', 'Reservación por aniversario, coordinar decoración si aplica.', 6, 6);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (26, '2026-08-14 19:30:00', 3, 'Reunión de Negocios', 'Completada', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 9, 11);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (27, '2026-08-27 12:30:00', 6, 'Cena Familiar', 'Cancelada', 'Reservación por cena familiar, coordinar decoración si aplica.', 12, 4);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (28, '2026-08-24 13:00:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 15, 9);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (29, '2026-08-16 12:30:00', 4, 'Ninguna', 'Completada', 'Sin observaciones adicionales.', 18, 2);
+INSERT INTO dbo.Reservacion (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (30, '2026-09-16 19:30:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 21, 7);
+SET IDENTITY_INSERT dbo.Reservacion OFF;
+GO
+
+-- ==============================================================================
+-- 22. Pedido
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Pedido ON;
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (1, '2026-07-07', 'Pagado', 'Sin cebolla, por favor.', 28.50, 33.63, 3, NULL, 1);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (2, '2026-07-07', 'Pagado', 'Cliente alérgico al maní.', 30.00, 35.40, 5, 8, 2);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (3, '2026-07-10', 'Pagado', 'Poco picante.', 78.50, 92.63, 6, 15, 3);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (4, '2026-07-09', 'Entregado', 'Para llevar en 20 minutos.', 67.50, 79.65, 7, 22, 4);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (5, '2026-07-12', 'Pagado', 'Mesa cerca de la ventana.', 52.50, 61.95, 8, 29, 5);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (6, '2026-07-13', 'Pagado', 'Bebida bien fría.', 48.00, 56.64, 9, NULL, 6);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (7, '2026-07-14', 'Pagado', 'Cumpleaños, agregar vela al postre.', 26.00, 30.68, 10, 3, 7);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (8, '2026-07-14', 'Cancelado', NULL, 59.00, 69.62, 3, 10, 8);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (9, '2026-07-16', 'Pagado', NULL, 52.00, 61.36, 5, 17, 9);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (10, '2026-07-15', 'Pagado', NULL, 136.00, 160.48, 6, 24, 10);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (11, '2026-07-17', 'Pagado', NULL, 5.00, 5.90, 7, NULL, 11);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (12, '2026-07-17', 'Pagado', 'Sin cebolla, por favor.', 58.00, 68.44, 8, 38, 12);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (13, '2026-07-19', 'Listo', 'Cliente alérgico al maní.', 82.00, 96.76, 9, 5, 1);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (14, '2026-07-21', 'Pagado', 'Poco picante.', 73.00, 86.14, 10, 12, 2);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (15, '2026-07-21', 'Pendiente', 'Para llevar en 20 minutos.', 55.50, 65.49, 3, 19, 3);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (16, '2026-07-21', 'Pagado', 'Mesa cerca de la ventana.', 9.00, 10.62, 5, NULL, 4);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (17, '2026-07-24', 'Pagado', 'Bebida bien fría.', 20.00, 23.60, 6, 33, 5);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (18, '2026-07-23', 'Pagado', 'Cumpleaños, agregar vela al postre.', 137.00, 161.66, 7, 40, 6);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (19, '2026-07-25', 'Pagado', NULL, 138.50, 163.43, 8, 7, 7);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (20, '2026-07-26', 'Entregado', NULL, 100.00, 118.00, 9, 14, 8);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (21, '2026-07-28', 'Pagado', NULL, 33.00, 38.94, 10, NULL, 9);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (22, '2026-07-29', 'Preparando', NULL, 16.00, 18.88, 3, 28, 10);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (23, '2026-07-28', 'En Cocina', 'Sin cebolla, por favor.', 70.50, 83.19, 5, 35, 11);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (24, '2026-07-30', 'Cancelado', 'Cliente alérgico al maní.', 128.00, 151.04, 6, 2, 12);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (25, '2026-07-31', 'Pagado', 'Poco picante.', 84.50, 99.71, 7, 9, 1);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (26, '2026-08-01', 'Pagado', 'Para llevar en 20 minutos.', 34.00, 40.12, 8, NULL, 2);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (27, '2026-08-03', 'Pagado', 'Mesa cerca de la ventana.', 18.00, 21.24, 9, 23, 3);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (28, '2026-08-03', 'Entregado', 'Bebida bien fría.', 36.50, 43.07, 10, 30, 4);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (29, '2026-08-05', 'Pagado', 'Cumpleaños, agregar vela al postre.', 122.00, 143.96, 3, 37, 5);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (30, '2026-08-05', 'Pendiente', NULL, 133.50, 157.53, 5, 4, 6);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (31, '2026-08-07', 'Pagado', NULL, 42.00, 49.56, 6, NULL, 7);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (32, '2026-08-07', 'Pagado', NULL, 24.00, 28.32, 7, 18, 8);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (33, '2026-08-08', 'Pagado', NULL, 151.00, 178.18, 8, 25, 9);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (34, '2026-08-09', 'Pagado', 'Sin cebolla, por favor.', 146.00, 172.28, 9, 32, 10);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (35, '2026-08-09', 'Pagado', 'Cliente alérgico al maní.', 201.00, 237.18, 10, 39, 11);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (36, '2026-08-10', 'Pagado', 'Poco picante.', 26.50, 31.27, 3, NULL, 12);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (37, '2026-08-13', 'Pagado', 'Para llevar en 20 minutos.', 38.00, 44.84, 5, 13, 1);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (38, '2026-08-14', 'Pagado', 'Mesa cerca de la ventana.', 20.50, 24.19, 6, 20, 2);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (39, '2026-08-15', 'Pagado', 'Bebida bien fría.', 41.00, 48.38, 7, 27, 3);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (40, '2026-08-16', 'En Cocina', 'Cumpleaños, agregar vela al postre.', 109.00, 128.62, 8, 34, 4);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (41, '2026-08-17', 'Listo', NULL, 23.00, 27.14, 9, NULL, 5);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (42, '2026-08-16', 'Pagado', NULL, 24.50, 28.91, 10, 8, 6);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (43, '2026-08-17', 'Pagado', NULL, 46.00, 54.28, 3, 15, 7);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (44, '2026-08-18', 'Pagado', NULL, 18.00, 21.24, 5, 22, 8);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (45, '2026-08-21', 'Preparando', 'Sin cebolla, por favor.', 131.00, 154.58, 6, 29, 9);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (46, '2026-08-22', 'Pagado', 'Cliente alérgico al maní.', 44.00, 51.92, 7, NULL, 10);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (47, '2026-08-23', 'Pagado', 'Poco picante.', 33.00, 38.94, 8, 3, 11);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (48, '2026-08-22', 'Pagado', 'Para llevar en 20 minutos.', 37.00, 43.66, 9, 10, 12);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (49, '2026-08-25', 'Entregado', 'Mesa cerca de la ventana.', 38.00, 44.84, 10, 17, 1);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (50, '2026-08-25', 'Pagado', 'Bebida bien fría.', 98.50, 116.23, 3, 24, 2);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (51, '2026-08-26', 'Pagado', 'Cumpleaños, agregar vela al postre.', 28.50, 33.63, 5, NULL, 3);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (52, '2026-08-28', 'Pagado', NULL, 90.00, 106.20, 6, 38, 4);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (53, '2026-08-29', 'Entregado', NULL, 61.50, 72.57, 7, 5, 5);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (54, '2026-08-29', 'Pagado', NULL, 42.00, 49.56, 8, 12, 6);
+INSERT INTO dbo.Pedido (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (55, '2026-08-30', 'Pagado', NULL, 125.50, 148.09, 9, 19, 7);
+SET IDENTITY_INSERT dbo.Pedido OFF;
+GO
+SET IDENTITY_INSERT dbo.Pedido_Detalle ON;
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (1, 1, 28.50, 1, 1);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (2, 1, 30.00, 2, 10);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (3, 1, 27.50, 3, 19);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (4, 3, 17.00, 3, 26);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (5, 3, 16.50, 4, 28);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (6, 2, 9.00, 4, 35);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (7, 1, 16.00, 5, 37);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (8, 1, 8.00, 5, 44);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (9, 1, 28.50, 5, 1);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (10, 1, 48.00, 6, 46);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (11, 1, 26.00, 7, 5);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (12, 1, 45.00, 8, 14);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (13, 1, 14.00, 8, 21);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (14, 1, 16.00, 9, 23);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (15, 3, 12.00, 9, 30);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (16, 2, 13.00, 10, 32);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (17, 2, 7.00, 10, 39);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (18, 2, 48.00, 10, 46);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (19, 1, 5.00, 11, 41);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (20, 2, 29.00, 12, 50);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (21, 1, 29.00, 13, 9);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (22, 2, 26.50, 13, 16);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (23, 1, 35.00, 14, 18);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (24, 2, 19.00, 14, 25);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (25, 2, 20.00, 15, 27);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (26, 1, 10.50, 15, 34);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (27, 1, 5.00, 15, 41);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (28, 1, 9.00, 16, 36);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (29, 2, 10.00, 17, 45);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (30, 2, 34.00, 18, 4);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (31, 3, 23.00, 18, 11);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (32, 3, 38.00, 19, 13);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (33, 1, 24.50, 19, 20);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (34, 3, 18.00, 20, 22);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (35, 2, 14.00, 20, 29);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (36, 2, 9.00, 20, 36);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (37, 3, 11.00, 21, 31);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (38, 2, 8.00, 22, 40);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (39, 1, 26.50, 23, 49);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (40, 2, 22.00, 23, 6);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (41, 2, 31.00, 24, 8);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (42, 2, 33.00, 24, 15);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (43, 1, 32.50, 25, 17);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (44, 2, 15.00, 25, 24);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (45, 2, 11.00, 25, 31);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (46, 2, 17.00, 26, 26);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (47, 2, 9.00, 27, 35);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (48, 1, 8.00, 28, 44);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (49, 1, 28.50, 28, 1);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (50, 1, 32.00, 29, 3);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (51, 3, 30.00, 29, 10);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (52, 2, 36.00, 30, 12);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (53, 1, 27.50, 30, 19);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (54, 2, 17.00, 30, 26);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (55, 3, 14.00, 31, 21);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (56, 2, 12.00, 32, 30);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (57, 1, 7.00, 33, 39);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (58, 3, 48.00, 33, 46);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (59, 2, 34.00, 34, 48);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (60, 3, 26.00, 34, 5);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (61, 1, 24.00, 35, 7);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (62, 3, 45.00, 35, 14);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (63, 3, 14.00, 35, 21);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (64, 1, 26.50, 36, 16);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (65, 2, 19.00, 37, 25);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (66, 1, 10.50, 38, 34);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (67, 2, 5.00, 38, 41);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (68, 2, 6.00, 39, 43);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (69, 1, 29.00, 39, 50);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (70, 1, 27.00, 40, 2);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (71, 1, 29.00, 40, 9);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (72, 2, 26.50, 40, 16);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (73, 1, 23.00, 41, 11);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (74, 1, 24.50, 42, 20);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (75, 2, 14.00, 43, 29);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (76, 2, 9.00, 43, 36);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (77, 1, 8.00, 44, 38);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (78, 1, 10.00, 44, 45);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (79, 2, 37.00, 45, 47);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (80, 1, 34.00, 45, 4);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (81, 1, 23.00, 45, 11);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (82, 2, 22.00, 46, 6);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (83, 1, 33.00, 47, 15);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (84, 1, 15.00, 48, 24);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (85, 2, 11.00, 48, 31);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (86, 3, 10.00, 49, 33);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (87, 1, 8.00, 49, 40);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (88, 1, 6.00, 50, 42);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (89, 1, 26.50, 50, 49);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (90, 3, 22.00, 50, 6);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (91, 1, 28.50, 51, 1);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (92, 3, 30.00, 52, 10);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (93, 1, 27.50, 53, 19);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (94, 2, 17.00, 53, 26);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (95, 2, 16.50, 54, 28);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (96, 1, 9.00, 54, 35);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (97, 2, 16.00, 55, 37);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (98, 1, 8.00, 55, 44);
+INSERT INTO dbo.Pedido_Detalle (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (99, 3, 28.50, 55, 1);
+SET IDENTITY_INSERT dbo.Pedido_Detalle OFF;
+GO
+
+-- ==============================================================================
+-- 24. Pago
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Pago ON;
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (1, '2026-07-07 20:07:00', 33.63, 'Yape', NULL, 'Pagado', 1);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (2, '2026-07-07 20:14:00', 35.40, 'Plin', NULL, 'Pagado', 2);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (3, '2026-07-10 20:21:00', 92.63, 'Tarjeta', 'Visa **** 4412', 'Pagado', 3);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (4, '2026-07-12 20:35:00', 61.95, 'Yape', NULL, 'Pagado', 5);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (5, '2026-07-13 20:42:00', 56.64, 'Plin', NULL, 'Pagado', 6);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (6, '2026-07-14 20:49:00', 30.68, 'Tarjeta', 'Visa **** 4412', 'Pagado', 7);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (7, '2026-07-16 21:03:00', 61.36, 'Yape', NULL, 'Pagado', 9);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (8, '2026-07-15 21:10:00', 160.48, 'Plin', NULL, 'Pagado', 10);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (9, '2026-07-17 21:17:00', 5.90, 'Tarjeta', 'Visa **** 4412', 'Pagado', 11);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (10, '2026-07-17 21:24:00', 68.44, 'Efectivo', NULL, 'Pagado', 12);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (11, '2026-07-21 20:08:00', 86.14, 'Plin', NULL, 'Pagado', 14);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (12, '2026-07-21 20:22:00', 10.62, 'Efectivo', NULL, 'Pagado', 16);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (13, '2026-07-24 20:29:00', 23.60, 'Yape', NULL, 'Pagado', 17);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (14, '2026-07-23 20:36:00', 161.66, 'Plin', NULL, 'Pagado', 18);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (15, '2026-07-25 20:43:00', 163.43, 'Tarjeta', 'Visa **** 4412', 'Pagado', 19);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (16, '2026-07-28 20:57:00', 38.94, 'Yape', NULL, 'Pagado', 21);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (17, '2026-07-31 21:25:00', 99.71, 'Yape', NULL, 'Pagado', 25);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (18, '2026-08-01 20:02:00', 40.12, 'Plin', NULL, 'Pagado', 26);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (19, '2026-08-03 20:09:00', 21.24, 'Tarjeta', 'Visa **** 4412', 'Pagado', 27);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (20, '2026-08-05 20:23:00', 143.96, 'Yape', NULL, 'Pagado', 29);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (21, '2026-08-07 20:37:00', 49.56, 'Tarjeta', 'Visa **** 4412', 'Pagado', 31);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (22, '2026-08-07 20:44:00', 28.32, 'Efectivo', NULL, 'Pagado', 32);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (23, '2026-08-08 20:51:00', 178.18, 'Yape', NULL, 'Pagado', 33);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (24, '2026-08-09 20:58:00', 172.28, 'Plin', NULL, 'Pagado', 34);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (25, '2026-08-09 21:05:00', 237.18, 'Tarjeta', 'Visa **** 4412', 'Pagado', 35);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (26, '2026-08-10 21:12:00', 31.27, 'Efectivo', NULL, 'Pagado', 36);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (27, '2026-08-13 21:19:00', 44.84, 'Yape', NULL, 'Pagado', 37);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (28, '2026-08-14 21:26:00', 24.19, 'Plin', NULL, 'Pagado', 38);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (29, '2026-08-15 20:03:00', 48.38, 'Tarjeta', 'Visa **** 4412', 'Pagado', 39);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (30, '2026-08-16 20:24:00', 28.91, 'Plin', NULL, 'Pagado', 42);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (31, '2026-08-17 20:31:00', 54.28, 'Tarjeta', 'Visa **** 4412', 'Pagado', 43);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (32, '2026-08-18 20:38:00', 21.24, 'Efectivo', NULL, 'Pagado', 44);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (33, '2026-08-22 20:52:00', 51.92, 'Plin', NULL, 'Pagado', 46);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (34, '2026-08-23 20:59:00', 38.94, 'Tarjeta', 'Visa **** 4412', 'Pagado', 47);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (35, '2026-08-22 21:06:00', 43.66, 'Efectivo', NULL, 'Pagado', 48);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (36, '2026-08-25 21:20:00', 116.23, 'Plin', NULL, 'Pagado', 50);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (37, '2026-08-26 21:27:00', 33.63, 'Tarjeta', 'Visa **** 4412', 'Pagado', 51);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (38, '2026-08-28 20:04:00', 106.20, 'Efectivo', NULL, 'Pagado', 52);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (39, '2026-08-29 20:18:00', 49.56, 'Plin', NULL, 'Pagado', 54);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (40, '2026-08-30 20:25:00', 148.09, 'Tarjeta', 'Visa **** 4412', 'Pagado', 55);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (41, '2026-07-09 21:00:00', 79.65, 'Plin', NULL, 'Pendiente', 4);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (42, '2026-07-26 21:00:00', 118.00, 'Plin', NULL, 'Pendiente', 20);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (43, '2026-08-03 21:00:00', 43.07, 'Plin', NULL, 'Pendiente', 28);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (44, '2026-08-25 21:00:00', 44.84, 'Tarjeta', NULL, 'Pendiente', 49);
+INSERT INTO dbo.Pago (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (45, '2026-08-29 21:00:00', 72.57, 'Tarjeta', NULL, 'Pendiente', 53);
+SET IDENTITY_INSERT dbo.Pago OFF;
+GO
+
+-- ==============================================================================
+-- 25. Comprobante_Pago
+-- ==============================================================================
+SET IDENTITY_INSERT dbo.Comprobante_Pago ON;
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (1, 'Boleta', '000001', 'B001', '2026-07-07 20:09:00', 28.50, 33.63, 5.13, 'Emitido', 'Yape', 'Cliente Varios', NULL, NULL, 1);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (2, 'Boleta', '000002', 'B001', '2026-07-07 20:16:00', 30.00, 35.40, 5.40, 'Emitido', 'Plin', 'Valeria Sánchez Cabrera', NULL, NULL, 2);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (3, 'Boleta', '000003', 'B001', '2026-07-10 20:23:00', 78.50, 92.63, 14.13, 'Emitido', 'Tarjeta', 'Renzo Rojas Huamán', NULL, NULL, 3);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (4, 'Boleta', '000004', 'B001', '2026-07-12 20:37:00', 52.50, 61.95, 9.45, 'Emitido', 'Yape', 'Manuel Cabrera Rodríguez', NULL, NULL, 5);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (5, 'Boleta', '000005', 'B001', '2026-07-13 20:44:00', 48.00, 56.64, 8.64, 'Emitido', 'Plin', 'Cliente Varios', NULL, NULL, 6);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (6, 'Boleta', '000006', 'B001', '2026-07-14 20:51:00', 26.00, 30.68, 4.68, 'Emitido', 'Tarjeta', 'Jorge Fernández Castillo', NULL, NULL, 7);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (7, 'Boleta', '000007', 'B001', '2026-07-16 21:05:00', 52.00, 61.36, 9.36, 'Emitido', 'Yape', 'Sergio Chávez Aguilar', NULL, NULL, 9);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (8, 'Boleta', '000008', 'B001', '2026-07-15 21:12:00', 136.00, 160.48, 24.48, 'Emitido', 'Plin', 'Carmen Delgado Chávez', NULL, NULL, 10);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (9, 'Boleta', '000009', 'B001', '2026-07-17 21:19:00', 5.00, 5.90, 0.90, 'Emitido', 'Tarjeta', 'Cliente Varios', NULL, NULL, 11);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (10, 'Factura', '000001', 'F001', '2026-07-17 21:26:00', 58.00, 68.44, 10.44, 'Emitido', 'Efectivo', 'Cliente Corporativo RUC 20100182222', '20100182222', 'Av. Javier Prado 540, San Isidro, Lima', 12);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (11, 'Boleta', '000010', 'B001', '2026-07-21 20:10:00', 73.00, 86.14, 13.14, 'Emitido', 'Plin', 'Karina Rivera Flores', NULL, NULL, 14);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (12, 'Boleta', '000011', 'B001', '2026-07-21 20:24:00', 9.00, 10.62, 1.62, 'Emitido', 'Efectivo', 'Cliente Varios', NULL, NULL, 16);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (13, 'Boleta', '000012', 'B001', '2026-07-24 20:31:00', 20.00, 23.60, 3.60, 'Emitido', 'Yape', 'Iván Fernández Castillo', NULL, NULL, 17);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (14, 'Factura', '000002', 'F001', '2026-07-23 20:38:00', 137.00, 161.66, 24.66, 'Anulado', 'Plin', 'Cliente Corporativo RUC 20100364444', '20100364444', 'Av. Javier Prado 580, San Isidro, Lima', 18);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (15, 'Boleta', '000013', 'B001', '2026-07-25 20:45:00', 138.50, 163.43, 24.93, 'Emitido', 'Tarjeta', 'Ricardo Gómez Aguilar', NULL, NULL, 19);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (16, 'Boleta', '000014', 'B001', '2026-07-28 20:59:00', 33.00, 38.94, 5.94, 'Emitido', 'Yape', 'Cliente Varios', NULL, NULL, 21);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (17, 'Boleta', '000015', 'B001', '2026-07-31 21:27:00', 84.50, 99.71, 15.21, 'Emitido', 'Yape', 'Manuel Ramírez Rodríguez', NULL, NULL, 25);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (18, 'Boleta', '000016', 'B001', '2026-08-01 20:04:00', 34.00, 40.12, 6.12, 'Emitido', 'Plin', 'Cliente Varios', NULL, NULL, 26);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (19, 'Boleta', '000017', 'B001', '2026-08-03 20:11:00', 18.00, 21.24, 3.24, 'Emitido', 'Tarjeta', 'Jorge Espinoza Castillo', NULL, NULL, 27);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (20, 'Factura', '000003', 'F001', '2026-08-05 20:25:00', 122.00, 143.96, 21.96, 'Emitido', 'Yape', 'Cliente Corporativo RUC 20100091111', '20100091111', 'Av. Javier Prado 520, San Isidro, Lima', 29);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (21, 'Boleta', '000018', 'B001', '2026-08-07 20:39:00', 42.00, 49.56, 7.56, 'Emitido', 'Tarjeta', 'Cliente Varios', NULL, NULL, 31);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (22, 'Boleta', '000019', 'B001', '2026-08-07 20:46:00', 24.00, 28.32, 4.32, 'Emitido', 'Efectivo', 'Marisol Paredes Cabrera', NULL, NULL, 32);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (23, 'Boleta', '000020', 'B001', '2026-08-08 20:53:00', 151.00, 178.18, 27.18, 'Emitido', 'Yape', 'Diego Núñez Huamán', NULL, NULL, 33);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (24, 'Boleta', '000021', 'B001', '2026-08-09 21:00:00', 146.00, 172.28, 26.28, 'Emitido', 'Plin', 'Karina Rodríguez Flores', NULL, NULL, 34);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (25, 'Factura', '000004', 'F001', '2026-08-09 21:07:00', 201.00, 237.18, 36.18, 'Emitido', 'Tarjeta', 'Cliente Corporativo RUC 20100273333', '20100273333', 'Av. Javier Prado 560, San Isidro, Lima', 35);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (26, 'Boleta', '000022', 'B001', '2026-08-10 21:14:00', 26.50, 31.27, 4.77, 'Emitido', 'Efectivo', 'Cliente Varios', NULL, NULL, 36);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (27, 'Boleta', '000023', 'B001', '2026-08-13 21:21:00', 38.00, 44.84, 6.84, 'Emitido', 'Yape', 'Iván Vargas Castillo', NULL, NULL, 37);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (28, 'Boleta', '000024', 'B001', '2026-08-14 21:28:00', 20.50, 24.19, 3.69, 'Anulado', 'Plin', 'Cecilia Huamán Martínez', NULL, NULL, 38);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (29, 'Boleta', '000025', 'B001', '2026-08-15 20:05:00', 41.00, 48.38, 7.38, 'Emitido', 'Tarjeta', 'Ricardo Reyes Aguilar', NULL, NULL, 39);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (30, 'Boleta', '000026', 'B001', '2026-08-16 20:26:00', 24.50, 28.91, 4.41, 'Emitido', 'Plin', 'Valeria Sánchez Cabrera', NULL, NULL, 42);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (31, 'Boleta', '000027', 'B001', '2026-08-17 20:33:00', 46.00, 54.28, 8.28, 'Emitido', 'Tarjeta', 'Renzo Rojas Huamán', NULL, NULL, 43);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (32, 'Boleta', '000028', 'B001', '2026-08-18 20:40:00', 18.00, 21.24, 3.24, 'Emitido', 'Efectivo', 'Ana Cárdenas Flores', NULL, NULL, 44);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (33, 'Boleta', '000029', 'B001', '2026-08-22 20:54:00', 44.00, 51.92, 7.92, 'Emitido', 'Plin', 'Cliente Varios', NULL, NULL, 46);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (34, 'Boleta', '000030', 'B001', '2026-08-23 21:01:00', 33.00, 38.94, 5.94, 'Emitido', 'Tarjeta', 'Jorge Fernández Castillo', NULL, NULL, 47);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (35, 'Boleta', '000031', 'B001', '2026-08-22 21:08:00', 37.00, 43.66, 6.66, 'Emitido', 'Efectivo', 'Fiorella Torres Martínez', NULL, NULL, 48);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (36, 'Boleta', '000032', 'B001', '2026-08-25 21:22:00', 98.50, 116.23, 17.73, 'Emitido', 'Plin', 'Carmen Delgado Chávez', NULL, NULL, 50);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (37, 'Boleta', '000033', 'B001', '2026-08-26 21:29:00', 28.50, 33.63, 5.13, 'Emitido', 'Tarjeta', 'Cliente Varios', NULL, NULL, 51);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (38, 'Factura', '000005', 'F001', '2026-08-28 20:06:00', 90.00, 106.20, 16.20, 'Emitido', 'Efectivo', 'Cliente Corporativo RUC 20100182222', '20100182222', 'Av. Javier Prado 540, San Isidro, Lima', 52);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (39, 'Boleta', '000034', 'B001', '2026-08-29 20:20:00', 42.00, 49.56, 7.56, 'Emitido', 'Plin', 'Karina Rivera Flores', NULL, NULL, 54);
+INSERT INTO dbo.Comprobante_Pago (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (40, 'Boleta', '000035', 'B001', '2026-08-30 20:27:00', 125.50, 148.09, 22.59, 'Emitido', 'Tarjeta', 'Pablo Quispe Rodríguez', NULL, NULL, 55);
+SET IDENTITY_INSERT dbo.Comprobante_Pago OFF;
+GO
