@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaOnline.Models
 {
-    public class Contrato
+    public class Contrato_Empleado
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID_Contrato { get; set; }
+        public int ID_Contrato_Empleado { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Fecha_Inicio { get; set; }
@@ -26,11 +26,7 @@ namespace SistemaOnline.Models
         public string Clausula { get; set; }
 
         // fk y objeto de relacion para empleado
-        public int? ID_Empleado { get; set; }
-        public Empleado? Empleado { get; set; }
-
-        // fk y objeto de relacion para proveedor
-        public int? ID_Proveedor { get; set; }
-        public Proveedor? Proveedor { get; set; }
+        public int ID_Empleado { get; set; }
+        public Empleado Empleado { get; set; }
     }
 }

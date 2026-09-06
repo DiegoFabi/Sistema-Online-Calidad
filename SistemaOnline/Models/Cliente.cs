@@ -35,7 +35,8 @@ namespace SistemaOnline.Models
         [MaxLength(11)]
         public string? RUC { get; set; }
 
-        // un cliente puede tener muchas reservaciones
+        // un cliente puede tener muchas reservaciones y muchos pedidos
         public ICollection<Reservacion> Reservaciones { get; set; }
+        public ICollection<Pedido> Pedidos { get; set; }
     }
 }

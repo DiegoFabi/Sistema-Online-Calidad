@@ -33,7 +33,6 @@
                     </select>
                     <span asp-validation-for="Estado_Pedido" class="text-error text-label-md"></span>
                 </div>
-                <input type="hidden" asp-for="Detalle_Pedido" id="Detalle_Pedido" />
                 <div>
                     <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="SubTotal">SubTotal</label>
                     <input class="@Cls("SubTotal") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="SubTotal" id="SubTotal" />
@@ -62,6 +61,17 @@
                         <option value="" disabled selected hidden>-- Seleccione --</option>
                     </select>
                     <span asp-validation-for="ID_Mesa" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Cliente">Cliente (opcional)</label>
+                    <select class="@Cls("ID_Cliente")" asp-for="ID_Cliente" asp-items="Model.ClientesDisponibles" id="ID_Cliente">
+                    </select>
+                    <span asp-validation-for="ID_Cliente" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Observaciones">Observaciones</label>
+                    <input class="@Cls("Observaciones")" type="text" maxlength="255" asp-for="Observaciones" id="Observaciones" />
+                    <span asp-validation-for="Observaciones" class="text-error text-label-md"></span>
                 </div>
 
                 <div>
@@ -242,7 +252,6 @@
             const estadoSelect = document.getElementById('Estado_Pedido');
             const subtotalInput = document.getElementById('SubTotal');
             const totalInput = document.getElementById('Total');
-            const detalleInput = document.getElementById('Detalle_Pedido');
 
             document.getElementById('previewMesa').textContent = mesaSelect.options[mesaSelect.selectedIndex]?.text || '-';
             document.getElementById('previewEstado').textContent = estadoSelect.value || '-';
@@ -272,7 +281,6 @@
             if (checkboxes.length === 0) {
                 listaProductos.innerHTML = '<li class="text-label-md italic">Ninguno seleccionado</li>';
                 resumen.textContent = 'Ningún producto seleccionado.';
-                detalleInput.value = '';
                 return;
             }
 
@@ -288,7 +296,6 @@
                 listaProductos.appendChild(li);
             });
             resumen.textContent = nombres.join(', ');
-            detalleInput.value = nombres.join(', ');
         }
 
         document.addEventListener('DOMContentLoaded', function () {

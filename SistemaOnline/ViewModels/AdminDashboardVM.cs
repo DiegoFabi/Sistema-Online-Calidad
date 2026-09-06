@@ -19,7 +19,7 @@ namespace SistemaOnline.ViewModels
         // Listas de Datos
         public List<Reservacion> ProximasReservaciones { get; set; } = new();
         public List<Turno> Turnos { get; set; } = new();
-        public List<Contrato> AlertasContratos { get; set; } = new();
+        public List<ContratoVM> AlertasContratos { get; set; } = new();
         public List<Inventario> InventarioCritico { get; set; } = new();
         public List<Pedido> PedidosRecientes { get; set; } = new();
         public List<EmpleadoVentaVM> TopEmpleados { get; set; } = new();

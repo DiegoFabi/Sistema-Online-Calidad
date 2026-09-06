@@ -44,7 +44,6 @@
                     }
                     <span asp-validation-for="Estado_Pedido" class="text-error text-label-md"></span>
                 </div>
-                <input type="hidden" asp-for="Detalle_Pedido" id="Detalle_Pedido" />
                 <div>
                     <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="SubTotal">SubTotal</label>
                     <input class="@Cls("SubTotal") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="SubTotal" id="SubTotal" />
@@ -88,6 +87,17 @@
                         <input type="checkbox" id="chkDesbloquearMesa" class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary/20" />
                         <label for="chkDesbloquearMesa" class="text-label-md text-on-surface-variant">Esta mesa ya tiene un pedido activo. Marca para desbloquear y elegir otra mesa o agregar ítems.</label>
                     </div>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Cliente">Cliente (opcional)</label>
+                    <select class="@Cls("ID_Cliente")" asp-for="ID_Cliente" asp-items="Model.ClientesDisponibles" id="ID_Cliente">
+                    </select>
+                    <span asp-validation-for="ID_Cliente" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Observaciones">Observaciones</label>
+                    <input class="@Cls("Observaciones")" type="text" maxlength="255" asp-for="Observaciones" id="Observaciones" />
+                    <span asp-validation-for="Observaciones" class="text-error text-label-md"></span>
                 </div>
 
                 <div>
@@ -265,7 +275,6 @@
             const estadoSelect = document.getElementById('Estado_Pedido');
             const subtotalInput = document.getElementById('SubTotal');
             const totalInput = document.getElementById('Total');
-            const detalleInput = document.getElementById('Detalle_Pedido');
 
             document.getElementById('previewMesa').textContent = mesaSelect.options[mesaSelect.selectedIndex]?.text || '-';
             document.getElementById('previewEstado').textContent = estadoSelect.value || '-';
@@ -276,7 +285,7 @@
 
             let subtotalCalculado = 0;
             const nombres = [];
-            checkboxes.forEach(function (cb) {
+            checkboxes.forEach(function(cb) {
                 const id = cb.getAttribute('data-id');
                 const precio = parseFloat(cb.getAttribute('data-precio') || 0);
                 const qty = parseInt((document.getElementById('qty-' + id) || {}).value || 1, 10);
@@ -295,12 +304,11 @@
             if (checkboxes.length === 0) {
                 listaProductos.innerHTML = '<li class="text-label-md italic">Ninguno seleccionado</li>';
                 resumen.textContent = 'Ningún producto seleccionado.';
-                detalleInput.value = '';
                 return;
             }
 
             listaProductos.innerHTML = '';
-            checkboxes.forEach(function (cb) {
+            checkboxes.forEach(function(cb) {
                 const id = cb.getAttribute('data-id');
                 const nombre = cb.getAttribute('data-nombre');
                 const precio = parseFloat(cb.getAttribute('data-precio') || 0);
@@ -311,7 +319,6 @@
                 listaProductos.appendChild(li);
             });
             resumen.textContent = nombres.join(', ');
-            detalleInput.value = nombres.join(', ');
         }
 
         var mesasConPedidoActivo = @Html.Raw(Json.Serialize(ViewBag.MesasActivas ?? new List<int>()));
@@ -342,11 +349,11 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('formPedido');
             form.addEventListener('input', actualizarVistaPrevia);
             form.addEventListener('change', actualizarVistaPrevia);
-            document.querySelectorAll('.producto-checkbox').forEach(function (cb) {
+            document.querySelectorAll('.producto-checkbox').forEach(function(cb) {
                 cb.addEventListener('change', actualizarVistaPrevia);
             });
             actualizarVistaPrevia();
@@ -355,13 +362,13 @@
             mesaSelect.addEventListener('change', gestionarAvisoMesaActiva);
             gestionarAvisoMesaActiva();
 
-            document.getElementById('chkDesbloquearMesa').addEventListener('change', function () {
+            document.getElementById('chkDesbloquearMesa').addEventListener('change', function() {
                 // only the overlay warning; mesa select stays always interactive
             });
 
-            document.getElementById('buscadorProductos').addEventListener('input', function () {
+            document.getElementById('buscadorProductos').addEventListener('input', function() {
                 const filtro = this.value.trim().toLowerCase();
-                document.querySelectorAll('.producto-fila').forEach(function (fila) {
+                document.querySelectorAll('.producto-fila').forEach(function(fila) {
                     const nombre = fila.getAttribute('data-filtro-nombre') || '';
                     fila.style.display = nombre.includes(filtro) ? '' : 'none';
                 });

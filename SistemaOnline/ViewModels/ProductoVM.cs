@@ -21,9 +21,6 @@ namespace SistemaOnline.ViewModels
 
         public bool Disponibilidad { get; set; }
 
-        [Required, MaxLength(50)]
-        public string Categoria { get; set; }
-
         [Range(1, int.MaxValue, ErrorMessage = "Selecciona una categoría válida.")]
         public int ID_Categoria { get; set; }
 

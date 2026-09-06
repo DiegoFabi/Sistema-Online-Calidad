@@ -26,7 +26,6 @@ namespace SistemaOnline.Controllers
                 Tiempo_Preparacion = p.Tiempo_Preparacion,
                 Precio = p.Precio,
                 Disponibilidad = p.Disponibilidad,
-                Categoria = p.Categoria,
                 ID_Categoria = p.ID_Categoria,
                 CategoriaRelNombre = p.Producto_Categoria.Nombre_Categoria
             });
@@ -69,7 +68,6 @@ namespace SistemaOnline.Controllers
                 Tiempo_Preparacion = modelo.Tiempo_Preparacion,
                 Precio = modelo.Precio,
                 Disponibilidad = modelo.Disponibilidad,
-                Categoria = modelo.Categoria,
                 ID_Categoria = modelo.ID_Categoria
             };
             await _context.Productos.AddAsync(producto);
@@ -89,7 +87,6 @@ namespace SistemaOnline.Controllers
                 Tiempo_Preparacion = producto.Tiempo_Preparacion,
                 Precio = producto.Precio,
                 Disponibilidad = producto.Disponibilidad,
-                Categoria = producto.Categoria,
                 ID_Categoria = producto.ID_Categoria,
                 CategoriasDisponibles = await ObtenerCategorias()
             };
@@ -110,7 +107,6 @@ namespace SistemaOnline.Controllers
             producto.Tiempo_Preparacion = modelo.Tiempo_Preparacion;
             producto.Precio = modelo.Precio;
             producto.Disponibilidad = modelo.Disponibilidad;
-            producto.Categoria = modelo.Categoria;
             producto.ID_Categoria = modelo.ID_Categoria;
             _context.Productos.Update(producto);
             await _context.SaveChangesAsync();

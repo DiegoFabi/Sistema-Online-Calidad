@@ -4,7 +4,7 @@
     var mesa = (SistemaOnline.Models.Mesa_Restaurante)ViewBag.Mesa;
     ViewData["Title"] = "Mesa " + mesa.Numero_Mesa;
     ViewBag.Active = "dashboard";
-    bool mesaOcupada = Model.Any(p => new[]{"Pendiente","En Cocina","Preparando","Listo"}.Contains(p.Estado_Pedido));
+    bool mesaOcupada = Model.Any(p => new[] { "Pendiente", "En Cocina", "Preparando", "Listo" }.Contains(p.Estado_Pedido));
 }
 
 <div class="flex items-center gap-sm mb-md flex-wrap">
@@ -76,7 +76,7 @@
                 </div>
                 <span class="px-sm py-xs bg-tertiary-container text-on-tertiary-container rounded-full text-label-md">@p.Estado_Pedido</span>
             </div>
-            <p class="text-body-md text-on-surface mb-md">@p.Detalle_Pedido</p>
+            <p class="text-body-md text-on-surface mb-md">@string.Join(", ", p.Pedido_Detalles.Select(d => d.Producto != null ? d.Producto.Nombre_Plato : ""))</p>
             <div class="space-y-sm mb-md">
                 @foreach (var det in p.Pedido_Detalles)
                 {

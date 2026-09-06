@@ -64,39 +64,39 @@
     </div>
 
     <script>
-        const carrito = [];
-        const carritoFlotante = document.getElementById('carritoFlotante');
-        const modalPedido = document.getElementById('modalPedido');
+            const carrito = [];
+            const carritoFlotante = document.getElementById('carritoFlotante');
+            const modalPedido = document.getElementById('modalPedido');
 
-        document.querySelectorAll('.btn-agregar').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                carrito.push({ nombre: btn.dataset.nombre, precio: parseFloat(btn.dataset.precio) });
-                document.getElementById('carritoCount').textContent = carrito.length;
+            document.querySelectorAll('.btn-agregar').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    carrito.push({ nombre: btn.dataset.nombre, precio: parseFloat(btn.dataset.precio) });
+                    document.getElementById('carritoCount').textContent = carrito.length;
+                });
             });
-        });
 
-        carritoFlotante.addEventListener('click', function () {
-            const lista = document.getElementById('listaPedido');
-            lista.innerHTML = carrito.map(function (item) {
-                return '<li class="flex justify-between"><span>' + item.nombre + '</span><span>S/ ' + item.precio.toFixed(2) + '</span></li>';
-            }).join('');
-            const total = carrito.reduce(function (acc, item) { return acc + item.precio; }, 0);
-            document.getElementById('totalPedido').textContent = 'S/ ' + total.toFixed(2);
-            modalPedido.classList.remove('hidden');
-            modalPedido.classList.add('flex');
-        });
+            carritoFlotante.addEventListener('click', function() {
+                const lista = document.getElementById('listaPedido');
+                lista.innerHTML = carrito.map(function(item) {
+                    return '<li class="flex justify-between"><span>' + item.nombre + '</span><span>S/ ' + item.precio.toFixed(2) + '</span></li>';
+                }).join('');
+                const total = carrito.reduce(function(acc, item) { return acc + item.precio; }, 0);
+                document.getElementById('totalPedido').textContent = 'S/ ' + total.toFixed(2);
+                modalPedido.classList.remove('hidden');
+                modalPedido.classList.add('flex');
+            });
 
-        function cerrarModal() {
-            modalPedido.classList.add('hidden');
-            modalPedido.classList.remove('flex');
-        }
+            function cerrarModal() {
+                modalPedido.classList.add('hidden');
+                modalPedido.classList.remove('flex');
+            }
 
-        function confirmarPedido() {
-            alert('Pedido registrado. Un mesero confirmará tu solicitud en breve.');
-            carrito.length = 0;
-            document.getElementById('carritoCount').textContent = '0';
-            cerrarModal();
-        }
+            function confirmarPedido() {
+                alert('Pedido registrado. Un mesero confirmará tu solicitud en breve.');
+                carrito.length = 0;
+                document.getElementById('carritoCount').textContent = '0';
+                cerrarModal();
+            }
     </script>
 </body>
 </html>

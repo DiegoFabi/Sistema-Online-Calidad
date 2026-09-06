@@ -24,9 +24,6 @@ namespace SistemaOnline.Models
 
         public bool Disponibilidad { get; set; }
 
-        [Required, MaxLength(50)]
-        public string Categoria { get; set; }
-
         // fk y relacion para producto_categoria
         public int ID_Categoria { get; set; }
         public Producto_Categoria Producto_Categoria { get; set; }

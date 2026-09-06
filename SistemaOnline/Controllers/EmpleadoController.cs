@@ -251,7 +251,7 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar un empleado que tiene pedidos asociados.";
                 return RedirectToAction(nameof(Lista));
             }
-            if (await _context.Contratos.AnyAsync(c => c.ID_Empleado == id))
+            if (await _context.Contratos_Empleados.AnyAsync(c => c.ID_Empleado == id))
             {
                 TempData["Error"] = "No se puede eliminar un empleado que tiene contratos asociados.";
                 return RedirectToAction(nameof(Lista));

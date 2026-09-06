@@ -22,19 +22,23 @@ namespace SistemaOnline.Controllers
             var query = _context.Pedidos
                 .Include(p => p.Empleado)
                 .Include(p => p.Mesa_Restaurante)
+                .Include(p => p.Cliente)
                 .OrderBy(p => p.ID_Pedido)
                 .Select(p => new PedidoVM
                 {
                     ID_Pedido = p.ID_Pedido,
                     Fecha = p.Fecha,
                     Estado_Pedido = p.Estado_Pedido,
-                    Detalle_Pedido = p.Detalle_Pedido,
+                    Observaciones = p.Observaciones,
+                    ProductosResumen = p.Pedido_Detalles.Select(pd => pd.Producto.Nombre_Plato).ToList(),
                     SubTotal = p.SubTotal,
                     Total = p.Total,
                     ID_Empleado = p.ID_Empleado,
                     ID_Mesa = p.ID_Mesa,
+                    ID_Cliente = p.ID_Cliente,
                     EmpleadoNombre = $"{p.Empleado.Nombre} {p.Empleado.Apellidos}",
-                    MesaNumero = p.Mesa_Restaurante.Numero_Mesa.ToString()
+                    MesaNumero = p.Mesa_Restaurante.Numero_Mesa.ToString(),
+                    ClienteNombre = p.Cliente != null ? $"{p.Cliente.Nombre} {p.Cliente.Apellidos}" : null
                 });
 
             var resultado = await query.ToPagedListAsync(page, pageSize);
@@ -89,6 +93,7 @@ namespace SistemaOnline.Controllers
                 ID_Mesa = mesaId ?? 0,
                 EmpleadosDisponibles = empleadosList,
                 MesasDisponibles = await ObtenerMesas(),
+                ClientesDisponibles = await ObtenerClientes(),
                 CategoriasProductos = await ObtenerCategoriasProductos()
             };
             ViewBag.MesasActivas = await ObtenerMesasConPedidoActivo();
@@ -122,6 +127,9 @@ namespace SistemaOnline.Controllers
             if (!await _context.Mesas.AnyAsync(m => m.ID_Mesa == modelo.ID_Mesa))
                 ModelState.AddModelError(nameof(modelo.ID_Mesa), "Selecciona una mesa válida.");
 
+            if (modelo.ID_Cliente.HasValue && !await _context.Clientes.AnyAsync(c => c.ID_Cliente == modelo.ID_Cliente))
+                ModelState.AddModelError(nameof(modelo.ID_Cliente), "Selecciona un cliente válido.");
+
             if (modelo.ProductosSeleccionados == null || !modelo.ProductosSeleccionados.Any())
                 ModelState.AddModelError(nameof(modelo.ProductosSeleccionados), "Debes seleccionar al menos un producto.");
 
@@ -129,6 +137,7 @@ namespace SistemaOnline.Controllers
             {
                 modelo.EmpleadosDisponibles = esMesero ? new List<SelectListItem>() : await ObtenerEmpleadosMeseros();
                 modelo.MesasDisponibles = await ObtenerMesas();
+                modelo.ClientesDisponibles = await ObtenerClientes();
                 modelo.CategoriasProductos = await ObtenerCategoriasProductos();
                 ViewBag.MesasActivas = await ObtenerMesasConPedidoActivo();
                 ViewBag.EsMesero = esMesero;
@@ -154,11 +163,12 @@ namespace SistemaOnline.Controllers
             {
                 Fecha = DateTime.Now,
                 Estado_Pedido = modelo.Estado_Pedido,
-                Detalle_Pedido = modelo.Detalle_Pedido,
+                Observaciones = modelo.Observaciones,
                 SubTotal = subTotalCalculado,
                 Total = subTotalCalculado + igv,
                 ID_Empleado = modelo.ID_Empleado,
-                ID_Mesa = modelo.ID_Mesa
+                ID_Mesa = modelo.ID_Mesa,
+                ID_Cliente = modelo.ID_Cliente
             };
             await _context.Pedidos.AddAsync(pedido);
             await _context.SaveChangesAsync();
@@ -211,15 +221,17 @@ namespace SistemaOnline.Controllers
                 ID_Pedido = pedido.ID_Pedido,
                 Fecha = pedido.Fecha,
                 Estado_Pedido = pedido.Estado_Pedido,
-                Detalle_Pedido = pedido.Detalle_Pedido,
+                Observaciones = pedido.Observaciones,
                 SubTotal = pedido.SubTotal,
                 Total = pedido.Total,
                 ID_Empleado = pedido.ID_Empleado,
                 ID_Mesa = pedido.ID_Mesa,
+                ID_Cliente = pedido.ID_Cliente,
                 ProductosSeleccionados = pedido.Pedido_Detalles?.Select(pd => pd.ID_Producto).ToList() ?? new List<int>(),
                 CantidadesProductos = pedido.Pedido_Detalles?.ToDictionary(pd => pd.ID_Producto, pd => pd.Cantidad) ?? new Dictionary<int, int>(),
                 EmpleadosDisponibles = await ObtenerEmpleados(),
                 MesasDisponibles = await ObtenerMesas(),
+                ClientesDisponibles = await ObtenerClientes(),
                 CategoriasProductos = await ObtenerCategoriasProductos()
             };
             return View(modelo);
@@ -233,10 +245,14 @@ namespace SistemaOnline.Controllers
             if (!await _context.Mesas.AnyAsync(m => m.ID_Mesa == modelo.ID_Mesa))
                 ModelState.AddModelError(nameof(modelo.ID_Mesa), "Selecciona una mesa válida.");
 
+            if (modelo.ID_Cliente.HasValue && !await _context.Clientes.AnyAsync(c => c.ID_Cliente == modelo.ID_Cliente))
+                ModelState.AddModelError(nameof(modelo.ID_Cliente), "Selecciona un cliente válido.");
+
             if (!ModelState.IsValid)
             {
                 modelo.EmpleadosDisponibles = await ObtenerEmpleados();
                 modelo.MesasDisponibles = await ObtenerMesas();
+                modelo.ClientesDisponibles = await ObtenerClientes();
                 modelo.CategoriasProductos = await ObtenerCategoriasProductos();
                 return View(modelo);
             }
@@ -261,11 +277,12 @@ namespace SistemaOnline.Controllers
                 .FirstAsync(p => p.ID_Pedido == modelo.ID_Pedido);
             pedido.Fecha = modelo.Fecha;
             pedido.Estado_Pedido = modelo.Estado_Pedido;
-            pedido.Detalle_Pedido = modelo.Detalle_Pedido;
+            pedido.Observaciones = modelo.Observaciones;
             pedido.SubTotal = subTotalEditado;
             pedido.Total = subTotalEditado + igvEditado;
             pedido.ID_Empleado = modelo.ID_Empleado;
             pedido.ID_Mesa = modelo.ID_Mesa;
+            pedido.ID_Cliente = modelo.ID_Cliente;
             _context.Pedidos.Update(pedido);
 
             // Reemplaza los detalles del pedido con los productos seleccionados en el modal
@@ -367,6 +384,20 @@ namespace SistemaOnline.Controllers
                     ? $"Mesa {m.Numero_Mesa} ({m.Ubicacion}) — Ocupada"
                     : $"Mesa {m.Numero_Mesa} ({m.Ubicacion})"
             }).ToList();
+        }
+
+        private async Task<List<SelectListItem>> ObtenerClientes()
+        {
+            List<SelectListItem> lista = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "", Text = "-- Ninguno --" }
+            };
+            lista.AddRange(await _context.Clientes.Select(c => new SelectListItem
+            {
+                Value = c.ID_Cliente.ToString(),
+                Text = $"{c.Nombre} {c.Apellidos}"
+            }).ToListAsync());
+            return lista;
         }
 
         private async Task<List<CategoriaProductosVM>> ObtenerCategoriasProductos()

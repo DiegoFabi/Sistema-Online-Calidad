@@ -34,7 +34,7 @@ namespace SistemaOnline.Models
 
         public int? ID_Usuario { get; set; }
         public Usuario? Usuario { get; set; }
-        public ICollection<Contrato> Contratos { get; set; }
+        public ICollection<Contrato_Empleado> Contratos { get; set; }
         public ICollection<Empleado_Turno> Empleado_Turnos { get; set; }
         public ICollection<Pedido> Pedidos { get; set; }
     }

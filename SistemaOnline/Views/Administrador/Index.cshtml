@@ -93,7 +93,7 @@
                 <div class="flex gap-md p-md bg-surface-container-high rounded-lg border-l-4 border-primary">
                     <span class="material-symbols-outlined text-primary" data-icon="assignment_late">assignment_late</span>
                     <div>
-                        <p class="font-bold text-on-surface">@c.Empleado?.Nombre @c.Empleado?.Apellidos</p>
+                        <p class="font-bold text-on-surface">@(c.EmpleadoNombre ?? c.ProveedorNombre)</p>
                         <p class="text-label-md text-on-surface-variant">Vence el @c.Fecha_Fin.ToString("dd/MM/yyyy") — @c.Tipo_Contrato</p>
                     </div>
                 </div>

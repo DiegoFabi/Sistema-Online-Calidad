@@ -133,6 +133,8 @@ namespace SistemaOnline.Controllers
         {
             var query = _dbcontext.Pedidos
                 .Include(p => p.Mesa_Restaurante)
+                .Include(p => p.Pedido_Detalles)
+                    .ThenInclude(pd => pd.Producto)
                 .Where(p => p.Estado_Pedido == "Listo")
                 .OrderByDescending(p => p.ID_Pedido);
 

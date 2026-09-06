@@ -10,6 +10,6 @@ namespace SistemaOnline.ViewModels
         public int ContratosPorVencer { get; set; }
         public List<Reservacion> ProximasReservaciones { get; set; } = new();
         public List<Turno> Turnos { get; set; } = new();
-        public List<Contrato> AlertasContratos { get; set; } = new();
+        public List<ContratoVM> AlertasContratos { get; set; } = new();
     }
 }

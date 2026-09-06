@@ -41,22 +41,13 @@
                 <input class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20" asp-for="Disponibilidad" type="checkbox" />
                 <span asp-validation-for="Disponibilidad" class="text-error text-label-md"></span>
             </div>
-            <input type="hidden" asp-for="Categoria" id="Categoria" />
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Categoria">Categoría</label>
-                <select class="@Cls("ID_Categoria")" asp-for="ID_Categoria" asp-items="Model.CategoriasDisponibles" onchange="document.getElementById('Categoria').value = this.options[this.selectedIndex].text;">
+                <select class="@Cls("ID_Categoria")" asp-for="ID_Categoria" asp-items="Model.CategoriasDisponibles">
                     <option value="" disabled selected hidden>-- Seleccione --</option>
                 </select>
                 <span asp-validation-for="ID_Categoria" class="text-error text-label-md"></span>
             </div>
-            <script>
-                            (function () {
-                                var sel = document.getElementById('ID_Categoria');
-                                if (sel && sel.value) {
-                                    document.getElementById('Categoria').value = sel.options[sel.selectedIndex].text;
-                                }
-                            })();
-            </script>
             <div class="flex items-center gap-sm pt-md">
                 <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
                     <span class="material-symbols-outlined">save</span> Guardar

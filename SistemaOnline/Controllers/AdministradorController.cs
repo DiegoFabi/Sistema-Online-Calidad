@@ -27,7 +27,8 @@ namespace SistemaOnline.Controllers
                 ReservacionesHoy = await _dbcontext.Reservaciones.CountAsync(r => r.Fecha_Hora >= hoy && r.Fecha_Hora < manana),
                 PedidosActivos = await _dbcontext.Pedidos.CountAsync(p => p.Estado_Pedido != "Completado" && p.Estado_Pedido != "Pagado" && p.Estado_Pedido != "Cancelado"),
                 MesasOcupadas = await _dbcontext.Mesas.CountAsync(m => m.Estado == "Ocupada"),
-                ContratosPorVencer = await _dbcontext.Contratos.CountAsync(c => c.Fecha_Fin >= hoy && c.Fecha_Fin <= limiteContrato)
+                ContratosPorVencer = await _dbcontext.Contratos_Empleados.CountAsync(c => c.Fecha_Fin >= hoy && c.Fecha_Fin <= limiteContrato)
+                    + await _dbcontext.Contratos_Proveedores.CountAsync(c => c.Fecha_Fin >= hoy && c.Fecha_Fin <= limiteContrato)
             };
 
             vm.ProximasReservaciones = await _dbcontext.Reservaciones
@@ -43,11 +44,40 @@ namespace SistemaOnline.Controllers
                     .ThenInclude(et => et.Empleado)
                 .ToListAsync();
 
-            vm.AlertasContratos = await _dbcontext.Contratos
+            var alertasEmpleado = await _dbcontext.Contratos_Empleados
                 .Include(c => c.Empleado)
                 .Where(c => c.Fecha_Fin >= hoy && c.Fecha_Fin <= limiteContrato)
+                .Select(c => new ContratoVM
+                {
+                    ID_Contrato = c.ID_Contrato_Empleado,
+                    Fecha_Inicio = c.Fecha_Inicio,
+                    Fecha_Fin = c.Fecha_Fin,
+                    Tipo_Contrato = c.Tipo_Contrato,
+                    Salario = c.Salario,
+                    Clausula = c.Clausula,
+                    TipoParticipante = "Empleado",
+                    ID_Empleado = c.ID_Empleado,
+                    EmpleadoNombre = c.Empleado.Nombre + " " + c.Empleado.Apellidos
+                }).ToListAsync();
+
+            var alertasProveedor = await _dbcontext.Contratos_Proveedores
+                .Include(c => c.Proveedor)
+                .Where(c => c.Fecha_Fin >= hoy && c.Fecha_Fin <= limiteContrato)
+                .Select(c => new ContratoVM
+                {
+                    ID_Contrato = c.ID_Contrato_Proveedor,
+                    Fecha_Inicio = c.Fecha_Inicio,
+                    Fecha_Fin = c.Fecha_Fin,
+                    Tipo_Contrato = c.Tipo_Contrato,
+                    Clausula = c.Clausula,
+                    TipoParticipante = "Proveedor",
+                    ID_Proveedor = c.ID_Proveedor,
+                    ProveedorNombre = c.Proveedor.Nombre_Empresa
+                }).ToListAsync();
+
+            vm.AlertasContratos = alertasEmpleado.Concat(alertasProveedor)
                 .OrderBy(c => c.Fecha_Fin)
-                .ToListAsync();
+                .ToList();
 
             return View(vm);
         }
@@ -95,6 +125,8 @@ namespace SistemaOnline.Controllers
             var query = queryBase
                 .Include(p => p.Mesa_Restaurante)
                 .Include(p => p.Empleado)
+                .Include(p => p.Pedido_Detalles)
+                    .ThenInclude(pd => pd.Producto)
                 .OrderByDescending(p => p.ID_Pedido);
 
             var resultado = await query.ToPagedListAsync(page, pageSize);

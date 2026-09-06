@@ -13,8 +13,8 @@ namespace SistemaOnline.ViewModels
         [Required(ErrorMessage = "Selecciona un estado para el pedido.")]
         public string Estado_Pedido { get; set; }
 
-        [MaxLength(500)]
-        public string? Detalle_Pedido { get; set; }
+        [MaxLength(255)]
+        public string? Observaciones { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "El subtotal no puede ser negativo.")]
         public decimal SubTotal { get; set; }
@@ -28,19 +28,27 @@ namespace SistemaOnline.ViewModels
         [Required(ErrorMessage = "Selecciona una mesa.")]
         public int ID_Mesa { get; set; }
 
+        // Cliente opcional asociado al pedido
+        public int? ID_Cliente { get; set; }
+
         // IDs de productos seleccionados en el modal de "Detalles del Pedido"
         public List<int> ProductosSeleccionados { get; set; } = new();
 
         // Cantidades por producto (ID_Producto → cantidad)
         public Dictionary<int, int> CantidadesProductos { get; set; } = new();
 
+        // Para mostrar en Lista (derivado de Pedido_Detalle, no se almacena en Pedido)
+        public List<string> ProductosResumen { get; set; } = new();
+
         // Para mostrar en Lista
         public string? EmpleadoNombre { get; set; }
         public string? MesaNumero { get; set; }
+        public string? ClienteNombre { get; set; }
 
         // Para los selects en Nuevo/Editar
         public List<SelectListItem> EmpleadosDisponibles { get; set; } = new();
         public List<SelectListItem> MesasDisponibles { get; set; } = new();
+        public List<SelectListItem> ClientesDisponibles { get; set; } = new();
 
         // Categorías con sus productos, para el modal "Detalles del Pedido"
         public List<CategoriaProductosVM> CategoriasProductos { get; set; } = new();

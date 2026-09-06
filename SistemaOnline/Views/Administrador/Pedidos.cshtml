@@ -60,7 +60,7 @@
                 <span class="px-sm py-xs rounded-full text-label-md @ColorEstado(p.Estado_Pedido)">@p.Estado_Pedido</span>
             </div>
             <p class="text-label-md text-on-surface-variant font-mono-data">#@p.ID_Pedido</p>
-            <p class="text-body-md text-on-surface line-clamp-2">@p.Detalle_Pedido</p>
+            <p class="text-body-md text-on-surface line-clamp-2">@string.Join(", ", p.Pedido_Detalles.Select(d => d.Producto != null ? d.Producto.Nombre_Plato : ""))</p>
             <div class="flex items-center justify-between pt-sm border-t border-outline-variant/20">
                 <span class="flex items-center gap-xs text-label-md text-on-surface-variant">
                     <span class="material-symbols-outlined text-[16px]">schedule</span>

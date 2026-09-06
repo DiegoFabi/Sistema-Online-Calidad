@@ -19,9 +19,9 @@ namespace SistemaOnline.ViewModels
         [Required, MaxLength(50)]
         public string Tipo_Contrato { get; set; }
 
-        [Range(100.01, double.MaxValue, ErrorMessage = "El salario debe ser mayor a 100.")]
+        // Solo aplica cuando TipoParticipante es "Empleado" (Contrato_Proveedor no tiene Salario)
         [Column(TypeName = "decimal(10,2)")]
-        public decimal Salario { get; set; }
+        public decimal? Salario { get; set; }
 
         [Required, MaxLength(500)]
         public string Clausula { get; set; }

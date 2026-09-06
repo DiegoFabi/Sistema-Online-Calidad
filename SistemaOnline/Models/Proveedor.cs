@@ -33,7 +33,7 @@ namespace SistemaOnline.Models
         public string Estado { get; set; }
 
         // Un proveedor tiene muchos contratos y proveen diferentes tipos de productos (ingredientes)
-        public ICollection<Contrato> Contratos { get; set; }
+        public ICollection<Contrato_Proveedor> Contratos { get; set; }
         public ICollection<Proveedor_Ingrediente> Proveedor_Ingredientes { get; set; }
     }
 }
