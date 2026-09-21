@@ -8,5 +8,7 @@ namespace SistemaOnline.ViewModels
 
         [Required, MaxLength(50)]
         public string Nombre_Rol { get; set; }
+        [MaxLength(150)]
+        public string Descripcion { get; set; }
     }
 }

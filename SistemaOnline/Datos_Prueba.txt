@@ -1,12 +1,12 @@
 -- ==============================================================================
--- 1. Rol 
+-- 1. Rol
 -- ==============================================================================
 SET IDENTITY_INSERT Roles ON;
-INSERT INTO Roles (ID_Rol, Nombre_Rol) VALUES (1, 'Administrador');
-INSERT INTO Roles (ID_Rol, Nombre_Rol) VALUES (2, 'Cajero');
-INSERT INTO Roles (ID_Rol, Nombre_Rol) VALUES (3, 'Mesero');
-INSERT INTO Roles (ID_Rol, Nombre_Rol) VALUES (4, 'Cliente');
-INSERT INTO Roles (ID_Rol, Nombre_Rol) VALUES (5, 'Chef');
+INSERT INTO Roles (ID_Rol, Nombre_Rol, Descripcion) VALUES (1, 'Administrador', 'Acceso total al sistema: gestion de usuarios, configuracion y reportes');
+INSERT INTO Roles (ID_Rol, Nombre_Rol, Descripcion) VALUES (2, 'Cajero', 'Gestiona cobros, pagos y emision de comprobantes');
+INSERT INTO Roles (ID_Rol, Nombre_Rol, Descripcion) VALUES (3, 'Mesero', 'Atiende mesas y registra pedidos de los clientes');
+INSERT INTO Roles (ID_Rol, Nombre_Rol, Descripcion) VALUES (4, 'Cliente', 'Cuenta de autoservicio para reservar mesas y ver el historial de pedidos');
+INSERT INTO Roles (ID_Rol, Nombre_Rol, Descripcion) VALUES (5, 'Chef', 'Gestiona la preparacion de platos y el estado de la cocina');
 SET IDENTITY_INSERT Roles OFF;
 GO
 
@@ -47,7 +47,7 @@ SET IDENTITY_INSERT Cartas OFF;
 GO
 
 -- ==============================================================================
--- 5. Mesa_Restaurante 
+-- 5. Mesa_Restaurante
 -- ==============================================================================
 SET IDENTITY_INSERT Mesas ON;
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (1, 1, 4, 'Salón Principal', 'Ocupada');
@@ -120,7 +120,7 @@ SET IDENTITY_INSERT Ingredientes OFF;
 GO
 
 -- ==============================================================================
--- 8. Cliente 
+-- 8. Cliente
 -- ==============================================================================
 SET IDENTITY_INSERT Clientes ON;
 INSERT INTO Clientes (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (1, 'Carlos', 'García Sánchez', '931455603', 'carlos.garcia0@correo.com', '1999-08-27', 'Av. Arequipa 100, Lima', '40000000', NULL);
@@ -167,7 +167,7 @@ SET IDENTITY_INSERT Clientes OFF;
 GO
 
 -- ==============================================================================
--- 9. Proveedor 
+-- 9. Proveedor
 -- ==============================================================================
 SET IDENTITY_INSERT Proveedores ON;
 INSERT INTO Proveedores (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (1, 'Distribuidora Cárnica Andina SAC', '20100112233', 'ventas@carnicandina.pe', '014567890', 'Av. Argentina 1450, Lima', 'Carnes rojas y aves', 'Activo');
@@ -241,6 +241,30 @@ UPDATE Empleados SET ID_Usuario = 12 WHERE ID_Empleado = 15;
 GO
 
 -- ==============================================================================
+-- 11.2 Usuario
+-- ==============================================================================
+SET IDENTITY_INSERT Usuarios ON;
+INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (13, 'Carlos García', 'carlos.garcia0@correo.com', 'cliente1000', 1, 4);
+INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (14, 'Diego Martínez', 'diego.martinez4@correo.com', 'cliente5548', 1, 4);
+INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (15, 'Fiorella Torres', 'fiorella.torres9@correo.com', 'cliente10233', 1, 4);
+INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (16, 'Renzo Rojas', 'renzo.rojas14@correo.com', 'cliente15918', 1, 4);
+INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (17, 'Cecilia Huamán', 'cecilia.huaman19@correo.com', 'cliente20603', 1, 4);
+INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (18, 'Diego Núñez', 'diego.nuñez24@correo.com', 'cliente25288', 1, 4);
+SET IDENTITY_INSERT Usuarios OFF;
+GO
+
+-- ==============================================================================
+-- 11.3 Clientes.ID_Usuario
+-- ==============================================================================
+UPDATE Clientes SET ID_Usuario = 13 WHERE ID_Cliente = 1;
+UPDATE Clientes SET ID_Usuario = 14 WHERE ID_Cliente = 5;
+UPDATE Clientes SET ID_Usuario = 15 WHERE ID_Cliente = 10;
+UPDATE Clientes SET ID_Usuario = 16 WHERE ID_Cliente = 15;
+UPDATE Clientes SET ID_Usuario = 17 WHERE ID_Cliente = 20;
+UPDATE Clientes SET ID_Usuario = 18 WHERE ID_Cliente = 25;
+GO
+
+-- ==============================================================================
 -- 12. Producto
 -- ==============================================================================
 SET IDENTITY_INSERT Productos ON;
@@ -298,7 +322,7 @@ SET IDENTITY_INSERT Productos OFF;
 GO
 
 -- ==============================================================================
--- 13. Promocion
+-- 13. Promocion 
 -- ==============================================================================
 SET IDENTITY_INSERT Promociones ON;
 INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (1, 'Martes de Ceviche', '20% de descuento en la carta de ceviches todos los martes', 20.00, '2026-01-06 00:00:00', '2026-12-31 23:59:59', 1);
@@ -313,7 +337,7 @@ SET IDENTITY_INSERT Promociones OFF;
 GO
 
 -- ==============================================================================
--- 14. Contrato_Empleado
+-- 14. Contrato_Empleado 
 -- ==============================================================================
 SET IDENTITY_INSERT Contratos_Empleados ON;
 INSERT INTO Contratos_Empleados (ID_Contrato_Empleado, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Salario, Clausula, ID_Empleado) VALUES (1, '2026-01-24', '2029-08-31', 'Indefinido', 1937.00, 'Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, cargo de Chef, con beneficios de ley (CTS, gratificaciones, EsSalud).', 1);
@@ -335,7 +359,7 @@ SET IDENTITY_INSERT Contratos_Empleados OFF;
 GO
 
 -- ==============================================================================
--- 15. Contrato_Proveedor
+-- 15. Contrato_Proveedor 
 -- ==============================================================================
 SET IDENTITY_INSERT Contratos_Proveedores ON;
 INSERT INTO Contratos_Proveedores (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (1, '2026-08-02', '2027-08-02', 'Contrato Marco Anual', 'Suministro periódico de carnes rojas y aves bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 1);
@@ -352,7 +376,7 @@ SET IDENTITY_INSERT Contratos_Proveedores OFF;
 GO
 
 -- ==============================================================================
--- 16. Empleado_Turno
+-- 16. Empleado_Turno 
 -- ==============================================================================
 INSERT INTO Empleados_Turnos (ID_Turno, ID_Empleado) VALUES (1, 1);
 INSERT INTO Empleados_Turnos (ID_Turno, ID_Empleado) VALUES (2, 2);
@@ -516,7 +540,7 @@ INSERT INTO Proveedores_Ingredientes (ID_Proveedor, ID_Ingrediente) VALUES (10, 
 GO
 
 -- ==============================================================================
--- 19. Producto_Promocion
+-- 19. Producto_Promocion 
 -- ==============================================================================
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (3, 1);
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (10, 1);
@@ -559,7 +583,7 @@ INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (15, 8);
 GO
 
 -- ==============================================================================
--- 20. Inventario
+-- 20. Inventario 
 -- ==============================================================================
 SET IDENTITY_INSERT Inventarios ON;
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (1, 9.53, '2026-08-17', 11.79, 73.56, 1);
@@ -638,7 +662,7 @@ SET IDENTITY_INSERT Reservaciones OFF;
 GO
 
 -- ==============================================================================
--- 22. Pedido
+-- 22. Pedido y Pedido_Detalle 
 -- ==============================================================================
 SET IDENTITY_INSERT Pedidos ON;
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (1, '2026-07-07', 'Pagado', 'Sin cebolla, por favor.', 28.50, 33.63, 2, NULL, 1);
@@ -854,7 +878,7 @@ SET IDENTITY_INSERT Pagos OFF;
 GO
 
 -- ==============================================================================
--- 25. Comprobante_Pago
+-- 25. Comprobante_Pago 
 -- ==============================================================================
 SET IDENTITY_INSERT Comprobantes_Pagos ON;
 INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (1, 'Boleta', '000001', 'B001', '2026-07-07 20:09:00', 28.50, 33.63, 5.13, 'Emitido', 'Yape', 'Cliente Varios', NULL, NULL, 1);

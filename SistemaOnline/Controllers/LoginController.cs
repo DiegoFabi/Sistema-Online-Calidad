@@ -41,13 +41,31 @@ namespace SistemaOnline.Controllers
                 Nombre_Usuario = modelo.Nombre_Usuario,
                 Email = modelo.Email,
                 Password = modelo.Password,
+                Estado = true,
                 ID_Rol = rolCliente.ID_Rol
             };
             await _dbcontext.Usuarios.AddAsync(user);
             await _dbcontext.SaveChangesAsync();
-            if (user.ID_Usuario != 0) return RedirectToAction("Login", "Login");
-            ViewData["Msg"] = "El usuario no se creo";
-            return View();
+            if (user.ID_Usuario == 0)
+            {
+                ViewData["Msg"] = "El usuario no se creo";
+                return View();
+            }
+
+            // Crea el perfil de Cliente vinculado a esta cuenta (autoservicio: sin este perfil
+            // el cliente no tendria donde guardar sus reservaciones/pedidos ni datos de contacto).
+            var partesNombre = modelo.Nombre_Usuario.Trim().Split(' ', 2);
+            Cliente cliente = new Cliente()
+            {
+                Nombre = partesNombre[0],
+                Apellidos = partesNombre.Length > 1 ? partesNombre[1] : null,
+                Email = modelo.Email,
+                ID_Usuario = user.ID_Usuario
+            };
+            await _dbcontext.Clientes.AddAsync(cliente);
+            await _dbcontext.SaveChangesAsync();
+
+            return RedirectToAction("Login", "Login");
         }
         [HttpGet]
         public IActionResult Login()

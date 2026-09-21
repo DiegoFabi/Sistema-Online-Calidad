@@ -48,6 +48,13 @@ namespace SistemaOnline.Data
                 .HasForeignKey<Empleado>(e => e.ID_Usuario)
                 .IsRequired(false);
 
+            // Relación 1:1 Opcional entre Cliente y Usuario (autoservicio: no todo cliente tiene cuenta)
+            modelBuilder.Entity<Cliente>()
+                .HasOne(c => c.Usuario)
+                .WithOne()
+                .HasForeignKey<Cliente>(c => c.ID_Usuario)
+                .IsRequired(false);
+
             // Contrato_Empleado hacia Empleado
             modelBuilder.Entity<Contrato_Empleado>()
                 .HasOne(c => c.Empleado)
