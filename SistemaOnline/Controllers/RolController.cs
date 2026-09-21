@@ -20,7 +20,8 @@ namespace SistemaOnline.Controllers
             var query = _context.Roles.OrderBy(r => r.ID_Rol).Select(r => new RolVM
             {
                 ID_Rol = r.ID_Rol,
-                Nombre_Rol = r.Nombre_Rol
+                Nombre_Rol = r.Nombre_Rol,
+                Descripcion = r.Descripcion
             });
 
             var resultado = await query.ToPagedListAsync(page, pageSize);
@@ -45,7 +46,8 @@ namespace SistemaOnline.Controllers
 
             Rol rol = new Rol
             {
-                Nombre_Rol = modelo.Nombre_Rol
+                Nombre_Rol = modelo.Nombre_Rol,
+                Descripcion = modelo.Descripcion
             };
             await _context.Roles.AddAsync(rol);
             await _context.SaveChangesAsync();
@@ -58,7 +60,8 @@ namespace SistemaOnline.Controllers
             RolVM modelo = new RolVM
             {
                 ID_Rol = rol.ID_Rol,
-                Nombre_Rol = rol.Nombre_Rol
+                Nombre_Rol = rol.Nombre_Rol,
+                Descripcion = rol.Descripcion
             };
             return View(modelo);
         }
@@ -72,6 +75,7 @@ namespace SistemaOnline.Controllers
 
             Rol rol = await _context.Roles.FirstAsync(r => r.ID_Rol == modelo.ID_Rol);
             rol.Nombre_Rol = modelo.Nombre_Rol;
+            rol.Descripcion = modelo.Descripcion;
             _context.Roles.Update(rol);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Lista));

@@ -21,6 +21,11 @@
                 <input class="@Cls("Nombre_Rol")" type="text" required asp-for="Nombre_Rol" />
                 <span asp-validation-for="Nombre_Rol" class="text-error text-label-md"></span>
             </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Descripcion">Descripción</label>
+                <textarea class="@Cls("Descripcion")" rows="3" required asp-for="Descripcion"></textarea>
+                <span asp-validation-for="Descripcion" class="text-error text-label-md"></span>
+            </div>
             <div class="flex items-center gap-sm pt-md">
                 <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
                     <span class="material-symbols-outlined">save</span> Guardar
