@@ -35,10 +35,24 @@ namespace SistemaOnline.ViewModels
         // Para mostrar en Lista
         public string? UsuarioNombre { get; set; }
 
-        // Para los selects en Nuevo/Editar
         public int? ID_Turno { get; set; }
         public List<SelectListItem> UsuariosDisponibles { get; set; } = new();
         public List<SelectListItem> TurnosDisponibles { get; set; } = new();
         public List<SelectListItem> CargosDisponibles { get; set; } = new();
+
+        [DataType(DataType.Date)]
+        public DateTime Contrato_Fecha_Inicio { get; set; } = DateTime.Today;
+
+        [DataType(DataType.Date)]
+        public DateTime Contrato_Fecha_Fin { get; set; } = DateTime.Today.AddYears(1);
+
+        [MaxLength(50)]
+        public string Contrato_Tipo { get; set; } = "Indefinido";
+
+        public decimal Contrato_Salario { get; set; }
+
+        [MaxLength(500)]
+        public string Contrato_Clausula { get; set; } =
+            "Contrato de trabajo bajo el régimen general laboral, jornada de 48 horas semanales, con beneficios de ley (CTS, gratificaciones, EsSalud).";
     }
 }
