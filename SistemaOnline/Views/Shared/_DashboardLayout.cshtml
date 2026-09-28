@@ -248,6 +248,8 @@
                 searchItems.Append("{ icon: 'schedule', name: 'Turnos', url: '" + Url.Action("Turnos","Administrador") + "' },");
                 searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos (Admin)', url: '" + Url.Action("Pedidos","Administrador") + "' },");
                 searchItems.Append("{ icon: 'admin_panel_settings', name: 'Administrar Negocio', url: '" + Url.Action("Advertencia","Negocio") + "' },");
+                searchItems.Append("{ icon: 'point_of_sale', name: 'Cierre de Caja', url: '" + Url.Action("Index","Cierre_Caja") + "' },");
+                searchItems.Append("{ icon: 'fact_check', name: 'Auditoría', url: '" + Url.Action("Auditoria","Administrador") + "' },");
             }
             if (User.IsInRole("Cajero"))
             {
@@ -255,6 +257,7 @@
                 searchItems.Append("{ icon: 'receipt_long', name: 'Facturación', url: '" + Url.Action("Facturacion","Cajero") + "' },");
                 searchItems.Append("{ icon: 'payments', name: 'Pagos', url: '" + Url.Action("Pagos","Cajero") + "' },");
                 searchItems.Append("{ icon: 'search', name: 'Buscar Clientes', url: '" + Url.Action("Clientes","Cajero") + "' },");
+                searchItems.Append("{ icon: 'point_of_sale', name: 'Cierre de Caja', url: '" + Url.Action("Index","Cierre_Caja") + "' },");
             }
             if (User.IsInRole("Mesero"))
             {

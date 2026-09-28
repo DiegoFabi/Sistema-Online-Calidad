@@ -1,0 +1,38 @@
+﻿@model List<SistemaOnline.Models.Promocion>
+@{
+    Layout = "_PortalClienteLayout";
+    ViewData["Title"] = "Promociones";
+    ViewBag.Active = "promociones";
+}
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Promociones</h2>
+    <p class="text-on-surface-variant">Aprovecha nuestros descuentos activos.</p>
+</div>
+
+@if (!Model.Any())
+{
+    <p class="text-on-surface-variant text-body-md">No hay promociones activas por el momento.</p>
+}
+else
+{
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-lg">
+        @foreach (var promo in Model)
+        {
+            bool vigente = promo.Fecha_Inicio <= DateTime.Now && promo.Fecha_Fin >= DateTime.Now;
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+                <div class="flex items-center justify-between mb-sm">
+                    <span class="material-symbols-outlined text-primary text-[32px]">sell</span>
+                    <span class="px-sm py-xs rounded-full text-label-md font-bold @(vigente ? "bg-secondary-container text-on-secondary-container" : "bg-surface-container-high text-on-surface-variant")">
+                        @(vigente ? "Vigente" : "Próximamente")
+                    </span>
+                </div>
+                <h3 class="font-title-md text-title-md text-on-surface mb-1">@promo.Nombre</h3>
+                <p class="text-on-surface-variant text-body-md mb-sm">@promo.Descripcion</p>
+                <div class="flex items-center justify-between flex-wrap gap-xs">
+                    <span class="font-extrabold text-title-md text-primary">@promo.Porcentaje_Descuento% dcto.</span>
+                    <span class="text-label-md text-on-surface-variant">@promo.Fecha_Inicio.ToString("dd/MM/yyyy") - @promo.Fecha_Fin.ToString("dd/MM/yyyy")</span>
+                </div>
+            </div>
+        }
+    </div>
+}

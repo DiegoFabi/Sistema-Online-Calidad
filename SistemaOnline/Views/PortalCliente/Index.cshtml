@@ -1,0 +1,65 @@
+﻿@model SistemaOnline.ViewModels.PortalClienteMenuVM
+@{
+    Layout = "_PortalClienteLayout";
+    ViewData["Title"] = "Nuestra Carta";
+    ViewBag.Active = "menu";
+}
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nuestra Carta</h2>
+    <p class="text-on-surface-variant">Explora nuestros platos por categoría.</p>
+</div>
+
+@if (Model.PromocionesActivas.Any())
+{
+    <div class="mb-lg bg-primary-container text-on-primary-container rounded-xl p-lg flex items-center gap-md overflow-x-auto">
+        <span class="material-symbols-outlined text-[32px] flex-shrink-0">sell</span>
+        <div class="flex gap-md">
+            @foreach (var promo in Model.PromocionesActivas)
+            {
+                <div class="bg-white/15 rounded-lg px-md py-sm whitespace-nowrap">
+                    <p class="font-bold">@promo.Nombre</p>
+                    <p class="text-label-md">@promo.Porcentaje_Descuento% dcto. hasta @promo.Fecha_Fin.ToString("dd/MM")</p>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<div class="mb-lg flex flex-wrap gap-sm">
+    <a asp-controller="PortalCliente" asp-action="Index"
+       class="px-md py-sm rounded-full font-bold text-label-md transition-all @(Model.CategoriaSeleccionada == null ? "bg-primary text-on-primary" : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest")">
+        Todas
+    </a>
+    @foreach (var cat in Model.Categorias)
+    {
+        <a asp-controller="PortalCliente" asp-action="Index" asp-route-categoria="@cat.ID_Categoria"
+           class="px-md py-sm rounded-full font-bold text-label-md transition-all @(Model.CategoriaSeleccionada == cat.ID_Categoria ? "bg-primary text-on-primary" : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest")">
+            @cat.Nombre_Categoria
+        </a>
+    }
+</div>
+
+@if (!Model.Productos.Any())
+{
+    <p class="text-on-surface-variant text-body-md">No hay platos disponibles en esta categoría por el momento.</p>
+}
+else
+{
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
+        @foreach (var p in Model.Productos)
+        {
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg flex flex-col gap-sm">
+                <span class="text-label-md font-bold uppercase tracking-widest text-primary">@p.Producto_Categoria.Nombre_Categoria</span>
+                <h3 class="font-title-md text-title-md text-on-surface">@p.Nombre_Plato</h3>
+                <p class="text-on-surface-variant text-body-md flex-1">@p.Descripcion</p>
+                <div class="flex items-center justify-between mt-sm">
+                    <span class="font-extrabold text-title-md text-primary">@p.Precio.ToString("C2")</span>
+                    <span class="text-label-md text-on-surface-variant flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">schedule</span>
+                        @p.Tiempo_Preparacion min
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+}

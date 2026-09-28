@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"] - Rancho Sagrado</title>
+    <partial name="_DesignTokensHead" />
+    <style>
+        #PortalSideNav {
+            box-shadow: 4px 0 24px -8px rgba(185, 23, 47, 0.12);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen">
+    <aside id="PortalSideNav" class="fixed left-0 top-0 h-screen w-[260px] flex flex-col bg-surface-container-lowest border-r border-outline-variant/20 z-40">
+        <div class="p-lg flex flex-col items-center text-center border-b border-outline-variant/20">
+            <img src="~/images/logo-rancho-sagrado.png" alt="El Rancho Sagrado" class="w-16 h-16 object-contain mb-sm" />
+            <h1 class="font-title-md text-title-md font-bold text-primary leading-tight">El Rancho Sagrado</h1>
+            <p class="text-label-md text-on-surface-variant mt-1">Hola, @User.Identity?.Name</p>
+        </div>
+        <nav class="flex-1 px-sm py-md space-y-xs">
+            @{
+                string activo = ViewBag.Active as string ?? "";
+                string Cls(string item) => item == activo
+                    ? "flex items-center gap-md px-md py-sm rounded-lg bg-primary text-on-primary font-bold transition-all"
+                    : "flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all";
+            }
+            <a class="@Cls("menu")" asp-controller="PortalCliente" asp-action="Index">
+                <span class="material-symbols-outlined">restaurant_menu</span>
+                <span class="font-body-md">Menú</span>
+            </a>
+            <a class="@Cls("promociones")" asp-controller="PortalCliente" asp-action="Promociones">
+                <span class="material-symbols-outlined">sell</span>
+                <span class="font-body-md">Promociones</span>
+            </a>
+        </nav>
+        <div class="p-sm border-t border-outline-variant/20">
+            <button type="button" onclick="openLogoutModalCliente()"
+                    class="w-full flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-error rounded-lg transition-colors">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="font-body-md">Cerrar Sesión</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="pl-[260px] min-h-screen">
+        <header class="h-[72px] flex items-center px-lg border-b border-outline-variant/20 bg-surface-container-lowest">
+            <h2 class="font-title-md text-title-md text-on-surface">@ViewData["Title"]</h2>
+        </header>
+        <section class="p-lg max-w-6xl mx-auto">
+            @RenderBody()
+        </section>
+    </main>
+
+    <!-- Modal de confirmación de cierre de sesión (mismo patrón que el panel de staff) -->
+    <div id="logoutModalCliente" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-[340px] flex flex-col items-center overflow-hidden animate-fade-in mx-md">
+            <div class="w-full bg-error-container flex flex-col items-center py-lg">
+                <span class="material-symbols-outlined text-error text-[48px]">warning</span>
+            </div>
+            <div class="p-lg flex flex-col items-center w-full">
+                <h3 class="font-title-md text-title-md text-on-surface mb-sm">¿Cerrar sesión?</h3>
+                <p class="text-body-md text-on-surface-variant text-center mb-lg">¿Estás seguro de que deseas salir?</p>
+                <div class="flex gap-md w-full">
+                    <button type="button" onclick="closeLogoutModalCliente()"
+                            class="flex-1 px-md py-sm rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-high font-bold transition-all">
+                        Cancelar
+                    </button>
+                    <form asp-controller="Login" asp-action="Logout" method="post" class="flex-1">
+                        <button type="submit"
+                                class="w-full px-md py-sm rounded-lg bg-error text-white hover:bg-error/90 font-bold transition-all">
+                            Cerrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLogoutModalCliente() {
+            document.getElementById('logoutModalCliente').classList.remove('hidden');
+            document.getElementById('logoutModalCliente').classList.add('flex');
+        }
+        function closeLogoutModalCliente() {
+            document.getElementById('logoutModalCliente').classList.add('hidden');
+            document.getElementById('logoutModalCliente').classList.remove('flex');
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
