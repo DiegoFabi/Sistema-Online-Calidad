@@ -74,6 +74,38 @@
                 </select>
                 <span asp-validation-for="ID_Turno" class="text-error text-label-md"></span>
             </div>
+
+            <div class="pt-md mt-md border-t border-outline-variant/30">
+                <h3 class="font-title-md text-title-md text-on-surface mb-md">Contrato Inicial</h3>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Contrato_Fecha_Inicio">Fecha Inicio</label>
+                <input class="@Cls("Contrato_Fecha_Inicio")" type="date" required asp-for="Contrato_Fecha_Inicio" />
+                <span asp-validation-for="Contrato_Fecha_Inicio" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Contrato_Fecha_Fin">Fecha Fin</label>
+                <input class="@Cls("Contrato_Fecha_Fin")" type="date" required asp-for="Contrato_Fecha_Fin" />
+                <span asp-validation-for="Contrato_Fecha_Fin" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Contrato_Tipo">Tipo de Contrato</label>
+                <select class="@Cls("Contrato_Tipo")" asp-for="Contrato_Tipo">
+                    <option value="Indefinido">Indefinido</option>
+                    <option value="Plazo Fijo">Plazo Fijo</option>
+                </select>
+                <span asp-validation-for="Contrato_Tipo" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Contrato_Salario">Salario</label>
+                <input class="@Cls("Contrato_Salario")" type="number" step="0.01" required asp-for="Contrato_Salario" />
+                <span asp-validation-for="Contrato_Salario" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Contrato_Clausula">Cláusula</label>
+                <textarea class="@Cls("Contrato_Clausula")" rows="3" required asp-for="Contrato_Clausula"></textarea>
+                <span asp-validation-for="Contrato_Clausula" class="text-error text-label-md"></span>
+            </div>
             <div class="flex items-center gap-sm pt-md">
                 <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
                     <span class="material-symbols-outlined">save</span> Guardar
