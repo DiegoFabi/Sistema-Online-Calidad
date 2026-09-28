@@ -1,0 +1,174 @@
+﻿@model SistemaOnline.ViewModels.Cierre_CajaVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Cierre de Caja";
+    ViewBag.Active = "cierre_caja";
+    bool esHoy = Model.Fecha.Date == DateTime.Today;
+}
+@if (TempData["Exito"] != null)
+{
+    <div class="mb-md p-base rounded-lg bg-secondary-container text-on-secondary-container font-body-md text-body-md">
+        @TempData["Exito"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="mb-md p-base rounded-lg bg-error-container text-on-error-container font-body-md text-body-md">
+        @TempData["Error"]
+    </div>
+}
+<div class="mb-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Cierre de Caja</h2>
+        <p class="text-on-surface-variant">Resumen de pagos cobrados el @Model.Fecha.ToString("dd/MM/yyyy")@(esHoy ? " (hoy)" : "").</p>
+    </div>
+    <form asp-controller="Cierre_Caja" asp-action="Index" method="get" class="flex items-center gap-sm">
+        <input type="date" name="fecha" value="@Model.Fecha.ToString("yyyy-MM-dd")"
+               class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" />
+        <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all">
+            <span class="material-symbols-outlined">search</span> Ver
+        </button>
+        @if (!esHoy)
+        {
+            <a asp-controller="Cierre_Caja" asp-action="Index" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                Hoy
+            </a>
+        }
+    </form>
+</div>
+
+<div class="grid grid-cols-12 gap-lg">
+    <div class="col-span-12 md:col-span-4 bg-primary-container text-on-primary-container p-lg rounded-xl shadow-sm">
+        <div class="flex justify-between mb-sm">
+            <span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+        </div>
+        <p class="text-display-lg font-display-lg leading-none">@Model.TotalGeneral.ToString("C2")</p>
+        <p class="font-bold">Total Cobrado</p>
+    </div>
+    <div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+        <div class="flex justify-between mb-sm">
+            <span class="material-symbols-outlined text-secondary" data-icon="receipt_long">receipt_long</span>
+        </div>
+        <p class="text-display-lg font-display-lg leading-none">@Model.CantidadPagos</p>
+        <p class="text-on-surface-variant font-bold">Pagos Procesados</p>
+    </div>
+    <div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+        <div class="flex justify-between mb-sm">
+            <span class="material-symbols-outlined text-tertiary" data-icon="category">category</span>
+        </div>
+        <p class="text-display-lg font-display-lg leading-none">@Model.MetodosPago.Count</p>
+        <p class="text-on-surface-variant font-bold">Métodos de Pago Usados</p>
+    </div>
+
+    <!-- Métodos de pago -->
+    <div class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Desglose por Método de Pago</h3>
+        </div>
+        <div class="p-lg space-y-md">
+            @if (!Model.MetodosPago.Any())
+            {
+                <p class="text-on-surface-variant text-body-md">Sin pagos registrados este día.</p>
+            }
+            @foreach (var m in Model.MetodosPago)
+            {
+                <div class="flex justify-between items-center p-md bg-surface-container-high rounded-lg">
+                    <div>
+                        <p class="font-bold text-on-surface">@m.Metodo</p>
+                        <p class="text-label-md text-on-surface-variant">@m.Cantidad transacciones</p>
+                    </div>
+                    <span class="text-mono-data font-bold text-secondary">@m.Total.ToString("C2")</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Detalle de pagos -->
+    <div class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Detalle de Pagos del Día</h3>
+        </div>
+        <div class="p-lg overflow-x-auto">
+            @if (!Model.Pagos.Any())
+            {
+                <p class="text-on-surface-variant text-body-md">No hay pagos que mostrar para esta fecha.</p>
+            }
+            else
+            {
+                <table class="w-full text-left">
+                    <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                        <tr>
+                            <th class="pb-md font-bold">Pedido</th>
+                            <th class="pb-md font-bold">Hora</th>
+                            <th class="pb-md font-bold">Método</th>
+                            <th class="pb-md font-bold">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-body-md">
+                        @foreach (var pg in Model.Pagos)
+                        {
+                            <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                                <td class="py-md font-mono-data">#@pg.ID_Pedido</td>
+                                <td class="py-md">@pg.Fecha_Hora_Pago.ToString("HH:mm")</td>
+                                <td class="py-md">@pg.Metodo_Pago</td>
+                                <td class="py-md font-bold">@pg.Monto.ToString("C2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <!-- Cierre de turno -->
+    <div class="col-span-12 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+        <div class="p-lg border-b border-outline-variant/20">
+            <h3 class="font-title-md text-title-md text-on-surface">Cierre de Turno</h3>
+        </div>
+        <div class="p-lg">
+            @if (Model.CierreRegistrado != null)
+            {
+                var cierre = Model.CierreRegistrado;
+                bool cuadra = cierre.Diferencia == 0;
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+                    <div class="p-md bg-surface-container-high rounded-lg">
+                        <p class="text-label-md text-on-surface-variant">Efectivo Esperado</p>
+                        <p class="font-bold text-on-surface text-title-md">@cierre.EfectivoEsperado.ToString("C2")</p>
+                    </div>
+                    <div class="p-md bg-surface-container-high rounded-lg">
+                        <p class="text-label-md text-on-surface-variant">Efectivo Contado</p>
+                        <p class="font-bold text-on-surface text-title-md">@cierre.EfectivoContado.ToString("C2")</p>
+                    </div>
+                    <div class="p-md rounded-lg @(cuadra ? "bg-tertiary-container text-on-tertiary-container" : "bg-error-container text-on-error-container")">
+                        <p class="text-label-md">Diferencia</p>
+                        <p class="font-bold text-title-md">@(cierre.Diferencia > 0 ? "+" : "")@cierre.Diferencia.ToString("C2")</p>
+                    </div>
+                    <div class="p-md bg-surface-container-high rounded-lg">
+                        <p class="text-label-md text-on-surface-variant">Cerrado por</p>
+                        <p class="font-bold text-on-surface">@cierre.Usuario</p>
+                        <p class="text-label-md text-on-surface-variant">@cierre.HoraCierre.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                </div>
+                <p class="text-label-md text-on-surface-variant mt-md">La caja de este día ya fue cerrada. El registro se guarda en memoria mientras la aplicación no se reinicie.</p>
+            }
+            else
+            {
+                <form asp-controller="Cierre_Caja" asp-action="RegistrarCierre" method="post" class="flex flex-col sm:flex-row sm:items-end gap-md">
+                    <input type="hidden" name="fecha" value="@Model.Fecha.ToString("yyyy-MM-dd")" />
+                    <div>
+                        <p class="text-label-md text-on-surface-variant mb-1">Efectivo Esperado (pagos en Efectivo)</p>
+                        <p class="font-bold text-on-surface text-title-md h-11 flex items-center">@Model.EfectivoEsperado.ToString("C2")</p>
+                    </div>
+                    <div>
+                        <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="efectivoContado">Efectivo Contado</label>
+                        <input id="efectivoContado" name="efectivoContado" type="number" step="0.01" min="0" required
+                               class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" />
+                    </div>
+                    <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all">
+                        <span class="material-symbols-outlined">lock</span> Cerrar Caja
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+</div>
