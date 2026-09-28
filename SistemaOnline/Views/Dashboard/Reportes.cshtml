@@ -5,15 +5,51 @@
     ViewBag.Active = "reportes";
     ViewData["Controlador"] = "Dashboard";
     ViewData["AccionLista"] = "Reportes";
+    var categorias = ViewBag.CategoriasDisponibles as List<SistemaOnline.Models.Producto_Categoria> ?? new();
+    var metodosPago = ViewBag.MetodosPagoDisponibles as List<string> ?? new();
+    int? categoriaSel = ViewBag.CategoriaSeleccionada;
+    string? metodoSel = ViewBag.MetodoPagoSeleccionado;
 }
 
-<div class="mb-lg">
-    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Reporte de Ventas</h2>
-    <p class="text-on-surface-variant">Historial completo de pedidos registrados.</p>
+<div class="mb-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Reporte de Ventas</h2>
+        <p class="text-on-surface-variant">Historial completo de pedidos registrados.</p>
+    </div>
+    <form asp-controller="Dashboard" asp-action="Reportes" method="get" class="flex flex-wrap items-center gap-sm">
+        <select name="categoria" onchange="this.form.submit()"
+                class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
+            <option value="">Todas las categorías</option>
+            @foreach (var c in categorias)
+            {
+                <option value="@c.ID_Categoria" selected="@(categoriaSel == c.ID_Categoria ? "selected" : null)">@c.Nombre_Categoria</option>
+            }
+        </select>
+        <select name="metodoPago" onchange="this.form.submit()"
+                class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
+            <option value="">Todos los métodos de pago</option>
+            @foreach (var m in metodosPago)
+            {
+                <option value="@m" selected="@(metodoSel == m ? "selected" : null)">@m</option>
+            }
+        </select>
+        @if (categoriaSel.HasValue || !string.IsNullOrWhiteSpace(metodoSel))
+        {
+            <a asp-controller="Dashboard" asp-action="Reportes" class="inline-flex items-center gap-xs h-11 px-md bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-highest transition-all">
+                <span class="material-symbols-outlined text-[16px]">close</span> Limpiar filtros
+            </a>
+        }
+    </form>
 </div>
 
 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
     <div class="p-lg">
+        @if (!Model.Any())
+        {
+            <p class="text-on-surface-variant text-body-md">No hay pedidos que coincidan con los filtros seleccionados.</p>
+        }
+        else
+        {
         <table class="w-full text-left">
             <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
                 <tr>
@@ -39,6 +75,7 @@
                 }
             </tbody>
         </table>
+        }
     </div>
 </div>
 <partial name="_Pagination" />

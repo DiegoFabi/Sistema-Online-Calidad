@@ -1,0 +1,69 @@
+﻿@model List<SistemaOnline.Services.RegistroAuditoria>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Auditoría";
+    ViewBag.Active = "auditoria";
+    var entidades = ViewBag.EntidadesDisponibles as List<string> ?? new List<string>();
+    string entidadSeleccionada = ViewBag.EntidadSeleccionada as string ?? "";
+}
+
+<div class="mb-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Auditoría</h2>
+        <p class="text-on-surface-variant">Historial de acciones críticas: quién hizo qué y cuándo.</p>
+    </div>
+    <form asp-controller="Administrador" asp-action="Auditoria" method="get" class="flex items-center gap-sm">
+        <select name="entidad" onchange="this.form.submit()"
+                class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
+            <option value="" selected="@(entidadSeleccionada == "" ? "selected" : null)">Todas las entidades</option>
+            @foreach (var e in entidades)
+            {
+                <option value="@e" selected="@(entidadSeleccionada == e ? "selected" : null)">@e</option>
+            }
+        </select>
+    </form>
+</div>
+
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg overflow-x-auto">
+        @if (!Model.Any())
+        {
+            <p class="text-on-surface-variant text-body-md">Aún no se ha registrado ninguna acción.</p>
+        }
+        else
+        {
+            <table class="w-full text-left">
+                <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                    <tr>
+                        <th class="pb-md font-bold">Fecha</th>
+                        <th class="pb-md font-bold">Usuario</th>
+                        <th class="pb-md font-bold">Rol</th>
+                        <th class="pb-md font-bold">Acción</th>
+                        <th class="pb-md font-bold">Entidad</th>
+                        <th class="pb-md font-bold">Detalle</th>
+                    </tr>
+                </thead>
+                <tbody class="text-body-md">
+                    @foreach (var r in Model)
+                    {
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                            <td class="py-md font-mono-data">@r.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="py-md font-bold">@r.Usuario</td>
+                            <td class="py-md">
+                                <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">@r.Rol</span>
+                            </td>
+                            <td class="py-md">@r.Accion</td>
+                            <td class="py-md">
+                                <span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full text-label-md">@r.Entidad</span>
+                            </td>
+                            <td class="py-md text-on-surface-variant">@r.Detalle</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<p class="text-label-md text-on-surface-variant mt-md">
+    Este historial se guarda en memoria del servidor (últimos @(500) eventos) y se reinicia si la aplicación se reinicia.
+</p>
