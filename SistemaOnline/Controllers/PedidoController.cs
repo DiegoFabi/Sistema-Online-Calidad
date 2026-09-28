@@ -11,6 +11,8 @@ namespace SistemaOnline.Controllers
     public class PedidoController : Controller
     {
         private readonly APPDBContext _context;
+        private static readonly string[] EstadosMesaOcupada = { "Pendiente", "En Cocina", "Preparando", "Listo" };
+
         public PedidoController(APPDBContext context)
         {
             _context = context;
@@ -126,12 +128,24 @@ namespace SistemaOnline.Controllers
 
             if (!await _context.Mesas.AnyAsync(m => m.ID_Mesa == modelo.ID_Mesa))
                 ModelState.AddModelError(nameof(modelo.ID_Mesa), "Selecciona una mesa válida.");
+            else if (await _context.Pedidos.AnyAsync(p => p.ID_Mesa == modelo.ID_Mesa && EstadosMesaOcupada.Contains(p.Estado_Pedido)))
+                ModelState.AddModelError(nameof(modelo.ID_Mesa), "La mesa seleccionada ya está ocupada por otro pedido activo.");
 
             if (modelo.ID_Cliente.HasValue && !await _context.Clientes.AnyAsync(c => c.ID_Cliente == modelo.ID_Cliente))
                 ModelState.AddModelError(nameof(modelo.ID_Cliente), "Selecciona un cliente válido.");
 
             if (modelo.ProductosSeleccionados == null || !modelo.ProductosSeleccionados.Any())
                 ModelState.AddModelError(nameof(modelo.ProductosSeleccionados), "Debes seleccionar al menos un producto.");
+
+            Dictionary<int, decimal> ingredientesNecesarios = new();
+            if (modelo.ProductosSeleccionados != null && modelo.ProductosSeleccionados.Any())
+            {
+                ingredientesNecesarios = await CalcularIngredientesNecesarios(modelo.ProductosSeleccionados, modelo.CantidadesProductos);
+                foreach (var error in await ValidarStockSuficiente(ingredientesNecesarios))
+                {
+                    ModelState.AddModelError(nameof(modelo.ProductosSeleccionados), error);
+                }
+            }
 
             if (!ModelState.IsValid)
             {
@@ -203,6 +217,23 @@ namespace SistemaOnline.Controllers
                         PrecioUnitario = producto.Precio
                     });
                 }
+
+                // Descuenta del inventario los ingredientes consumidos por este pedido
+                // (ya validado como suficiente mas arriba, antes de guardar).
+                if (ingredientesNecesarios.Any())
+                {
+                    var inventariosAActualizar = await _context.Inventarios
+                        .Where(i => ingredientesNecesarios.Keys.Contains(i.ID_Ingrediente))
+                        .ToListAsync();
+                    foreach (var inv in inventariosAActualizar)
+                    {
+                        if (ingredientesNecesarios.TryGetValue(inv.ID_Ingrediente, out decimal consumo))
+                        {
+                            inv.Cantidad_Stock -= consumo;
+                        }
+                    }
+                }
+
                 await _context.SaveChangesAsync();
             }
 
@@ -230,7 +261,7 @@ namespace SistemaOnline.Controllers
                 ProductosSeleccionados = pedido.Pedido_Detalles?.Select(pd => pd.ID_Producto).ToList() ?? new List<int>(),
                 CantidadesProductos = pedido.Pedido_Detalles?.ToDictionary(pd => pd.ID_Producto, pd => pd.Cantidad) ?? new Dictionary<int, int>(),
                 EmpleadosDisponibles = await ObtenerEmpleados(),
-                MesasDisponibles = await ObtenerMesas(),
+                MesasDisponibles = await ObtenerMesas(pedido.ID_Pedido),
                 ClientesDisponibles = await ObtenerClientes(),
                 CategoriasProductos = await ObtenerCategoriasProductos()
             };
@@ -244,6 +275,8 @@ namespace SistemaOnline.Controllers
                 ModelState.AddModelError(nameof(modelo.ID_Empleado), "Selecciona un empleado válido.");
             if (!await _context.Mesas.AnyAsync(m => m.ID_Mesa == modelo.ID_Mesa))
                 ModelState.AddModelError(nameof(modelo.ID_Mesa), "Selecciona una mesa válida.");
+            else if (await _context.Pedidos.AnyAsync(p => p.ID_Mesa == modelo.ID_Mesa && p.ID_Pedido != modelo.ID_Pedido && EstadosMesaOcupada.Contains(p.Estado_Pedido)))
+                ModelState.AddModelError(nameof(modelo.ID_Mesa), "La mesa seleccionada ya está ocupada por otro pedido activo.");
 
             if (modelo.ID_Cliente.HasValue && !await _context.Clientes.AnyAsync(c => c.ID_Cliente == modelo.ID_Cliente))
                 ModelState.AddModelError(nameof(modelo.ID_Cliente), "Selecciona un cliente válido.");
@@ -251,7 +284,7 @@ namespace SistemaOnline.Controllers
             if (!ModelState.IsValid)
             {
                 modelo.EmpleadosDisponibles = await ObtenerEmpleados();
-                modelo.MesasDisponibles = await ObtenerMesas();
+                modelo.MesasDisponibles = await ObtenerMesas(modelo.ID_Pedido);
                 modelo.ClientesDisponibles = await ObtenerClientes();
                 modelo.CategoriasProductos = await ObtenerCategoriasProductos();
                 return View(modelo);
@@ -362,16 +395,18 @@ namespace SistemaOnline.Controllers
             return lista;
         }
 
-        private async Task<List<SelectListItem>> ObtenerMesas()
+        // pedidoActualId: al editar un pedido existente, su propia mesa no debe aparecer
+        // deshabilitada solo porque ese mismo pedido la tiene activa.
+        private async Task<List<SelectListItem>> ObtenerMesas(int? pedidoActualId = null)
         {
             var mesas = await _context.Mesas
                 .OrderBy(m => m.Numero_Mesa)
                 .ToListAsync();
 
-            // IDs con pedidos activos para mostrar indicador en el label
-            var estadosOcupado = new[] { "Pendiente", "En Cocina", "Preparando", "Listo" };
+            // IDs con pedidos activos: se muestran deshabilitadas para no poder seleccionarlas
+            // (la validacion real, que no confia en el cliente, esta en Nuevo()/Editar() POST)
             var mesasOcupadas = await _context.Pedidos
-                .Where(p => estadosOcupado.Contains(p.Estado_Pedido))
+                .Where(p => EstadosMesaOcupada.Contains(p.Estado_Pedido) && p.ID_Pedido != pedidoActualId)
                 .Select(p => p.ID_Mesa)
                 .Distinct()
                 .ToListAsync();
@@ -382,7 +417,8 @@ namespace SistemaOnline.Controllers
                 Value = m.ID_Mesa.ToString(),
                 Text = ocupadasSet.Contains(m.ID_Mesa)
                     ? $"Mesa {m.Numero_Mesa} ({m.Ubicacion}) — Ocupada"
-                    : $"Mesa {m.Numero_Mesa} ({m.Ubicacion})"
+                    : $"Mesa {m.Numero_Mesa} ({m.Ubicacion})",
+                Disabled = ocupadasSet.Contains(m.ID_Mesa)
             }).ToList();
         }
 
@@ -418,6 +454,61 @@ namespace SistemaOnline.Controllers
                         Precio = p.Precio
                     }).ToList()
             }).ToList();
+        }
+
+        // Suma, por ingrediente, cuanto se necesita para preparar los productos seleccionados
+        // (receta de Producto_Ingrediente x cantidad pedida). Productos sin receta (ej. bebidas)
+        // simplemente no aportan ninguna restriccion de stock.
+        private async Task<Dictionary<int, decimal>> CalcularIngredientesNecesarios(List<int> productosSeleccionados, Dictionary<int, int>? cantidadesProductos)
+        {
+            var cantidadPorProducto = new Dictionary<int, int>();
+            foreach (var idProd in productosSeleccionados)
+            {
+                int qty = cantidadesProductos != null && cantidadesProductos.TryGetValue(idProd, out int q) && q > 0 ? q : 1;
+                cantidadPorProducto[idProd] = cantidadPorProducto.TryGetValue(idProd, out int actual) ? actual + qty : qty;
+            }
+
+            var recetas = await _context.Productos_Ingredientes
+                .Where(pi => cantidadPorProducto.Keys.Contains(pi.ID_Producto))
+                .ToListAsync();
+
+            var necesarioPorIngrediente = new Dictionary<int, decimal>();
+            foreach (var receta in recetas)
+            {
+                decimal necesario = receta.Cantidad * cantidadPorProducto[receta.ID_Producto];
+                necesarioPorIngrediente[receta.ID_Ingrediente] = necesarioPorIngrediente.TryGetValue(receta.ID_Ingrediente, out decimal actual)
+                    ? actual + necesario
+                    : necesario;
+            }
+            return necesarioPorIngrediente;
+        }
+
+        // Compara lo necesario contra el stock disponible y devuelve un mensaje por cada
+        // ingrediente insuficiente (lista vacia = hay stock para todo el pedido).
+        private async Task<List<string>> ValidarStockSuficiente(Dictionary<int, decimal> necesarioPorIngrediente)
+        {
+            var errores = new List<string>();
+            if (!necesarioPorIngrediente.Any())
+            {
+                return errores;
+            }
+
+            var inventarios = await _context.Inventarios
+                .Include(i => i.Ingrediente)
+                .Where(i => necesarioPorIngrediente.Keys.Contains(i.ID_Ingrediente))
+                .ToListAsync();
+
+            foreach (var (idIngrediente, cantidadNecesaria) in necesarioPorIngrediente)
+            {
+                var inv = inventarios.FirstOrDefault(i => i.ID_Ingrediente == idIngrediente);
+                decimal disponible = inv?.Cantidad_Stock ?? 0;
+                if (disponible < cantidadNecesaria)
+                {
+                    string nombre = inv?.Ingrediente?.Nombre_Ingrediente ?? $"ingrediente #{idIngrediente}";
+                    errores.Add($"No hay stock suficiente de '{nombre}' para este pedido (disponible: {disponible:0.###}, necesario: {cantidadNecesaria:0.###}).");
+                }
+            }
+            return errores;
         }
     }
 }

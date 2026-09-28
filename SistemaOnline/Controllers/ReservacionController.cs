@@ -11,6 +11,8 @@ namespace SistemaOnline.Controllers
     public class ReservacionController : Controller
     {
         private readonly APPDBContext _context;
+        private static readonly string[] EstadosReservaActiva = { "Pendiente", "Confirmada" };
+
         public ReservacionController(APPDBContext context)
         {
             _context = context;
@@ -93,6 +95,14 @@ namespace SistemaOnline.Controllers
             };
             await _context.Reservaciones.AddAsync(reservacion);
             await _context.SaveChangesAsync();
+
+            // Marca la mesa como Reservada para que deje de ofrecerse como libre
+            // (Kiosco.Reservaciones() solo muestra mesas con Estado == "Libre").
+            if (EstadosReservaActiva.Contains(reservacion.Estado_Reservacion))
+            {
+                await MarcarMesaReservada(reservacion.ID_Mesa);
+            }
+
             return RedirectToAction(nameof(Lista));
         }
 
@@ -135,6 +145,7 @@ namespace SistemaOnline.Controllers
             }
 
             Reservacion reservacion = await _context.Reservaciones.FirstAsync(r => r.ID_Reservacion == modelo.ID_Reservacion);
+            int mesaAnterior = reservacion.ID_Mesa;
             reservacion.Fecha_Hora = modelo.Fecha_Hora;
             reservacion.Numero_Personas = modelo.Numero_Personas;
             reservacion.Ocasion_Especial = modelo.Ocasion_Especial;
@@ -144,6 +155,21 @@ namespace SistemaOnline.Controllers
             reservacion.ID_Mesa = modelo.ID_Mesa;
             _context.Reservaciones.Update(reservacion);
             await _context.SaveChangesAsync();
+
+            // Mantiene el Estado de la(s) mesa(s) consistente si cambio de mesa o de estado
+            if (mesaAnterior != modelo.ID_Mesa)
+            {
+                await LiberarMesaSiSinReservasActivas(mesaAnterior);
+            }
+            if (EstadosReservaActiva.Contains(modelo.Estado_Reservacion))
+            {
+                await MarcarMesaReservada(modelo.ID_Mesa);
+            }
+            else
+            {
+                await LiberarMesaSiSinReservasActivas(modelo.ID_Mesa);
+            }
+
             return RedirectToAction(nameof(Lista));
         }
 
@@ -151,9 +177,44 @@ namespace SistemaOnline.Controllers
         public async Task<ActionResult> Eliminar(int id)
         {
             Reservacion reservacion = await _context.Reservaciones.FirstAsync(r => r.ID_Reservacion == id);
+            int mesaId = reservacion.ID_Mesa;
             _context.Reservaciones.Remove(reservacion);
             await _context.SaveChangesAsync();
+
+            await LiberarMesaSiSinReservasActivas(mesaId);
+
             return RedirectToAction(nameof(Lista));
+        }
+
+        // Marca la mesa como Reservada solo si estaba Libre (nunca pisa un estado Ocupada
+        // de un pedido en curso).
+        private async Task MarcarMesaReservada(int mesaId)
+        {
+            var mesa = await _context.Mesas.FindAsync(mesaId);
+            if (mesa != null && mesa.Estado == "Libre")
+            {
+                mesa.Estado = "Reservada";
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // Libera la mesa (vuelve a Libre) solo si no queda ninguna otra reservacion activa
+        // sobre ella y su estado actual es Reservada (nunca pisa un estado Ocupada).
+        private async Task LiberarMesaSiSinReservasActivas(int mesaId)
+        {
+            bool tieneOtrasReservasActivas = await _context.Reservaciones
+                .AnyAsync(r => r.ID_Mesa == mesaId && EstadosReservaActiva.Contains(r.Estado_Reservacion));
+            if (tieneOtrasReservasActivas)
+            {
+                return;
+            }
+
+            var mesa = await _context.Mesas.FindAsync(mesaId);
+            if (mesa != null && mesa.Estado == "Reservada")
+            {
+                mesa.Estado = "Libre";
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task<List<SelectListItem>> ObtenerClientes()

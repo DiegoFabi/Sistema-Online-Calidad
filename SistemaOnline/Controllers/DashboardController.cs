@@ -62,7 +62,7 @@ namespace SistemaOnline.Controllers
                 .Select(g => new { g.Key.Year, g.Key.Month, Total = g.Sum(p => p.Total) })
                 .ToListAsync();
 
-            var culturaEs = new System.Globalization.CultureInfo("es-ES");
+            var culturaEs = new System.Globalization.CultureInfo("es-PE");
             vm.VentasPorMes = Enumerable.Range(0, 6)
                 .Select(i => hoy.AddMonths(-5 + i))
                 .Select(fecha =>
@@ -125,15 +125,33 @@ namespace SistemaOnline.Controllers
             return View(resultado.Items);
         }
 
-        public async Task<IActionResult> Reportes(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
+        public async Task<IActionResult> Reportes(int? categoria, string? metodoPago, int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
-            var query = _dbcontext.Pedidos.OrderByDescending(p => p.Fecha);
+            var query = _dbcontext.Pedidos.AsQueryable();
+
+            if (categoria.HasValue)
+            {
+                query = query.Where(p => p.Pedido_Detalles.Any(pd => pd.Producto.ID_Categoria == categoria.Value));
+            }
+
+            if (!string.IsNullOrWhiteSpace(metodoPago))
+            {
+                query = query.Where(p => p.Pagos.Any(pg => pg.Metodo_Pago == metodoPago));
+            }
+
+            query = query.OrderByDescending(p => p.Fecha);
 
             var resultado = await query.ToPagedListAsync(page, pageSize);
             ViewBag.Page = resultado.Page;
             ViewBag.PageSize = resultado.PageSize;
             ViewBag.TotalPages = resultado.TotalPages;
             ViewBag.TotalCount = resultado.TotalCount;
+
+            ViewBag.CategoriaSeleccionada = categoria;
+            ViewBag.MetodoPagoSeleccionado = metodoPago;
+            ViewBag.CategoriasDisponibles = await _dbcontext.Productos_Categorias.OrderBy(c => c.Nombre_Categoria).ToListAsync();
+            ViewBag.MetodosPagoDisponibles = await _dbcontext.Pagos.Select(pg => pg.Metodo_Pago).Distinct().OrderBy(m => m).ToListAsync();
+
             return View(resultado.Items);
         }
     }

@@ -121,6 +121,22 @@ namespace SistemaOnline.Controllers
                 }
             }
 
+            // Recarga el pedido desde la BD (nunca confiar en lo que llega del formulario)
+            // para evitar que el mismo pedido se cobre dos veces: doble clic en "Guardar",
+            // dos pestañas abiertas a la vez, o un idPedido manipulado en la URL.
+            var pedidoACobrar = await _context.Pedidos.Include(p => p.Mesa_Restaurante)
+                .FirstOrDefaultAsync(p => p.ID_Pedido == modelo.ID_Pedido);
+
+            if (pedidoACobrar == null)
+            {
+                ModelState.AddModelError(string.Empty, "El pedido seleccionado no existe.");
+            }
+            else if (pedidoACobrar.Estado_Pedido == "Pagado" ||
+                await _context.Comprobantes_Pagos.AnyAsync(c => c.ID_Pedido == modelo.ID_Pedido))
+            {
+                ModelState.AddModelError(string.Empty, "Este pedido ya fue cobrado anteriormente.");
+            }
+
             if (!ModelState.IsValid)
             {
                 modelo.PedidosDisponibles = await ObtenerPedidos();
@@ -150,24 +166,23 @@ namespace SistemaOnline.Controllers
             var pago = new Pago
             {
                 Fecha_Hora_Pago = modelo.Fecha_Emision,
-                Monto           = modelo.Monto_Total,
-                Metodo_Pago     = modelo.Metodo_Pago,
-                Estado          = "Pagado",
-                ID_Pedido       = modelo.ID_Pedido
+                Monto = modelo.Monto_Total,
+                Metodo_Pago = modelo.Metodo_Pago,
+                Estado = "Pagado",
+                ID_Pedido = modelo.ID_Pedido
             };
             await _context.Pagos.AddAsync(pago);
 
             await _context.SaveChangesAsync();
 
             // Marcar pedido como Pagado y liberar mesa
-            var pedido = await _context.Pedidos.Include(p => p.Mesa_Restaurante).FirstOrDefaultAsync(p => p.ID_Pedido == modelo.ID_Pedido);
-            if (pedido != null)
-            {
-                pedido.Estado_Pedido = "Pagado";
-                if (pedido.Mesa_Restaurante != null) pedido.Mesa_Restaurante.Estado = "Libre";
-                await _context.SaveChangesAsync();
-                Services.NotificacionStore.Agregar("receipt_long", "Pago registrado", $"Pedido #{pedido.ID_Pedido} cobrado por {modelo.Metodo_Pago}. Mesa liberada.");
-            }
+            pedidoACobrar.Estado_Pedido = "Pagado";
+            if (pedidoACobrar.Mesa_Restaurante != null) pedidoACobrar.Mesa_Restaurante.Estado = "Libre";
+            await _context.SaveChangesAsync();
+            Services.NotificacionStore.Agregar("receipt_long", "Pago registrado", $"Pedido #{pedidoACobrar.ID_Pedido} cobrado por {modelo.Metodo_Pago}. Mesa liberada.");
+
+            AuditoriaStore.Registrar(User, "Registro de pago", "Pago",
+                $"Se cobró el Pedido #{pago.ID_Pedido} por {pago.Monto:C2} ({pago.Metodo_Pago}), comprobante #{comprobante.ID_Comprobante}.");
 
             return RedirectToAction("Index", "Cajero");
         }

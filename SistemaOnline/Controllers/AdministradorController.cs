@@ -112,6 +112,13 @@ namespace SistemaOnline.Controllers
             return View(resultado.Items);
         }
 
+        public IActionResult Auditoria(string? entidad)
+        {
+            ViewBag.EntidadSeleccionada = entidad;
+            ViewBag.EntidadesDisponibles = AuditoriaStore.ObtenerEntidades();
+            return View(AuditoriaStore.Obtener(entidad));
+        }
+
         public async Task<IActionResult> Pedidos(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var queryBase = _dbcontext.Pedidos

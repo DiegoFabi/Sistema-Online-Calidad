@@ -20,36 +20,46 @@ namespace SistemaOnline.Controllers
         [HttpGet]
         public IActionResult Registro()
         {
-            return View();
+            return View(new RegistroVM());
         }
         [HttpPost]
-        public async Task<IActionResult> Registro(UsuarioVM modelo)
+        public async Task<IActionResult> Registro(RegistroVM modelo)
         {
+            var rolCliente = await _dbcontext.Roles.FirstOrDefaultAsync(r => r.Nombre_Rol == "Cliente");
+            if (rolCliente == null)
+            {
+                ModelState.AddModelError(string.Empty, "No se pudo completar el registro: el rol Cliente no está configurado en el sistema.");
+            }
+
+            if (await _dbcontext.Usuarios.AnyAsync(u => u.Nombre_Usuario == modelo.Nombre_Usuario))
+            {
+                ModelState.AddModelError(nameof(modelo.Nombre_Usuario), "Ese nombre de usuario ya está en uso. Elige otro.");
+            }
+
+            if (await _dbcontext.Usuarios.AnyAsync(u => u.Email == modelo.Email))
+            {
+                ModelState.AddModelError(nameof(modelo.Email), "Ya existe una cuenta registrada con ese correo electrónico.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(modelo);
             }
 
-            if (modelo.Password != modelo.RepeatPassword)
-            {
-                ViewData["Msg"] = "La contraseñas no coinciden, escribe denuevo";
-                return View();
-            }
-            var rolCliente = await _dbcontext.Roles.FirstOrDefaultAsync(r => r.Nombre_Rol == "Cliente");
             Usuario user = new Usuario()
             {
                 Nombre_Usuario = modelo.Nombre_Usuario,
                 Email = modelo.Email,
                 Password = modelo.Password,
                 Estado = true,
-                ID_Rol = rolCliente.ID_Rol
+                ID_Rol = rolCliente!.ID_Rol
             };
             await _dbcontext.Usuarios.AddAsync(user);
             await _dbcontext.SaveChangesAsync();
             if (user.ID_Usuario == 0)
             {
                 ViewData["Msg"] = "El usuario no se creo";
-                return View();
+                return View(modelo);
             }
 
             // Crea el perfil de Cliente vinculado a esta cuenta (autoservicio: sin este perfil
@@ -77,21 +87,33 @@ namespace SistemaOnline.Controllers
         {
             if (!ModelState.IsValid) return View(modelo);
 
+            var (bloqueado, minutosRestantes) = Services.LoginAttemptStore.EstaBloqueado(modelo.Email);
+            if (bloqueado)
+            {
+                ViewData["Msg"] = $"Tu cuenta está bloqueada temporalmente por varios intentos fallidos. Vuelve a intentarlo en {minutosRestantes} minuto(s), o restablece tu contraseña.";
+                return View(new LoginVM { Email = modelo.Email });
+            }
+
             Usuario? existe = await _dbcontext.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(
                 u => u.Email == modelo.Email &&
                 u.Password == modelo.Password);
 
             if (existe == null)
             {
-                ViewData["Msg"] = "El usuario no existe o la contraseña es incorrecta";
-                return View();
+                int restantes = Services.LoginAttemptStore.RegistrarFallo(modelo.Email, out bool quedoBloqueado);
+                ViewData["Msg"] = quedoBloqueado
+                    ? "Superaste el número de intentos permitidos. Tu cuenta se bloqueó temporalmente por 15 minutos."
+                    : $"El usuario no existe o la contraseña es incorrecta. Te quedan {restantes} intento(s) antes del bloqueo temporal.";
+                return View(new LoginVM { Email = modelo.Email });
             }
 
             if (!existe.Estado)
             {
                 ViewData["Msg"] = "Tu cuenta está deshabilitada. Contacta al administrador.";
-                return View();
+                return View(new LoginVM { Email = modelo.Email });
             }
+
+            Services.LoginAttemptStore.RegistrarExito(modelo.Email);
             //Claims
             var claim = new List<Claim>()
             {
@@ -126,8 +148,65 @@ namespace SistemaOnline.Controllers
                 case "Cajero":
                     return RedirectToAction("Index", "Cajero");
                 default:
-                    return RedirectToAction("Index", "Cliente");
+                    return RedirectToAction("Index", "PortalCliente");
             }
+        }
+
+        [HttpGet]
+        public IActionResult RecuperarPassword()
+        {
+            return View(new RecuperarPasswordVM());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RecuperarPassword(RecuperarPasswordVM modelo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(modelo);
+            }
+
+            bool existe = await _dbcontext.Usuarios.AnyAsync(u => u.Email == modelo.Email);
+            if (!existe)
+            {
+                ModelState.AddModelError(nameof(modelo.Email), "No encontramos ninguna cuenta con ese correo electrónico.");
+                return View(modelo);
+            }
+
+            return RedirectToAction(nameof(RestablecerPassword), new { email = modelo.Email });
+        }
+
+        [HttpGet]
+        public IActionResult RestablecerPassword(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return RedirectToAction(nameof(RecuperarPassword));
+            }
+            return View(new RestablecerPasswordVM { Email = email });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RestablecerPassword(RestablecerPasswordVM modelo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(modelo);
+            }
+
+            var usuario = await _dbcontext.Usuarios.FirstOrDefaultAsync(u => u.Email == modelo.Email);
+            if (usuario == null)
+            {
+                ModelState.AddModelError(string.Empty, "No encontramos ninguna cuenta con ese correo electrónico.");
+                return View(modelo);
+            }
+
+            usuario.Password = modelo.Password;
+            await _dbcontext.SaveChangesAsync();
+            Services.LoginAttemptStore.RegistrarExito(modelo.Email);
+
+            TempData["Exito"] = "Tu contraseña se actualizó correctamente. Ya puedes iniciar sesión.";
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpPost]

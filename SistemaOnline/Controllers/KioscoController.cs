@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaOnline.Data;
+using SistemaOnline.ViewModels;
 
 namespace SistemaOnline.Controllers
 {
@@ -12,14 +13,29 @@ namespace SistemaOnline.Controllers
             _dbcontext = dbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoria)
         {
-            var productos = await _dbcontext.Productos
+            var query = _dbcontext.Productos
                 .Include(p => p.Producto_Categoria)
-                .Where(p => p.Disponibilidad)
+                .Where(p => p.Disponibilidad);
+
+            if (categoria.HasValue)
+            {
+                query = query.Where(p => p.ID_Categoria == categoria.Value);
+            }
+
+            var productos = await query
                 .OrderBy(p => p.Producto_Categoria.Nombre_Categoria)
+                .ThenBy(p => p.Nombre_Plato)
                 .ToListAsync();
-            return View(productos);
+
+            var modelo = new KioscoMenuVM
+            {
+                CategoriaSeleccionada = categoria,
+                Categorias = await _dbcontext.Productos_Categorias.OrderBy(c => c.Nombre_Categoria).ToListAsync(),
+                Productos = productos
+            };
+            return View(modelo);
         }
 
         public async Task<IActionResult> Reservaciones()

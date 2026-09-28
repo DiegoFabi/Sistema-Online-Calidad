@@ -83,6 +83,18 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> Nuevo(EmpleadoVM modelo)
         {
+            if (modelo.Contrato_Fecha_Fin <= modelo.Contrato_Fecha_Inicio)
+                ModelState.AddModelError(nameof(modelo.Contrato_Fecha_Fin), "La fecha de fin del contrato debe ser posterior a la fecha de inicio.");
+
+            if (modelo.Contrato_Salario <= 100)
+                ModelState.AddModelError(nameof(modelo.Contrato_Salario), "El salario debe ser mayor a 100.");
+
+            if (string.IsNullOrWhiteSpace(modelo.Contrato_Tipo))
+                ModelState.AddModelError(nameof(modelo.Contrato_Tipo), "El tipo de contrato es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(modelo.Contrato_Clausula))
+                ModelState.AddModelError(nameof(modelo.Contrato_Clausula), "La cláusula del contrato es obligatoria.");
+
             if (!ModelState.IsValid)
             {
                 modelo.UsuariosDisponibles = await ObtenerUsuarios();
@@ -125,8 +137,22 @@ namespace SistemaOnline.Controllers
                 };
 
                 await _context.Empleados_Turnos.AddAsync(relacion);
-                await _context.SaveChangesAsync();
             }
+
+            // Contrato inicial del empleado, registrado en el mismo formulario
+            // (los contratos posteriores se administran desde ContratoController).
+            Contrato_Empleado contrato = new Contrato_Empleado
+            {
+                Fecha_Inicio = modelo.Contrato_Fecha_Inicio,
+                Fecha_Fin = modelo.Contrato_Fecha_Fin,
+                Tipo_Contrato = modelo.Contrato_Tipo,
+                Salario = modelo.Contrato_Salario,
+                Clausula = modelo.Contrato_Clausula,
+                ID_Empleado = empleado.ID_Empleado
+            };
+            await _context.Contratos_Empleados.AddAsync(contrato);
+
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Lista));
         }
 

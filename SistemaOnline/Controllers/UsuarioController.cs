@@ -67,6 +67,11 @@ namespace SistemaOnline.Controllers
             };
             await _context.Usuarios.AddAsync(usuario);
             await _context.SaveChangesAsync();
+
+            var rolCreado = await _context.Roles.FindAsync(usuario.ID_Rol);
+            AuditoriaStore.Registrar(User, "Creación", "Usuario",
+                $"Se creó el usuario '{usuario.Nombre_Usuario}' ({usuario.Email}) con rol '{rolCreado?.Nombre_Rol}'.");
+
             return RedirectToAction(nameof(Lista));
         }
 
@@ -97,6 +102,8 @@ namespace SistemaOnline.Controllers
             }
 
             Usuario usuario = await _context.Usuarios.FirstAsync(u => u.ID_Usuario == modelo.ID_Usuario);
+            int rolAnteriorId = usuario.ID_Rol;
+            bool estadoAnterior = usuario.Estado;
             usuario.Nombre_Usuario = modelo.Nombre_Usuario;
             usuario.Email = modelo.Email;
             usuario.Password = modelo.Password;
@@ -104,6 +111,22 @@ namespace SistemaOnline.Controllers
             usuario.ID_Rol = modelo.ID_Rol;
             _context.Usuarios.Update(usuario);
             await _context.SaveChangesAsync();
+
+            var detalles = new List<string>();
+            if (rolAnteriorId != modelo.ID_Rol)
+            {
+                var rolAnterior = await _context.Roles.FindAsync(rolAnteriorId);
+                var rolNuevo = await _context.Roles.FindAsync(modelo.ID_Rol);
+                detalles.Add($"rol '{rolAnterior?.Nombre_Rol}' → '{rolNuevo?.Nombre_Rol}'");
+            }
+            if (estadoAnterior != modelo.Estado)
+            {
+                detalles.Add($"estado {(estadoAnterior ? "Activo" : "Inactivo")} → {(modelo.Estado ? "Activo" : "Inactivo")}");
+            }
+            string detalleCambios = detalles.Any() ? string.Join("; ", detalles) : "datos generales actualizados";
+            AuditoriaStore.Registrar(User, "Edición", "Usuario",
+                $"Se editó el usuario '{usuario.Nombre_Usuario}' ({usuario.Email}): {detalleCambios}.");
+
             return RedirectToAction(nameof(Lista));
         }
 
@@ -118,6 +141,10 @@ namespace SistemaOnline.Controllers
             Usuario usuario = await _context.Usuarios.FirstAsync(u => u.ID_Usuario == id);
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
+
+            AuditoriaStore.Registrar(User, "Eliminación", "Usuario",
+                $"Se eliminó el usuario '{usuario.Nombre_Usuario}' ({usuario.Email}).");
+
             return RedirectToAction(nameof(Lista));
         }
 
