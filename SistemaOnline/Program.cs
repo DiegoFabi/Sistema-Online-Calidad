@@ -54,7 +54,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 
-var spanishCulture = new CultureInfo("es-ES");
+var spanishCulture = new CultureInfo("es-PE");
 var localizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture(spanishCulture, spanishCulture),
