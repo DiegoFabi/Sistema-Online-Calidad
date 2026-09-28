@@ -10,6 +10,17 @@
     ViewData["BuscadorPlaceholder"] = "Buscar por ingrediente...";
 }
 <partial name="_CRUDListLayout" />
+@if (TempData["Exito"] != null)
+{
+    <div class="mb-md p-base rounded-lg bg-secondary-container text-on-secondary-container font-body-md text-body-md">
+        @TempData["Exito"]
+    </div>
+}
+<div class="mb-md">
+    <a asp-controller="Inventario" asp-action="RegistrarCompra" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+        <span class="material-symbols-outlined">add_shopping_cart</span> Registrar Compra a Proveedor
+    </a>
+</div>
 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
     <div class="p-lg overflow-x-auto">
         <table id="tablaPrincipal" class="w-full text-left">
@@ -39,7 +50,7 @@
                                 <a asp-controller="Inventario" asp-action="Editar" asp-route-id="@item.ID_Inventario" class="inline-flex items-center gap-xs text-tertiary hover:underline">
                                     <span class="material-symbols-outlined text-[18px]">edit</span> Editar
                                 </a>
-                                <a asp-controller="Inventario" asp-action="Eliminar" asp-route-id="@item.ID_Inventario" class="inline-flex items-center gap-xs text-error hover:underline">
+                                <a asp-controller="Inventario" asp-action="Eliminar" asp-route-id="@item.ID_Inventario"  class="inline-flex items-center gap-xs text-error hover:underline">
                                     <span class="material-symbols-outlined text-[18px]">delete</span> Eliminar
                                 </a>
                             </div>

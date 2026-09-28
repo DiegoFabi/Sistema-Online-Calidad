@@ -1,0 +1,51 @@
+﻿@model SistemaOnline.ViewModels.RegistrarCompraVM
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Registrar Compra";
+    ViewBag.Active = "negocio";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-2xl mx-auto">
+    <a asp-controller="Inventario" asp-action="Lista" class="inline-flex items-center text-on-surface-variant hover:text-primary mb-md transition-colors duration-300">
+        <span class="material-symbols-outlined mr-sm">arrow_back</span>
+        <span class="font-title-sm">Volver al Inventario</span>
+    </a>
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Registrar Compra a Proveedor</h2>
+        <p class="text-on-surface-variant">Repone stock de un ingrediente y deja constancia de la compra.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="Inventario" asp-action="RegistrarCompra" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Proveedor">Proveedor</label>
+                <select class="@Cls("ID_Proveedor")" asp-for="ID_Proveedor" asp-items="Model.ProveedoresDisponibles" id="ID_Proveedor">
+                    <option value="">-- Selecciona un proveedor --</option>
+                </select>
+                <span asp-validation-for="ID_Proveedor" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Ingrediente">Ingrediente</label>
+                <select class="@Cls("ID_Ingrediente")" asp-for="ID_Ingrediente" asp-items="Model.IngredientesDisponibles" id="ID_Ingrediente">
+                    <option value="">-- Selecciona un ingrediente --</option>
+                </select>
+                <span asp-validation-for="ID_Ingrediente" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="CantidadComprada">Cantidad Comprada</label>
+                <input class="@Cls("CantidadComprada")" type="number" step="0.001" min="0.001" required asp-for="CantidadComprada" />
+                <span asp-validation-for="CantidadComprada" class="text-error text-label-md"></span>
+            </div>
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">add_shopping_cart</span> Registrar Compra
+                </button>
+                <a asp-controller="Inventario" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
