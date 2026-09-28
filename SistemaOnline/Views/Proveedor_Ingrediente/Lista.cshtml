@@ -1,0 +1,50 @@
+﻿@model List<SistemaOnline.ViewModels.Proveedor_IngredienteVM>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Proveedor - Ingrediente";
+    ViewBag.Active = "negocio";
+    ViewData["Titulo"] = "Proveedor - Ingrediente";
+    ViewData["Descripcion"] = "Asocia qué proveedores abastecen cada ingrediente.";
+    ViewData["Controlador"] = "Proveedor_Ingrediente";
+    ViewData["NuevoTexto"] = "Nueva Asociación";
+    ViewData["BuscadorPlaceholder"] = "Buscar por proveedor o ingrediente...";
+}
+<partial name="_CRUDListLayout" />
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
+    <div class="p-lg overflow-x-auto">
+        @if (!Model.Any())
+        {
+            <p class="text-on-surface-variant text-body-md">Aún no hay proveedores asociados a ningún ingrediente.</p>
+        }
+        else
+        {
+            <table id="tablaPrincipal" class="w-full text-left">
+                <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                    <tr>
+                        <th class="pb-md font-bold col-ellipsis">Proveedor</th>
+                        <th class="pb-md font-bold col-ellipsis">Ingrediente</th>
+                        <th class="pb-md font-bold">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-body-md">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                            <td class="py-md font-bold col-ellipsis" title="@item.ProveedorNombre">@item.ProveedorNombre</td>
+                            <td class="py-md col-ellipsis" title="@item.IngredienteNombre">@item.IngredienteNombre</td>
+                            <td class="py-md">
+                                <a asp-controller="Proveedor_Ingrediente" asp-action="Eliminar"
+                                   asp-route-idProveedor="@item.ID_Proveedor" asp-route-idIngrediente="@item.ID_Ingrediente"
+                                   onclick="return confirm('¿Quitar esta asociación de proveedor e ingrediente?');"
+                                   class="inline-flex items-center gap-xs text-error hover:underline">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span> Quitar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<partial name="_Pagination" />
