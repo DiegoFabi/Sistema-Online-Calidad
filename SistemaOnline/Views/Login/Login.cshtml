@@ -59,7 +59,10 @@
                     </div>
                 </div>
                 <div class="space-y-base">
-                    <label class="font-label-md text-label-md text-on-surface-variant block" for="Password">Contraseña</label>
+                    <div class="flex items-center justify-between">
+                        <label class="font-label-md text-label-md text-on-surface-variant block" for="Password">Contraseña</label>
+                        <a class="font-label-md text-label-md text-primary hover:underline" asp-controller="Login" asp-action="RecuperarPassword">¿Olvidaste tu contraseña?</a>
+                    </div>
                     <div class="relative group">
                         <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
                         <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" id="Password" placeholder="••••••••" type="password" required asp-for="Password" />
@@ -73,6 +76,12 @@
                     <span class="material-symbols-outlined">arrow_forward</span>
                 </button>
             </form>
+            @if (TempData["Exito"] != null)
+            {
+                <div class="mt-md p-base rounded-lg bg-secondary-container text-on-secondary-container font-body-md text-body-md text-center">
+                    @TempData["Exito"]
+                </div>
+            }
             @if (ViewData["Msg"] != null)
             {
                 <div class="mt-md p-base rounded-lg bg-error-container text-on-error-container font-body-md text-body-md text-center">

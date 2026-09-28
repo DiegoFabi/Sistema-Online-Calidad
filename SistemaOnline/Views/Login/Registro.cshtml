@@ -1,6 +1,9 @@
-﻿@model SistemaOnline.ViewModels.UsuarioVM;
+﻿@model SistemaOnline.ViewModels.RegistroVM;
 @{
     Layout = null;
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-12 pl-[48px] pr-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60"
+        : "w-full h-12 pl-[48px] pr-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60";
 }
 
 <!DOCTYPE html>
@@ -65,33 +68,39 @@
                 <p class="font-body-md text-body-md text-on-surface-variant">Crea tu acceso al sistema en minutos.</p>
             </div>
             <form class="space-y-md" asp-controller="Login" asp-action="Registro" method="post" autocomplete="off">
+                <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
                 <div class="space-y-base">
                     <label class="font-label-md text-label-md text-on-surface-variant block" for="Username">Nombre Completo</label>
                     <div class="relative group">
                         <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">badge</span>
-                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" id="Username" placeholder="Nombre y apellidos" type="text" required asp-for="Nombre_Usuario" />
+                        <input class="@Cls("Nombre_Usuario")" id="Username" placeholder="Nombre y apellidos" type="text" required asp-for="Nombre_Usuario" />
                     </div>
+                    <span asp-validation-for="Nombre_Usuario" class="text-error text-label-md"></span>
                 </div>
                 <div class="space-y-base">
                     <label class="font-label-md text-label-md text-on-surface-variant block" for="Email">Correo Electronico</label>
                     <div class="relative group">
                         <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">mail</span>
-                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" id="Email" placeholder="admin@restaurante.com" type="email" required asp-for="Email" />
+                        <input class="@Cls("Email")" id="Email" placeholder="admin@restaurante.com" type="email" required asp-for="Email" />
                     </div>
+                    <span asp-validation-for="Email" class="text-error text-label-md"></span>
                 </div>
                 <div class="space-y-base">
                     <label class="font-label-md text-label-md text-on-surface-variant block" for="Password">Contraseña</label>
                     <div class="relative group">
                         <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
-                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" id="Password" placeholder="Crea una contraseña segura" type="password" required asp-for="Password" />
+                        <input class="@Cls("Password")" id="Password" placeholder="Crea una contraseña segura" type="password" required asp-for="Password" />
                     </div>
+                    <p class="font-label-md text-label-md text-on-surface-variant">Mínimo 8 caracteres, con al menos una letra y un número.</p>
+                    <span asp-validation-for="Password" class="text-error text-label-md"></span>
                 </div>
                 <div class="space-y-base">
                     <label class="font-label-md text-label-md text-on-surface-variant block" for="RepeatPassword">Repite la Contraseña</label>
                     <div class="relative group">
                         <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock_reset</span>
-                        <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" id="RepeatPassword" placeholder="Repite tu contraseña" type="password" required asp-for="RepeatPassword" />
+                        <input class="@Cls("RepeatPassword")" id="RepeatPassword" placeholder="Repite tu contraseña" type="password" required asp-for="RepeatPassword" />
                     </div>
+                    <span asp-validation-for="RepeatPassword" class="text-error text-label-md"></span>
                 </div>
                 <button class="w-full h-12 bg-primary hover:bg-on-primary-fixed-variant text-white font-title-md text-title-md rounded-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-sm mt-lg" type="submit">
                     Registrate
