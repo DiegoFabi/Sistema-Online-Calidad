@@ -59,12 +59,10 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> Nuevo(PagoVM modelo)
         {
-            // Nunca confiar en el estado que llega del formulario: se vuelve a revisar
-            // el pedido en la BD para no registrar un pago duplicado sobre uno ya cobrado.
             var pedido = await _context.Pedidos.FirstOrDefaultAsync(p => p.ID_Pedido == modelo.ID_Pedido);
             if (pedido == null)
                 ModelState.AddModelError(nameof(modelo.ID_Pedido), "El pedido seleccionado no existe.");
-            else if (pedido.Estado_Pedido == "Pagado")
+            else if (pedido.Estado_Pedido == "Pagado" || await _context.Pagos.AnyAsync(p => p.ID_Pedido == modelo.ID_Pedido))
                 ModelState.AddModelError(nameof(modelo.ID_Pedido), "Este pedido ya fue cobrado, no se puede registrar otro pago.");
 
             if (!ModelState.IsValid)
