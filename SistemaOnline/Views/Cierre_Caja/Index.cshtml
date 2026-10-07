@@ -1,4 +1,4 @@
-﻿@model SistemaOnline.ViewModels.Cierre_CajaVM
+@model SistemaOnline.ViewModels.Cierre_CajaVM
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Cierre de Caja";
@@ -98,20 +98,20 @@
                 <table class="w-full text-left">
                     <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
                         <tr>
-                            <th class="pb-md font-bold">Pedido</th>
-                            <th class="pb-md font-bold">Hora</th>
-                            <th class="pb-md font-bold">Método</th>
-                            <th class="pb-md font-bold">Monto</th>
+                            <th class="px-md pb-md font-bold">Pedido</th>
+                            <th class="px-md pb-md font-bold">Hora</th>
+                            <th class="px-md pb-md font-bold">Método</th>
+                            <th class="px-md pb-md font-bold">Monto</th>
                         </tr>
                     </thead>
                     <tbody class="text-body-md">
                         @foreach (var pg in Model.Pagos)
                         {
                             <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
-                                <td class="py-md font-mono-data">#@pg.ID_Pedido</td>
-                                <td class="py-md">@pg.Fecha_Hora_Pago.ToString("HH:mm")</td>
-                                <td class="py-md">@pg.Metodo_Pago</td>
-                                <td class="py-md font-bold">@pg.Monto.ToString("C2")</td>
+                                <td class="px-md py-md font-mono-data">#@pg.ID_Pedido</td>
+                                <td class="px-md py-md">@pg.Fecha_Hora_Pago.ToString("HH:mm")</td>
+                                <td class="px-md py-md">@pg.Metodo_Pago</td>
+                                <td class="px-md py-md font-bold">@pg.Monto.ToString("C2")</td>
                             </tr>
                         }
                     </tbody>

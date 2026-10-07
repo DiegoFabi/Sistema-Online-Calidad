@@ -24,22 +24,22 @@
         <table class="w-full text-left">
             <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
                 <tr>
-                    <th class="pb-md font-bold">Nombre</th>
-                    <th class="pb-md font-bold">DNI</th>
-                    <th class="pb-md font-bold">Teléfono</th>
-                    <th class="pb-md font-bold">Email</th>
-                    <th class="pb-md font-bold">RUC</th>
+                    <th class="px-md pb-md font-bold">Nombre</th>
+                    <th class="px-md pb-md font-bold">DNI</th>
+                    <th class="px-md pb-md font-bold">Teléfono</th>
+                    <th class="px-md pb-md font-bold">Email</th>
+                    <th class="px-md pb-md font-bold">RUC</th>
                 </tr>
             </thead>
             <tbody class="text-body-md">
                 @foreach (var c in Model)
                 {
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
-                        <td class="py-md font-bold">@c.Nombre @c.Apellidos</td>
-                        <td class="py-md font-mono-data">@c.DNI</td>
-                        <td class="py-md">@c.Telefono</td>
-                        <td class="py-md">@c.Email</td>
-                        <td class="py-md font-mono-data">@c.RUC</td>
+                        <td class="px-md py-md font-bold">@c.Nombre @c.Apellidos</td>
+                        <td class="px-md py-md font-mono-data">@c.DNI</td>
+                        <td class="px-md py-md">@c.Telefono</td>
+                        <td class="px-md py-md">@c.Email</td>
+                        <td class="px-md py-md font-mono-data">@c.RUC</td>
                     </tr>
                 }
             </tbody>

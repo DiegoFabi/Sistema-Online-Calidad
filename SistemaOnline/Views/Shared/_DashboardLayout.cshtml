@@ -379,16 +379,24 @@
         lista.appendChild(item);
         }
 
+        let primeraCarga = true;
+
         function cargarNotificaciones() {
         fetch('@Url.Action("Listar", "Notificacion")')
         .then(function (r) { return r.json(); })
         .then(function (notificaciones) {
         const idsActuales = Array.from(lista.querySelectorAll('.notif-item')).map(function (el) { return el.dataset.id; });
+        let hayNuevas = false;
         notificaciones.forEach(function (n) {
         if (idsActuales.indexOf(String(n.id)) === -1) {
         pintarNotificacion(n);
+        hayNuevas = true;
         }
         });
+        if (hayNuevas && !primeraCarga) {
+        reproducirSonidoNotificacion();
+        }
+        primeraCarga = false;
         actualizarBadge();
         });
         }
@@ -425,8 +433,16 @@
         });
         })();
 
+        // ---------- Sonido de notificación/confirmación ----------
+        const sonidoNotificacion = new Audio('/sounds/notificacion.wav');
+        function reproducirSonidoNotificacion() {
+        sonidoNotificacion.currentTime = 0;
+        sonidoNotificacion.play().catch(function () { });
+        }
+
         // ---------- Confeti (respeta preferencia "Desactivar animaciones") ----------
         function lanzarConfetti() {
+        reproducirSonidoNotificacion();
         if (localStorage.getItem('app_desactivar_animaciones') === 'true') return;
         if (typeof confetti !== 'function') return;
         confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });

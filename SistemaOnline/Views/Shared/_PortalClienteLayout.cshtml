@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="es">
 <head>
     <meta charset="utf-8" />
@@ -6,9 +6,9 @@
     <title>@ViewData["Title"] - Rancho Sagrado</title>
     <partial name="_DesignTokensHead" />
     <style>
-            #PortalSideNav {
-                box-shadow: 4px 0 24px -8px rgba(185, 23, 47, 0.12);
-            }
+        #PortalSideNav {
+            box-shadow: 4px 0 24px -8px rgba(185, 23, 47, 0.12);
+        }
     </style>
 </head>
 <body class="bg-surface text-on-surface font-body-md min-h-screen">
@@ -82,14 +82,14 @@
     </div>
 
     <script>
-            function openLogoutModalCliente() {
-                document.getElementById('logoutModalCliente').classList.remove('hidden');
-                document.getElementById('logoutModalCliente').classList.add('flex');
-            }
-            function closeLogoutModalCliente() {
-                document.getElementById('logoutModalCliente').classList.add('hidden');
-                document.getElementById('logoutModalCliente').classList.remove('flex');
-            }
+        function openLogoutModalCliente() {
+            document.getElementById('logoutModalCliente').classList.remove('hidden');
+            document.getElementById('logoutModalCliente').classList.add('flex');
+        }
+        function closeLogoutModalCliente() {
+            document.getElementById('logoutModalCliente').classList.add('hidden');
+            document.getElementById('logoutModalCliente').classList.remove('flex');
+        }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -29,28 +29,28 @@
         <table class="w-full text-left">
             <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
                 <tr>
-                    <th class="pb-md font-bold">Fecha/Hora</th>
-                    <th class="pb-md font-bold">Cliente</th>
-                    <th class="pb-md font-bold">Mesa</th>
-                    <th class="pb-md font-bold">Personas</th>
-                    <th class="pb-md font-bold">Ocasión</th>
-                    <th class="pb-md font-bold">Estado</th>
-                    <th class="pb-md font-bold">Acciones</th>
+                    <th class="px-md pb-md font-bold">Fecha/Hora</th>
+                    <th class="px-md pb-md font-bold">Cliente</th>
+                    <th class="px-md pb-md font-bold">Mesa</th>
+                    <th class="px-md pb-md font-bold">Personas</th>
+                    <th class="px-md pb-md font-bold">Ocasión</th>
+                    <th class="px-md pb-md font-bold">Estado</th>
+                    <th class="px-md pb-md font-bold">Acciones</th>
                 </tr>
             </thead>
             <tbody class="text-body-md">
                 @foreach (var r in Model)
                 {
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
-                        <td class="py-md font-mono-data">@r.Fecha_Hora.ToString("dd/MM/yyyy HH:mm")</td>
-                        <td class="py-md">@(r.Cliente != null ? r.Cliente.Nombre + " " + r.Cliente.Apellidos : "-")</td>
-                        <td class="py-md">@(r.Mesa_Restaurante != null ? "Mesa " + r.Mesa_Restaurante.Numero_Mesa : "-")</td>
-                        <td class="py-md font-mono-data">@r.Numero_Personas</td>
-                        <td class="py-md">@r.Ocasion_Especial</td>
-                        <td class="py-md">
+                        <td class="px-md py-md font-mono-data">@r.Fecha_Hora.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="px-md py-md">@(r.Cliente != null ? r.Cliente.Nombre + " " + r.Cliente.Apellidos : "-")</td>
+                        <td class="px-md py-md">@(r.Mesa_Restaurante != null ? "Mesa " + r.Mesa_Restaurante.Numero_Mesa : "-")</td>
+                        <td class="px-md py-md font-mono-data">@r.Numero_Personas</td>
+                        <td class="px-md py-md">@r.Ocasion_Especial</td>
+                        <td class="px-md py-md">
                             <span class="px-sm py-xs rounded-full text-label-md font-bold @EstadoColores.Reservacion(r.Estado_Reservacion)">@r.Estado_Reservacion</span>
                         </td>
-                        <td class="py-md">
+                        <td class="px-md py-md">
                             <button type="button" onclick="openEditReservaModal(@r.ID_Reservacion)" title="Editar reservación"
                                     class="w-8 h-8 inline-flex items-center justify-center rounded-full text-tertiary hover:bg-surface-container-high transition-colors">
                                 <span class="material-symbols-outlined text-[20px]">edit</span>
