@@ -41,12 +41,13 @@ builder.Services.AddDbContext<APPDBContext>(options =>
 builder.Services.AddSession();
 var app = builder.Build();
 
-// Migrar base de datos al iniciar
+/* Migrar base de datos al iniciar
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<APPDBContext>();
     db.Database.Migrate();
 }
+*/
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
