@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaOnline.Data;
+using SistemaOnline.Models;
 using SistemaOnline.Services;
 using SistemaOnline.ViewModels;
 
@@ -110,7 +112,52 @@ namespace SistemaOnline.Controllers
             ViewBag.PageSize = resultado.PageSize;
             ViewBag.TotalPages = resultado.TotalPages;
             ViewBag.TotalCount = resultado.TotalCount;
+            ViewBag.RolesDisponibles = await _dbcontext.Roles.Select(r => new SelectListItem
+            {
+                Value = r.ID_Rol.ToString(),
+                Text = r.Nombre_Rol
+            }).ToListAsync();
             return View(resultado.Items);
+        }
+
+        // Edicion completa de un usuario desde el boton de editar de la lista (modal).
+        // Misma logica que UsuarioController.Editar, pero vuelve a Dashboard/Usuarios.
+        [HttpPost]
+        public async Task<IActionResult> EditarUsuario(UsuarioVM modelo)
+        {
+            Usuario? usuario = await _dbcontext.Usuarios.FirstOrDefaultAsync(u => u.ID_Usuario == modelo.ID_Usuario);
+            if (usuario == null || !await _dbcontext.Roles.AnyAsync(r => r.ID_Rol == modelo.ID_Rol))
+            {
+                TempData["Error"] = "No se pudo actualizar el usuario: datos inválidos.";
+                return RedirectToAction(nameof(Usuarios));
+            }
+
+            int rolAnteriorId = usuario.ID_Rol;
+            bool estadoAnterior = usuario.Estado;
+            usuario.Nombre_Usuario = modelo.Nombre_Usuario;
+            usuario.Email = modelo.Email;
+            usuario.Password = modelo.Password;
+            usuario.Estado = modelo.Estado;
+            usuario.ID_Rol = modelo.ID_Rol;
+            await _dbcontext.SaveChangesAsync();
+
+            var detalles = new List<string>();
+            if (rolAnteriorId != modelo.ID_Rol)
+            {
+                var rolAnterior = await _dbcontext.Roles.FindAsync(rolAnteriorId);
+                var rolNuevo = await _dbcontext.Roles.FindAsync(modelo.ID_Rol);
+                detalles.Add($"rol '{rolAnterior?.Nombre_Rol}' → '{rolNuevo?.Nombre_Rol}'");
+            }
+            if (estadoAnterior != modelo.Estado)
+            {
+                detalles.Add($"estado {(estadoAnterior ? "Activo" : "Inactivo")} → {(modelo.Estado ? "Activo" : "Inactivo")}");
+            }
+            string detalleCambios = detalles.Any() ? string.Join("; ", detalles) : "datos generales actualizados";
+            AuditoriaStore.Registrar(User, "Edición", "Usuario",
+                $"Se editó el usuario '{usuario.Nombre_Usuario}' ({usuario.Email}): {detalleCambios}.");
+
+            TempData["Exito"] = "El usuario se actualizó correctamente.";
+            return RedirectToAction(nameof(Usuarios));
         }
 
         public async Task<IActionResult> Inventario(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)

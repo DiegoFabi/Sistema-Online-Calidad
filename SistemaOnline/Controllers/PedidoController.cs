@@ -2,12 +2,14 @@ using SistemaOnline.Data;
 using SistemaOnline.Models;
 using SistemaOnline.ViewModels;
 using SistemaOnline.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace SistemaOnline.Controllers
 {
+    [Authorize(Roles = "Administrador,Mesero")]
     public class PedidoController : Controller
     {
         private readonly APPDBContext _context;
@@ -90,7 +92,7 @@ namespace SistemaOnline.Controllers
             PedidoVM modelo = new PedidoVM
             {
                 Fecha = DateTime.Now,
-                Estado_Pedido = esMesero ? "En Cocina" : "Pendiente",
+                Estado_Pedido = "Pendiente",
                 ID_Empleado = preselEmpleado,
                 ID_Mesa = mesaId ?? 0,
                 EmpleadosDisponibles = empleadosList,
@@ -118,7 +120,7 @@ namespace SistemaOnline.Controllers
                     ModelState.AddModelError(nameof(modelo.ID_Empleado), "No se encontró tu registro de empleado.");
                 else
                     modelo.ID_Empleado = empleado.ID_Empleado;
-                modelo.Estado_Pedido = "En Cocina";
+                modelo.Estado_Pedido = "Pendiente";
             }
             else
             {

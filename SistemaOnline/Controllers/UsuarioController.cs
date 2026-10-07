@@ -2,12 +2,14 @@ using SistemaOnline.Data;
 using SistemaOnline.Models;
 using SistemaOnline.ViewModels;
 using SistemaOnline.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace SistemaOnline.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class UsuarioController : Controller
     {
         private readonly APPDBContext _context;

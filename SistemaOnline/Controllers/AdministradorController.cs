@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaOnline.Data;
 using SistemaOnline.Services;
@@ -7,7 +8,9 @@ using SistemaOnline.ViewModels;
 
 namespace SistemaOnline.Controllers
 {
-    [Authorize(Roles = "Administrador")]
+    // Sin [Authorize] a nivel de clase: Reservaciones/EditarReservacion las puede usar
+    // tambien el Mesero (ve y gestiona las reservas igual que el Administrador), el resto
+    // de acciones de este controlador siguen siendo solo para el Administrador.
     public class AdministradorController : Controller
     {
         private readonly APPDBContext _dbcontext;
@@ -16,6 +19,7 @@ namespace SistemaOnline.Controllers
             _dbcontext = dbContext;
         }
 
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index()
         {
             var hoy = DateTime.Today;
@@ -82,6 +86,7 @@ namespace SistemaOnline.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Administrador,Mesero")]
         public async Task<IActionResult> Reservaciones(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var query = _dbcontext.Reservaciones
@@ -94,9 +99,95 @@ namespace SistemaOnline.Controllers
             ViewBag.PageSize = resultado.PageSize;
             ViewBag.TotalPages = resultado.TotalPages;
             ViewBag.TotalCount = resultado.TotalCount;
+            ViewBag.ClientesDisponibles = await ObtenerClientes();
+            ViewBag.MesasDisponibles = await ObtenerMesas();
             return View(resultado.Items);
         }
 
+        // Edicion completa de una reservacion desde el boton de editar de la lista (modal).
+        // Mantiene el Estado de la Mesa consistente con el mismo criterio que ya usa
+        // ReservacionController al editar una reservacion.
+        [Authorize(Roles = "Administrador,Mesero")]
+        [HttpPost]
+        public async Task<IActionResult> EditarReservacion(ReservacionVM modelo)
+        {
+            var estadosActivos = new[] { "Pendiente", "Confirmada" };
+
+            var reservacion = await _dbcontext.Reservaciones.FirstOrDefaultAsync(r => r.ID_Reservacion == modelo.ID_Reservacion);
+            if (reservacion == null || !await _dbcontext.Clientes.AnyAsync(c => c.ID_Cliente == modelo.ID_Cliente)
+                || !await _dbcontext.Mesas.AnyAsync(m => m.ID_Mesa == modelo.ID_Mesa))
+            {
+                TempData["Error"] = "No se pudo actualizar la reservación: datos inválidos.";
+                return RedirectToAction(nameof(Reservaciones));
+            }
+
+            int mesaAnterior = reservacion.ID_Mesa;
+            reservacion.Fecha_Hora = modelo.Fecha_Hora;
+            reservacion.Numero_Personas = modelo.Numero_Personas;
+            reservacion.Ocasion_Especial = modelo.Ocasion_Especial;
+            reservacion.Estado_Reservacion = modelo.Estado_Reservacion;
+            reservacion.Notas = modelo.Notas;
+            reservacion.ID_Cliente = modelo.ID_Cliente;
+            reservacion.ID_Mesa = modelo.ID_Mesa;
+            await _dbcontext.SaveChangesAsync();
+
+            if (mesaAnterior != modelo.ID_Mesa)
+            {
+                await LiberarMesaSiSinReservasActivas(mesaAnterior, estadosActivos);
+            }
+            if (estadosActivos.Contains(modelo.Estado_Reservacion))
+            {
+                var mesaNueva = await _dbcontext.Mesas.FindAsync(modelo.ID_Mesa);
+                if (mesaNueva != null && mesaNueva.Estado == "Libre")
+                {
+                    mesaNueva.Estado = "Reservada";
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                await LiberarMesaSiSinReservasActivas(modelo.ID_Mesa, estadosActivos);
+            }
+
+            TempData["Exito"] = "La reservación se actualizó correctamente.";
+            return RedirectToAction(nameof(Reservaciones));
+        }
+
+        private async Task LiberarMesaSiSinReservasActivas(int mesaId, string[] estadosActivos)
+        {
+            bool tieneOtrasActivas = await _dbcontext.Reservaciones
+                .AnyAsync(r => r.ID_Mesa == mesaId && estadosActivos.Contains(r.Estado_Reservacion));
+            if (tieneOtrasActivas)
+            {
+                return;
+            }
+            var mesa = await _dbcontext.Mesas.FindAsync(mesaId);
+            if (mesa != null && mesa.Estado == "Reservada")
+            {
+                mesa.Estado = "Libre";
+                await _dbcontext.SaveChangesAsync();
+            }
+        }
+
+        private async Task<List<SelectListItem>> ObtenerClientes()
+        {
+            return await _dbcontext.Clientes.Select(c => new SelectListItem
+            {
+                Value = c.ID_Cliente.ToString(),
+                Text = c.Nombre + " " + c.Apellidos
+            }).ToListAsync();
+        }
+
+        private async Task<List<SelectListItem>> ObtenerMesas()
+        {
+            return await _dbcontext.Mesas.Select(m => new SelectListItem
+            {
+                Value = m.ID_Mesa.ToString(),
+                Text = "Mesa " + m.Numero_Mesa
+            }).ToListAsync();
+        }
+
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Turnos(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var query = _dbcontext.Turnos
@@ -112,6 +203,7 @@ namespace SistemaOnline.Controllers
             return View(resultado.Items);
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Auditoria(string? entidad)
         {
             ViewBag.EntidadSeleccionada = entidad;
@@ -119,6 +211,7 @@ namespace SistemaOnline.Controllers
             return View(AuditoriaStore.Obtener(entidad));
         }
 
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Pedidos(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var queryBase = _dbcontext.Pedidos

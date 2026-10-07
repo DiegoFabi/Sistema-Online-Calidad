@@ -28,10 +28,26 @@ namespace SistemaOnline.Controllers
                 .Distinct()
                 .ToListAsync();
 
+            // Una mesa reservada para HOY sin pedido activo todavia no debe verse como Libre.
+            // Una reservacion para otro dia no debe marcar la mesa (sigue disponible para hoy).
+            var hoy = DateTime.Today;
+            var mañana = hoy.AddDays(1);
+            var estadosReservaVigente = new[] { "Pendiente", "Confirmada" };
+            var mesasConReservaHoy = await _dbcontext.Reservaciones
+                .Where(r => estadosReservaVigente.Contains(r.Estado_Reservacion) && r.Fecha_Hora >= hoy && r.Fecha_Hora < mañana)
+                .Select(r => r.ID_Mesa)
+                .Distinct()
+                .ToListAsync();
+
+            var mesasReservadas = resultado.Items
+                .Where(m => mesasConReservaHoy.Contains(m.ID_Mesa) && !mesasConPedido.Contains(m.ID_Mesa))
+                .Select(m => m.ID_Mesa);
+
             var vm = new MeseroDashboardVM
             {
                 Mesas = resultado.Items,
                 MesasConPedidoActivo = new HashSet<int>(mesasConPedido),
+                MesasReservadas = new HashSet<int>(mesasReservadas),
                 MesasLibres = resultado.Items.Count(m => !mesasConPedido.Contains(m.ID_Mesa)),
                 MesasOcupadas = resultado.Items.Count(m => mesasConPedido.Contains(m.ID_Mesa)),
                 PedidosActivos = mesasConPedido.Count
@@ -63,7 +79,22 @@ namespace SistemaOnline.Controllers
                 .OrderByDescending(p => p.ID_Pedido)
                 .ToListAsync();
 
+            // La mesa puede tener reservaciones vigentes aun sin ningun pedido activo
+            // (p.ej. reservada para mas tarde); se muestran separadas de los pedidos,
+            // no como si fueran lo mismo.
+            var estadosReservaVigente = new[] { "Pendiente", "Confirmada" };
+            var reservaciones = await _dbcontext.Reservaciones
+                .Include(r => r.Cliente)
+                .Where(r => r.ID_Mesa == id && estadosReservaVigente.Contains(r.Estado_Reservacion))
+                .OrderBy(r => r.Fecha_Hora)
+                .ToListAsync();
+
+            // El badge de "Reservada" solo debe encenderse el dia de la reserva: una
+            // reservacion para otro dia no debe impedir usar la mesa hoy.
+            var hoy = DateTime.Today;
             ViewBag.Mesa = mesa;
+            ViewBag.Reservaciones = reservaciones;
+            ViewBag.TieneReservaHoy = reservaciones.Any(r => r.Fecha_Hora.Date == hoy);
             return View(pedidos);
         }
 

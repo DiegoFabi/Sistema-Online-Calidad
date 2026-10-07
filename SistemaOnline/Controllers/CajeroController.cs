@@ -77,8 +77,12 @@ namespace SistemaOnline.Controllers
 
         public async Task<IActionResult> Pagos(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
+            var hoy = DateTime.Today;
+            var manana = hoy.AddDays(1);
+
             var query = _dbcontext.Pagos
                 .Include(pg => pg.Pedido)
+                .Where(pg => pg.Fecha_Hora_Pago >= hoy && pg.Fecha_Hora_Pago < manana)
                 .OrderByDescending(pg => pg.Fecha_Hora_Pago);
 
             var resultado = await query.ToPagedListAsync(page, pageSize);
