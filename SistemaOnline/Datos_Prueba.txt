@@ -1,5 +1,5 @@
 -- ==============================================================================
--- 1. Rol
+-- 1. Rol 
 -- ==============================================================================
 SET IDENTITY_INSERT Roles ON;
 INSERT INTO Roles (ID_Rol, Nombre_Rol, Descripcion) VALUES (1, 'Administrador', 'Acceso total al sistema: gestion de usuarios, configuracion y reportes');
@@ -11,7 +11,7 @@ SET IDENTITY_INSERT Roles OFF;
 GO
 
 -- ==============================================================================
--- 2. Turno 
+-- 2. Turno
 -- ==============================================================================
 SET IDENTITY_INSERT Turnos ON;
 INSERT INTO Turnos (ID_Turno, Nombre_Turno, Hora_Inicio, Hora_Fin, Dias_Semana) VALUES (1, 'Mañana', '06:00:00', '14:00:00', 'Lunes-Viernes');
@@ -43,25 +43,38 @@ GO
 SET IDENTITY_INSERT Cartas ON;
 INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (1, 'Carta Principal', 45, 'Carta principal del restaurante Rancho Sagrado', 0.00);
 INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (2, 'Carta de Temporada', 5, 'Platos especiales de temporada y eventos', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (3, 'Carta Navideña 2025', 10, 'Platos y postres especiales de la temporada navideña 2025', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (4, 'Carta Fiestas Patrias 2025', 8, 'Platos típicos por Fiestas Patrias 2025', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (5, 'Carta de Verano 2025', 6, 'Platos ligeros y bebidas frías para la temporada de verano 2025', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (6, 'Carta Día de la Madre 2025', 5, 'Menú especial por el Día de la Madre 2025', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (7, 'Carta Aniversario Rancho Sagrado 2025', 7, 'Edición limitada por el aniversario del restaurante', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (8, 'Carta Navideña 2024', 10, 'Platos y postres especiales de la temporada navideña 2024', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (9, 'Carta Fiestas Patrias 2024', 8, 'Platos típicos por Fiestas Patrias 2024', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (10, 'Carta de Verano 2024', 6, 'Platos ligeros y bebidas frías para la temporada de verano 2024', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (11, 'Carta Día de la Madre 2024', 5, 'Menú especial por el Día de la Madre 2024', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (12, 'Carta Fiestas Patrias 2023', 8, 'Platos típicos por Fiestas Patrias 2023', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (13, 'Carta Navideña 2023', 9, 'Platos y postres especiales de la temporada navideña 2023', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (14, 'Carta de Verano 2023', 6, 'Platos ligeros y bebidas frías para la temporada de verano 2023', 0.00);
+INSERT INTO Cartas (ID_Carta, Nombre_Carta, Cantidad_Platos, Descripcion, Precio) VALUES (15, 'Carta Día de la Madre 2023', 5, 'Menú especial por el Día de la Madre 2023', 0.00);
 SET IDENTITY_INSERT Cartas OFF;
 GO
 
 -- ==============================================================================
--- 5. Mesa_Restaurante
+-- 5. Mesa_Restaurante 
 -- ==============================================================================
 SET IDENTITY_INSERT Mesas ON;
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (1, 1, 4, 'Salón Principal', 'Ocupada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (2, 2, 4, 'Salón Principal', 'Disponible');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (3, 3, 4, 'Salón Principal', 'Disponible');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (2, 2, 4, 'Salón Principal', 'Libre');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (3, 3, 4, 'Salón Principal', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (4, 4, 6, 'Salón Principal', 'Ocupada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (5, 5, 6, 'Salón Principal', 'Disponible');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (6, 6, 6, 'Salón Principal', 'Disponible');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (5, 5, 6, 'Salón Principal', 'Libre');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (6, 6, 6, 'Salón Principal', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (7, 7, 2, 'Terraza', 'Reservada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (8, 8, 2, 'Terraza', 'Disponible');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (8, 8, 2, 'Terraza', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (9, 9, 4, 'Terraza', 'Ocupada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (10, 10, 4, 'Terraza', 'Disponible');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (10, 10, 4, 'Terraza', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (11, 11, 8, 'Sala Privada', 'Reservada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (12, 12, 8, 'Sala Privada', 'Disponible');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (12, 12, 8, 'Sala Privada', 'Libre');
 SET IDENTITY_INSERT Mesas OFF;
 GO
 
@@ -74,11 +87,18 @@ INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, I
 INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (3, 'Postres', 'Postres y dulces para finalizar la comida', 1);
 INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (4, 'Entradas', 'Aperitivos y entradas del restaurante', 1);
 INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (5, 'Especiales de Temporada', 'Platos exclusivos de temporada', 2);
+INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (6, 'Sopas y Cremas', 'Sopas y cremas de entrada', 1);
+INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (7, 'Parrillas y Carnes a la Leña', 'Carnes y parrillas a la leña', 1);
+INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (8, 'Guarniciones', 'Acompañamientos y guarniciones', 1);
+INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (9, 'Piqueos y Pasapalos', 'Piqueos para compartir', 1);
+INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (10, 'Menú Infantil', 'Platos pensados para niños', 1);
+INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (11, 'Café y Repostería', 'Cafés y repostería de la casa', 1);
+INSERT INTO Productos_Categorias (ID_Categoria, Nombre_Categoria, Descripcion, ID_Carta) VALUES (12, 'Ensaladas', 'Ensaladas frescas de entrada o acompañamiento', 1);
 SET IDENTITY_INSERT Productos_Categorias OFF;
 GO
 
 -- ==============================================================================
--- 7. Ingrediente
+-- 7. Ingrediente 
 -- ==============================================================================
 SET IDENTITY_INSERT Ingredientes ON;
 INSERT INTO Ingredientes (ID_Ingrediente, Nombre_Ingrediente, Unidad_Medida, Descripcion, Costo_Unitario, Estado, ID_Cat_Ingrediente) VALUES (1, 'Lomo de Res', 'kg', 'Corte fino de res para salteados y parrilla', 45.00, 1, 1);
@@ -120,7 +140,7 @@ SET IDENTITY_INSERT Ingredientes OFF;
 GO
 
 -- ==============================================================================
--- 8. Cliente
+-- 8. Cliente 
 -- ==============================================================================
 SET IDENTITY_INSERT Clientes ON;
 INSERT INTO Clientes (ID_Cliente, Nombre, Apellidos, Telefono, Email, Fecha_Nacimiento, Direccion, DNI, RUC) VALUES (1, 'Carlos', 'García Sánchez', '931455603', 'carlos.garcia0@correo.com', '1999-08-27', 'Av. Arequipa 100, Lima', '40000000', NULL);
@@ -167,7 +187,7 @@ SET IDENTITY_INSERT Clientes OFF;
 GO
 
 -- ==============================================================================
--- 9. Proveedor
+-- 9. Proveedor 
 -- ==============================================================================
 SET IDENTITY_INSERT Proveedores ON;
 INSERT INTO Proveedores (ID_Proveedor, Nombre_Empresa, RUC, Email_Contacto, Telefono, Direccion, Tipo_Suministro, Estado) VALUES (1, 'Distribuidora Cárnica Andina SAC', '20100112233', 'ventas@carnicandina.pe', '014567890', 'Av. Argentina 1450, Lima', 'Carnes rojas y aves', 'Activo');
@@ -206,7 +226,7 @@ SET IDENTITY_INSERT Empleados OFF;
 GO
 
 -- ==============================================================================
--- 11. Usuario
+-- 11. Usuario 
 -- ==============================================================================
 SET IDENTITY_INSERT Usuarios ON;
 INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (1, 'Tigre Capo', 'admin@ranchosagrado.pe', 'aQwr@2', 1, 1);
@@ -225,7 +245,7 @@ SET IDENTITY_INSERT Usuarios OFF;
 GO
 
 -- ==============================================================================
--- 11.1 Empleados.ID_Usuario
+-- 11.1 Empleados.ID_Usuario 
 -- ==============================================================================
 UPDATE Empleados SET ID_Usuario = 2 WHERE ID_Empleado = 4;
 UPDATE Empleados SET ID_Usuario = 3 WHERE ID_Empleado = 1;
@@ -241,7 +261,7 @@ UPDATE Empleados SET ID_Usuario = 12 WHERE ID_Empleado = 15;
 GO
 
 -- ==============================================================================
--- 11.2 Usuario
+-- 11.2 Usuario 
 -- ==============================================================================
 SET IDENTITY_INSERT Usuarios ON;
 INSERT INTO Usuarios (ID_Usuario, Nombre_Usuario, Email, Password, Estado, ID_Rol) VALUES (13, 'Carlos García', 'carlos.garcia0@correo.com', 'cliente1000', 1, 4);
@@ -265,11 +285,11 @@ UPDATE Clientes SET ID_Usuario = 18 WHERE ID_Cliente = 25;
 GO
 
 -- ==============================================================================
--- 12. Producto
+-- 12. Producto 
 -- ==============================================================================
 SET IDENTITY_INSERT Productos ON;
-INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (1, 'Lomo Saltado', 'Tiras de res salteadas con cebolla, tomate y papas fritas al estilo criollo', 20, 28.50, 1, 1);
-INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (2, 'Ají de Gallina', 'Pollo deshilachado en cremosa salsa de ají amarillo con papa y huevo duro', 35, 27.00, 1, 1);
+INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (1, 'Lomo Saltado', 'Tiras de res salteadas con cebolla, tomate y papas fritas al estilo criollo', 20, 25.00, 1, 1);
+INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (2, 'Ají de Gallina', 'Pollo deshilachado en cremosa salsa de ají amarillo con papa y huevo duro', 35, 22.00, 1, 1);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (3, 'Ceviche Clásico', 'Pescado fresco marinado en limón con cebolla morada, ají limo y cancha serrana', 15, 32.00, 1, 1);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (4, 'Arroz con Mariscos', 'Arroz al estilo criollo con mezcla de mariscos frescos en salsa de ají amarillo', 30, 34.00, 1, 1);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (5, 'Seco de Res', 'Guiso de res con cilantro, chicha de jora y frejoles verdes', 50, 26.00, 1, 1);
@@ -287,13 +307,13 @@ INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacio
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (17, 'Mazamorra Morada', 'Postre de maíz morado con frutas secas y canela al estilo limeño', 30, 12.00, 1, 3);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (18, 'Arroz con Leche', 'Postre cremoso de arroz con leche evaporada, canela y clavo de olor', 25, 11.00, 1, 3);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (19, 'Suspiro Limeño', 'Manjar blanco cubierto de merengue italiano perfumado con Oporto', 20, 13.00, 1, 3);
-INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (20, 'Chicha Morada', 'Bebida peruana de maíz morado con piña, membrillo y canela', 5, 9.00, 1, 2);
+INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (20, 'Chicha Morada', 'Bebida peruana de maíz morado con piña, membrillo y canela', 5, 6.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (21, 'Pisco Sour', 'Cóctel peruano de pisco quebranta con limón, jarabe y clara de huevo', 5, 16.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (22, 'Limonada Serrana', 'Limonada natural con menta y azúcar de caña servida fría', 5, 8.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (23, 'Emoliente Caliente', 'Infusión tradicional de hierbas con cebada, linaza y limón', 5, 7.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (24, 'Jugo de Maracuyá', 'Jugo natural de maracuyá con azúcar y agua purificada', 5, 8.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (25, 'Agua Mineral', 'Agua mineral natural o con gas en botella personal', 5, 5.00, 1, 2);
-INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (26, 'Inca Kola', 'Gaseosa nacional peruana sabor original en botella 500ml', 5, 6.00, 1, 2);
+INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (26, 'Inca Kola', 'Gaseosa nacional peruana sabor original en botella 500ml', 5, 5.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (27, 'Té de Hierbas', 'Infusión de manzanilla, muña o menta con miel de abeja', 5, 6.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (28, 'Café Pasado', 'Café peruano de altura preparado al paso con leche o solo', 5, 8.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (29, 'Cuy al Horno', 'Cuy entero marinado en ají panca y hierbas andinas horneado con papas nativas', 60, 45.00, 1, 5);
@@ -327,10 +347,10 @@ GO
 SET IDENTITY_INSERT Promociones ON;
 INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (1, 'Martes de Ceviche', '20% de descuento en la carta de ceviches todos los martes', 20.00, '2026-01-06 00:00:00', '2026-12-31 23:59:59', 1);
 INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (2, 'Happy Hour Bebidas', '15% de descuento en bebidas de 5pm a 7pm', 15.00, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1);
-INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (3, 'Aniversario Rancho Sagrado', '25% de descuento en platos principales por aniversario', 25.00, '2026-08-15 00:00:00', '2026-09-15 23:59:59', 1);
+INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (3, 'Aniversario Rancho Sagrado', '25% de descuento en platos principales por aniversario', 25.00, '2026-08-15 00:00:00', '2026-09-15 23:59:59', 0);
 INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (4, 'Combo Familiar Fin de Semana', '10% de descuento en pedidos para 4 o más personas', 10.00, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1);
 INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (5, 'Postre Gratis por Compra Mínima', 'Descuento equivalente al postre en compras mayores a S/80', 12.00, '2026-03-01 00:00:00', '2026-06-30 23:59:59', 0);
-INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (6, 'Temporada de Cuy', '18% de descuento en la línea de especiales de temporada', 18.00, '2026-06-01 00:00:00', '2026-08-31 23:59:59', 1);
+INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (6, 'Temporada de Cuy', '18% de descuento en la línea de especiales de temporada', 18.00, '2026-06-01 00:00:00', '2026-08-31 23:59:59', 0);
 INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (7, 'Miércoles del Chef', 'Descuento especial en platos recomendados por el chef', 15.00, '2026-02-01 00:00:00', '2026-05-31 23:59:59', 0);
 INSERT INTO Promociones (ID_Promocion, Nombre, Descripcion, Porcentaje_Descuento, Fecha_Inicio, Fecha_Fin, Estado) VALUES (8, 'Bienvenida Delivery', '10% de descuento en el primer pedido de nuevos clientes', 10.00, '2026-01-01 00:00:00', '2026-12-31 23:59:59', 1);
 SET IDENTITY_INSERT Promociones OFF;
@@ -359,7 +379,7 @@ SET IDENTITY_INSERT Contratos_Empleados OFF;
 GO
 
 -- ==============================================================================
--- 15. Contrato_Proveedor 
+-- 15. Contrato_Proveedor
 -- ==============================================================================
 SET IDENTITY_INSERT Contratos_Proveedores ON;
 INSERT INTO Contratos_Proveedores (ID_Contrato_Proveedor, Fecha_Inicio, Fecha_Fin, Tipo_Contrato, Clausula, ID_Proveedor) VALUES (1, '2026-08-02', '2027-08-02', 'Contrato Marco Anual', 'Suministro periódico de carnes rojas y aves bajo condiciones de calidad certificada, con plazos de entrega no mayores a 48 horas desde la orden de compra.', 1);
@@ -396,7 +416,7 @@ INSERT INTO Empleados_Turnos (ID_Turno, ID_Empleado) VALUES (3, 15);
 GO
 
 -- ==============================================================================
--- 17. Producto_Ingrediente
+-- 17. Producto_Ingrediente 
 -- ==============================================================================
 SET IDENTITY_INSERT Productos_Ingredientes ON;
 INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (1, 0.690, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #1)', 6, 1);
@@ -496,7 +516,7 @@ SET IDENTITY_INSERT Productos_Ingredientes OFF;
 GO
 
 -- ==============================================================================
--- 18. Proveedor_Ingrediente
+-- 18. Proveedor_Ingrediente 
 -- ==============================================================================
 INSERT INTO Proveedores_Ingredientes (ID_Proveedor, ID_Ingrediente) VALUES (1, 1);
 INSERT INTO Proveedores_Ingredientes (ID_Proveedor, ID_Ingrediente) VALUES (1, 2);
@@ -583,7 +603,7 @@ INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (15, 8);
 GO
 
 -- ==============================================================================
--- 20. Inventario 
+-- 20. Inventario
 -- ==============================================================================
 SET IDENTITY_INSERT Inventarios ON;
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (1, 9.53, '2026-08-17', 11.79, 73.56, 1);
@@ -606,7 +626,7 @@ INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion,
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (18, 29.43, '2026-08-07', 6.31, 33.63, 18);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (19, 60.48, '2026-08-31', 18.84, 85.50, 19);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (20, 12.12, '2026-08-14', 5.90, 42.41, 20);
-INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (21, 42.03, '2026-08-07', 7.83, 47.26, 21);
+INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (21, 30.00, '2026-08-07', 10.00, 47.26, 21);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (22, 2.53, '2026-08-18', 6.96, 45.76, 22);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (23, 64.76, '2026-08-06', 19.85, 79.44, 23);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (24, 16.94, '2026-08-26', 13.89, 111.00, 24);
@@ -616,53 +636,53 @@ INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion,
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (28, 19.37, '2026-08-31', 6.11, 29.54, 28);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (29, 7.70, '2026-08-13', 14.02, 76.93, 29);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (30, 62.02, '2026-08-26', 12.26, 77.22, 30);
-INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (31, 27.76, '2026-08-12', 14.41, 75.56, 31);
+INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (31, 2.00, '2026-08-12', 4.00, 75.56, 31);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (32, 30.19, '2026-08-14', 8.74, 41.60, 32);
-INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (33, 50.26, '2026-08-12', 7.95, 62.01, 33);
+INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (33, 3.00, '2026-08-12', 5.00, 62.01, 33);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (34, 8.60, '2026-08-15', 6.18, 25.89, 34);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (35, 67.38, '2026-08-23', 19.44, 96.30, 35);
 SET IDENTITY_INSERT Inventarios OFF;
 GO
 
 -- ==============================================================================
--- 21. Reservacion
+-- 21. Reservacion 
 -- ==============================================================================
 SET IDENTITY_INSERT Reservaciones ON;
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (1, '2026-08-22 19:30:00', 3, 'Aniversario', 'Completada', 'Reservación por aniversario, coordinar decoración si aplica.', 4, 6);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (2, '2026-09-07 21:00:00', 4, 'Reunión de Negocios', 'Pendiente', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 7, 11);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (2, '2026-11-06 21:00:00', 4, 'Reunión de Negocios', 'Pendiente', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 7, 11);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (3, '2026-08-30 19:30:00', 6, 'Cena Familiar', 'Cancelada', 'Reservación por cena familiar, coordinar decoración si aplica.', 10, 4);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (4, '2026-08-25 19:30:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 13, 9);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (5, '2026-09-13 13:00:00', 4, 'Ninguna', 'Pendiente', 'Sin observaciones adicionales.', 16, 2);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (6, '2026-09-13 20:00:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 19, 7);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (5, '2026-11-12 13:00:00', 4, 'Ninguna', 'Pendiente', 'Sin observaciones adicionales.', 16, 2);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (6, '2026-11-12 20:00:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 19, 7);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (7, '2026-08-27 12:30:00', 4, 'Aniversario', 'Cancelada', 'Reservación por aniversario, coordinar decoración si aplica.', 22, 12);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (8, '2026-08-12 19:00:00', 2, 'Reunión de Negocios', 'Completada', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 25, 5);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (9, '2026-09-08 12:30:00', 2, 'Cena Familiar', 'Confirmada', 'Reservación por cena familiar, coordinar decoración si aplica.', 28, 10);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (9, '2026-11-07 12:30:00', 2, 'Cena Familiar', 'Confirmada', 'Reservación por cena familiar, coordinar decoración si aplica.', 28, 10);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (10, '2026-08-21 13:00:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 31, 3);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (11, '2026-08-26 21:00:00', 2, 'Ninguna', 'Cancelada', 'Sin observaciones adicionales.', 34, 8);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (12, '2026-08-14 19:30:00', 2, 'Cumpleaños', 'Completada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 2, 1);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (13, '2026-09-07 20:00:00', 3, 'Aniversario', 'Confirmada', 'Reservación por aniversario, coordinar decoración si aplica.', 5, 6);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (14, '2026-09-09 12:30:00', 8, 'Reunión de Negocios', 'Pendiente', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 8, 11);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (15, '2026-09-02 20:00:00', 6, 'Cena Familiar', 'Confirmada', 'Reservación por cena familiar, coordinar decoración si aplica.', 11, 4);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (16, '2026-09-12 21:00:00', 3, 'Celebración Especial', 'Confirmada', 'Reservación por celebración especial, coordinar decoración si aplica.', 14, 9);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (13, '2026-11-06 20:00:00', 3, 'Aniversario', 'Confirmada', 'Reservación por aniversario, coordinar decoración si aplica.', 5, 6);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (14, '2026-11-08 12:30:00', 8, 'Reunión de Negocios', 'Pendiente', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 8, 11);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (15, '2026-11-01 20:00:00', 6, 'Cena Familiar', 'Confirmada', 'Reservación por cena familiar, coordinar decoración si aplica.', 11, 4);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (16, '2026-11-11 21:00:00', 3, 'Celebración Especial', 'Confirmada', 'Reservación por celebración especial, coordinar decoración si aplica.', 14, 9);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (17, '2026-08-19 21:00:00', 4, 'Ninguna', 'Completada', 'Sin observaciones adicionales.', 17, 2);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (18, '2026-09-04 12:30:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 20, 7);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (18, '2026-11-03 12:30:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 20, 7);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (19, '2026-08-21 21:00:00', 8, 'Aniversario', 'Cancelada', 'Reservación por aniversario, coordinar decoración si aplica.', 23, 12);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (20, '2026-08-17 12:30:00', 2, 'Reunión de Negocios', 'Completada', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 26, 5);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (21, '2026-08-13 19:30:00', 2, 'Cena Familiar', 'Completada', 'Reservación por cena familiar, coordinar decoración si aplica.', 29, 10);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (22, '2026-08-22 20:00:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 32, 3);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (23, '2026-09-02 19:30:00', 2, 'Ninguna', 'Pendiente', 'Sin observaciones adicionales.', 35, 8);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (24, '2026-09-12 13:00:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 3, 1);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (23, '2026-11-01 19:30:00', 2, 'Ninguna', 'Pendiente', 'Sin observaciones adicionales.', 35, 8);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (24, '2026-11-11 13:00:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 3, 1);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (25, '2026-08-23 21:00:00', 3, 'Aniversario', 'Completada', 'Reservación por aniversario, coordinar decoración si aplica.', 6, 6);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (26, '2026-08-14 19:30:00', 3, 'Reunión de Negocios', 'Completada', 'Reservación por reunión de negocios, coordinar decoración si aplica.', 9, 11);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (27, '2026-08-27 12:30:00', 6, 'Cena Familiar', 'Cancelada', 'Reservación por cena familiar, coordinar decoración si aplica.', 12, 4);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (28, '2026-08-24 13:00:00', 3, 'Celebración Especial', 'Completada', 'Reservación por celebración especial, coordinar decoración si aplica.', 15, 9);
 INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (29, '2026-08-16 12:30:00', 4, 'Ninguna', 'Completada', 'Sin observaciones adicionales.', 18, 2);
-INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (30, '2026-09-16 19:30:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 21, 7);
+INSERT INTO Reservaciones (ID_Reservacion, Fecha_Hora, Numero_Personas, Ocasion_Especial, Estado_Reservacion, Notas, ID_Cliente, ID_Mesa) VALUES (30, '2026-11-15 19:30:00', 2, 'Cumpleaños', 'Confirmada', 'Reservación por cumpleaños, coordinar decoración si aplica.', 21, 7);
 SET IDENTITY_INSERT Reservaciones OFF;
 GO
 
 -- ==============================================================================
--- 22. Pedido y Pedido_Detalle 
+-- 22. Pedido (55 registros) y 23. Pedido_Detalle (detalle de venta por pedido)
 -- ==============================================================================
 SET IDENTITY_INSERT Pedidos ON;
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (1, '2026-07-07', 'Pagado', 'Sin cebolla, por favor.', 28.50, 33.63, 2, NULL, 1);
@@ -677,24 +697,24 @@ INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, T
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (10, '2026-07-15', 'Pagado', NULL, 101.00, 119.18, 6, 24, 10);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (11, '2026-07-17', 'Pagado', NULL, 17.00, 20.06, 7, NULL, 11);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (12, '2026-07-17', 'Pagado', 'Sin cebolla, por favor.', 58.00, 68.44, 8, 38, 12);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (13, '2026-07-19', 'Listo', 'Cliente alérgico al maní.', 57.00, 67.26, 9, 5, 1);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (13, '2026-07-19', 'Pagado', 'Cliente alérgico al maní.', 57.00, 67.26, 9, 5, 1);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (14, '2026-07-21', 'Pagado', 'Poco picante.', 21.00, 24.78, 10, 12, 2);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (15, '2026-07-21', 'Pendiente', 'Para llevar en 20 minutos.', 64.00, 75.52, 2, 19, 3);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (15, '2026-07-21', 'Pagado', 'Para llevar en 20 minutos.', 64.00, 75.52, 2, 19, 3);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (16, '2026-07-21', 'Pagado', 'Mesa cerca de la ventana.', 24.50, 28.91, 5, NULL, 4);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (17, '2026-07-24', 'Pagado', 'Bebida bien fría.', 21.00, 24.78, 6, 33, 5);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (18, '2026-07-23', 'Pagado', 'Cumpleaños, agregar vela al postre.', 137.00, 161.66, 7, 40, 6);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (19, '2026-07-25', 'Pagado', NULL, 51.00, 60.18, 8, 7, 7);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (20, '2026-07-26', 'Entregado', NULL, 163.00, 192.34, 9, 14, 8);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (21, '2026-07-28', 'Pagado', NULL, 99.00, 116.82, 10, NULL, 9);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (22, '2026-07-29', 'Preparando', NULL, 38.00, 44.84, 2, 28, 10);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (23, '2026-07-28', 'En Cocina', 'Sin cebolla, por favor.', 78.00, 92.04, 5, 35, 11);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (22, '2026-07-29', 'Pagado', NULL, 38.00, 44.84, 2, 28, 10);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (23, '2026-07-28', 'Pagado', 'Sin cebolla, por favor.', 78.00, 92.04, 5, 35, 11);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (24, '2026-07-30', 'Cancelado', 'Cliente alérgico al maní.', 94.00, 110.92, 6, 2, 12);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (25, '2026-07-31', 'Pagado', 'Poco picante.', 94.00, 110.92, 7, 9, 1);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (26, '2026-08-01', 'Pagado', 'Para llevar en 20 minutos.', 12.00, 14.16, 8, NULL, 2);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (27, '2026-08-03', 'Pagado', 'Mesa cerca de la ventana.', 55.00, 64.90, 9, 23, 3);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (28, '2026-08-03', 'Entregado', 'Bebida bien fría.', 38.50, 45.43, 10, 30, 4);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (29, '2026-08-05', 'Pagado', 'Cumpleaños, agregar vela al postre.', 122.00, 143.96, 2, 37, 5);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (30, '2026-08-05', 'Pendiente', NULL, 97.00, 114.46, 5, 4, 6);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (30, '2026-08-05', 'Pagado', NULL, 97.00, 114.46, 5, 4, 6);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (31, '2026-08-07', 'Pagado', NULL, 48.00, 56.64, 6, NULL, 7);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (32, '2026-08-07', 'Pagado', NULL, 76.00, 89.68, 7, 18, 8);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (33, '2026-08-08', 'Pagado', NULL, 42.00, 49.56, 8, 25, 9);
@@ -704,12 +724,12 @@ INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, T
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (37, '2026-08-13', 'Pagado', 'Para llevar en 20 minutos.', 10.00, 11.80, 5, 13, 1);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (38, '2026-08-14', 'Pagado', 'Mesa cerca de la ventana.', 69.00, 81.42, 6, 20, 2);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (39, '2026-08-15', 'Pagado', 'Bebida bien fría.', 62.00, 73.16, 7, 27, 3);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (40, '2026-08-16', 'En Cocina', 'Cumpleaños, agregar vela al postre.', 84.00, 99.12, 8, 34, 4);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (41, '2026-08-17', 'Listo', NULL, 23.00, 27.14, 9, NULL, 5);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (40, '2026-08-16', 'Pagado', 'Cumpleaños, agregar vela al postre.', 84.00, 99.12, 8, 34, 4);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (41, '2026-08-17', 'Pagado', NULL, 23.00, 27.14, 9, NULL, 5);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (42, '2026-08-16', 'Pagado', NULL, 9.00, 10.62, 10, 8, 6);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (43, '2026-08-17', 'Pagado', NULL, 139.00, 164.02, 2, 15, 7);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (44, '2026-08-18', 'Pagado', NULL, 38.50, 45.43, 5, 22, 8);
-INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (45, '2026-08-21', 'Preparando', 'Sin cebolla, por favor.', 77.00, 90.86, 6, 29, 9);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (45, '2026-08-21', 'Pagado', 'Sin cebolla, por favor.', 77.00, 90.86, 6, 29, 9);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (46, '2026-08-22', 'Pagado', 'Cliente alérgico al maní.', 44.00, 51.92, 7, NULL, 10);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (47, '2026-08-23', 'Pagado', 'Poco picante.', 16.00, 18.88, 8, 3, 11);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (48, '2026-08-22', 'Pagado', 'Para llevar en 20 minutos.', 74.00, 87.32, 9, 10, 12);
@@ -874,11 +894,19 @@ INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjet
 INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (43, '2026-08-03 21:00:00', 45.43, 'Plin', NULL, 'Pendiente', 28);
 INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (44, '2026-08-25 21:00:00', 137.47, 'Tarjeta', NULL, 'Pendiente', 49);
 INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (45, '2026-08-29 21:00:00', 29.50, 'Tarjeta', NULL, 'Pendiente', 53);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (46, '2026-07-19 20:15:00', 67.26, 'Yape', NULL, 'Pagado', 13);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (47, '2026-07-21 20:30:00', 75.52, 'Tarjeta', 'Visa **** 4412', 'Pagado', 15);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (48, '2026-07-29 20:10:00', 44.84, 'Efectivo', NULL, 'Pagado', 22);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (49, '2026-07-28 21:05:00', 92.04, 'Plin', NULL, 'Pagado', 23);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (50, '2026-08-05 20:40:00', 114.46, 'Tarjeta', 'Visa **** 4412', 'Pagado', 30);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (51, '2026-08-16 20:55:00', 99.12, 'Yape', NULL, 'Pagado', 40);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (52, '2026-08-17 20:20:00', 27.14, 'Efectivo', NULL, 'Pagado', 41);
+INSERT INTO Pagos (ID_Pago, Fecha_Hora_Pago, Monto, Metodo_Pago, Detalles_Tarjeta, Estado, ID_Pedido) VALUES (53, '2026-08-21 21:10:00', 90.86, 'Plin', NULL, 'Pagado', 45);
 SET IDENTITY_INSERT Pagos OFF;
 GO
 
 -- ==============================================================================
--- 25. Comprobante_Pago 
+-- 25. Comprobante_Pago
 -- ==============================================================================
 SET IDENTITY_INSERT Comprobantes_Pagos ON;
 INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (1, 'Boleta', '000001', 'B001', '2026-07-07 20:09:00', 28.50, 33.63, 5.13, 'Emitido', 'Yape', 'Cliente Varios', NULL, NULL, 1);
@@ -921,5 +949,14 @@ INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprob
 INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (38, 'Factura', '000005', 'F001', '2026-08-28 20:06:00', 90.00, 106.20, 16.20, 'Emitido', 'Efectivo', 'Cliente Corporativo RUC 20100182222', '20100182222', 'Av. Javier Prado 540, San Isidro, Lima', 52);
 INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (39, 'Boleta', '000034', 'B001', '2026-08-29 20:20:00', 43.50, 51.33, 7.83, 'Emitido', 'Plin', 'Karina Rivera Flores', NULL, NULL, 54);
 INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (40, 'Boleta', '000035', 'B001', '2026-08-30 20:27:00', 145.50, 171.69, 26.19, 'Emitido', 'Tarjeta', 'Pablo Quispe Rodríguez', NULL, NULL, 55);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (41, 'Boleta', '000036', 'B001', '2026-07-19 20:17:00', 57.00, 67.26, 10.26, 'Emitido', 'Yape', 'Diego Martínez Huamán', NULL, NULL, 13);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (42, 'Boleta', '000037', 'B001', '2026-07-21 20:32:00', 64.00, 75.52, 11.52, 'Emitido', 'Tarjeta', 'Pablo Quispe Rodríguez', NULL, NULL, 15);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (43, 'Boleta', '000038', 'B001', '2026-07-29 20:12:00', 38.00, 44.84, 6.84, 'Emitido', 'Efectivo', 'Valeria Mendoza Cabrera', NULL, NULL, 22);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (44, 'Boleta', '000039', 'B001', '2026-07-28 21:07:00', 78.00, 92.04, 14.04, 'Emitido', 'Plin', 'Renzo Martínez Huamán', NULL, NULL, 23);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (45, 'Boleta', '000040', 'B001', '2026-08-05 20:42:00', 97.00, 114.46, 17.46, 'Emitido', 'Tarjeta', 'Carmen López Chávez', NULL, NULL, 30);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (46, 'Boleta', '000041', 'B001', '2026-08-16 20:57:00', 84.00, 99.12, 15.12, 'Emitido', 'Yape', 'Estefanía López Chávez', NULL, NULL, 40);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (47, 'Boleta', '000042', 'B001', '2026-08-17 20:22:00', 23.00, 27.14, 4.14, 'Emitido', 'Efectivo', 'Cliente Varios', NULL, NULL, 41);
+INSERT INTO Comprobantes_Pagos (ID_Comprobante, Tipo_Comprobante, Numero_Comprobante, Serie, Fecha_Emision, Sub_Total, Monto_Total, IGV, Estado_Comprobante, Metodo_Pago, Razon_Social, RUC, Direccion_Fiscal, ID_Pedido) VALUES (48, 'Boleta', '000043', 'B001', '2026-08-21 21:12:00', 77.00, 90.86, 13.86, 'Emitido', 'Plin', 'Manuel Cabrera Rodríguez', NULL, NULL, 45);
 SET IDENTITY_INSERT Comprobantes_Pagos OFF;
 GO
+
