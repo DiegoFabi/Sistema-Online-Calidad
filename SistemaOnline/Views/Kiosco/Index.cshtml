@@ -1,4 +1,4 @@
-﻿@model List<SistemaOnline.Models.Producto>
+﻿@model SistemaOnline.ViewModels.KioscoMenuVM
 @{
     Layout = null;
 }
@@ -27,8 +27,26 @@
         <h2 class="text-4xl font-extrabold mb-2">Nuestra Carta</h2>
         <p class="text-lg text-[#5b4040] mb-8">Selecciona tus platos favoritos y realiza tu pedido.</p>
 
+        <div class="flex flex-wrap gap-3 mb-8">
+            <a asp-controller="Kiosco" asp-action="Index"
+               class="px-5 py-2 rounded-full font-bold transition-colors @(Model.CategoriaSeleccionada == null ? "bg-[#b9172f] text-white" : "bg-white text-[#5b4040] border border-[#e3bebd] hover:bg-[#f8f9fa]")">
+                Todos
+            </a>
+            @foreach (var c in Model.Categorias)
+            {
+                <a asp-controller="Kiosco" asp-action="Index" asp-route-categoria="@c.ID_Categoria"
+                   class="px-5 py-2 rounded-full font-bold transition-colors @(Model.CategoriaSeleccionada == c.ID_Categoria ? "bg-[#b9172f] text-white" : "bg-white text-[#5b4040] border border-[#e3bebd] hover:bg-[#f8f9fa]")">
+                    @c.Nombre_Categoria
+                </a>
+            }
+        </div>
+
         <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach (var p in Model)
+            @if (!Model.Productos.Any())
+            {
+                <p class="text-lg text-[#5b4040] col-span-full">No hay productos disponibles en esta categoría.</p>
+            }
+            @foreach (var p in Model.Productos)
             {
                 <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-3 border border-[#e3bebd]">
                     <span class="text-xs font-bold uppercase tracking-widest text-[#b9172f]">@p.Producto_Categoria.Nombre_Categoria</span>
@@ -68,19 +86,19 @@
             const carritoFlotante = document.getElementById('carritoFlotante');
             const modalPedido = document.getElementById('modalPedido');
 
-            document.querySelectorAll('.btn-agregar').forEach(function(btn) {
-                btn.addEventListener('click', function() {
+            document.querySelectorAll('.btn-agregar').forEach(function (btn) {
+                btn.addEventListener('click', function () {
                     carrito.push({ nombre: btn.dataset.nombre, precio: parseFloat(btn.dataset.precio) });
                     document.getElementById('carritoCount').textContent = carrito.length;
                 });
             });
 
-            carritoFlotante.addEventListener('click', function() {
+            carritoFlotante.addEventListener('click', function () {
                 const lista = document.getElementById('listaPedido');
-                lista.innerHTML = carrito.map(function(item) {
+                lista.innerHTML = carrito.map(function (item) {
                     return '<li class="flex justify-between"><span>' + item.nombre + '</span><span>S/ ' + item.precio.toFixed(2) + '</span></li>';
                 }).join('');
-                const total = carrito.reduce(function(acc, item) { return acc + item.precio; }, 0);
+                const total = carrito.reduce(function (acc, item) { return acc + item.precio; }, 0);
                 document.getElementById('totalPedido').textContent = 'S/ ' + total.toFixed(2);
                 modalPedido.classList.remove('hidden');
                 modalPedido.classList.add('flex');

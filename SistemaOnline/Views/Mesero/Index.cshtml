@@ -58,11 +58,14 @@
     @foreach (var mesa in Model.Mesas)
     {
         bool ocupada = Model.MesasConPedidoActivo.Contains(mesa.ID_Mesa);
-        string estadoLabel = ocupada ? "Ocupada" : "Libre";
-        // Verde para libre, rojo para ocupada
+        bool reservada = Model.MesasReservadas.Contains(mesa.ID_Mesa);
+        string estadoLabel = ocupada ? "Ocupada" : reservada ? "Reservada" : "Libre";
+        // Verde para libre, rojo para ocupada, amarillo para reservada (sin pedido activo todavia)
         string cardCls = ocupada
             ? "bg-[#c62828] border-[#b71c1c]"
-            : "bg-[#2e7d32] border-[#1b5e20]";
+            : reservada
+                ? "bg-[#f9a825] border-[#f57f17]"
+                : "bg-[#2e7d32] border-[#1b5e20]";
         string textCls = "text-white";
         <a asp-controller="Mesero" asp-action="Mesa" asp-route-id="@mesa.ID_Mesa"
            class="@cardCls aspect-square rounded-xl shadow-sm border-2 flex flex-col items-center justify-center p-md transition-all hover:scale-105 hover:brightness-110 cursor-pointer">

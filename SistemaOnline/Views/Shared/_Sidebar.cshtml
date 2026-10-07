@@ -10,7 +10,7 @@
         <h1 class="font-title-md text-title-md font-bold text-primary leading-tight">El Rancho Sagrado</h1>
         <p class="text-on-surface-variant text-label-md">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</p>
     </div>
-    <nav class="flex-1 px-sm space-y-base">
+    <nav class="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-sm py-sm space-y-base">
         @if (User.IsInRole("Administrador"))
         {
             <a class="@Cls("dashboard")" asp-controller="Dashboard" asp-action="Index">
@@ -98,6 +98,10 @@
             <a class="@Cls("notificaciones")" asp-controller="Mesero" asp-action="Notificaciones">
                 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
                 <span class="font-body-md">Notificaciones</span>
+            </a>
+            <a class="@Cls("reservaciones")" asp-controller="Administrador" asp-action="Reservaciones">
+                <span class="material-symbols-outlined" data-icon="event">event</span>
+                <span class="font-body-md">Reservaciones</span>
             </a>
         }
         @if (User.IsInRole("Chef"))

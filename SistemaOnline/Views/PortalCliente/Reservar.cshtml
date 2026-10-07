@@ -1,0 +1,53 @@
+﻿@model SistemaOnline.ViewModels.KioscoReservaVM
+@{
+    Layout = "_PortalClienteLayout";
+    ViewData["Title"] = "Reservar Mesa";
+    ViewBag.Active = "reservaciones";
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+<div class="max-w-xl">
+    <div class="mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Reservar Mesa @Model.Numero_Mesa</h2>
+        <p class="text-on-surface-variant">Completa los datos de tu reservación.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
+        <form asp-controller="PortalCliente" asp-action="Reservar" method="post" autocomplete="off" class="space-y-md">
+            <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
+            <input type="hidden" asp-for="ID_Mesa" />
+            <input type="hidden" asp-for="Numero_Mesa" />
+
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Hora">Fecha y Hora</label>
+                <input class="@Cls("Fecha_Hora")" type="datetime-local" required step="60"
+                       id="Fecha_Hora" name="Fecha_Hora" value="@Model.Fecha_Hora.ToString("yyyy-MM-ddTHH:mm")" />
+                <span asp-validation-for="Fecha_Hora" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Numero_Personas">Número de Personas</label>
+                <input class="@Cls("Numero_Personas")" type="number" min="1" max="50" required asp-for="Numero_Personas" />
+                <span asp-validation-for="Numero_Personas" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Ocasion_Especial">Ocasión Especial</label>
+                <input class="@Cls("Ocasion_Especial")" type="text" required asp-for="Ocasion_Especial" placeholder="Cumpleaños, Aniversario, Ninguna..." />
+                <span asp-validation-for="Ocasion_Especial" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Notas">Notas (opcional)</label>
+                <input class="@Cls("Notas")" type="text" asp-for="Notas" placeholder="Alguna indicación para tu mesa..." />
+                <span asp-validation-for="Notas" class="text-error text-label-md"></span>
+            </div>
+
+            <div class="flex items-center gap-sm pt-md">
+                <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined">event_available</span> Confirmar reservación
+                </button>
+                <a asp-controller="PortalCliente" asp-action="Reservaciones" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                    <span class="material-symbols-outlined">arrow_back</span> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

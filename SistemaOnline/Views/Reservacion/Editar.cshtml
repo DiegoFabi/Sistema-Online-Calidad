@@ -18,7 +18,8 @@
             <input type="hidden" asp-for="ID_Reservacion" />
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Hora">Fecha y Hora</label>
-                <input class="@Cls("Fecha_Hora")" type="datetime-local" required asp-for="Fecha_Hora" />
+                <input class="@Cls("Fecha_Hora")" type="datetime-local" required step="60"
+                       id="Fecha_Hora" name="Fecha_Hora" value="@Model.Fecha_Hora.ToString("yyyy-MM-ddTHH:mm")" />
                 <span asp-validation-for="Fecha_Hora" class="text-error text-label-md"></span>
             </div>
             <div>

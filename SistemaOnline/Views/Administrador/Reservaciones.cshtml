@@ -1,10 +1,13 @@
 @model List<SistemaOnline.Models.Reservacion>
+@using SistemaOnline.Services
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Reservaciones";
     ViewBag.Active = "reservaciones";
     ViewData["Controlador"] = "Administrador";
     ViewData["AccionLista"] = "Reservaciones";
+
+    string[] estadosDisponibles = { "Pendiente", "Confirmada", "Cancelada", "Completada" };
 }
 
 <div class="mb-lg">
@@ -12,8 +15,17 @@
     <p class="text-on-surface-variant">Listado completo de reservaciones.</p>
 </div>
 
+@if (TempData["Exito"] != null)
+{
+    <p class="mb-lg bg-secondary-container text-on-secondary-container font-bold rounded-lg px-md py-sm">@TempData["Exito"]</p>
+}
+@if (TempData["Error"] != null)
+{
+    <p class="mb-lg bg-error-container text-error font-bold rounded-lg px-md py-sm">@TempData["Error"]</p>
+}
+
 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
-    <div class="p-lg">
+    <div class="p-lg overflow-x-auto">
         <table class="w-full text-left">
             <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
                 <tr>
@@ -23,6 +35,7 @@
                     <th class="pb-md font-bold">Personas</th>
                     <th class="pb-md font-bold">Ocasión</th>
                     <th class="pb-md font-bold">Estado</th>
+                    <th class="pb-md font-bold">Acciones</th>
                 </tr>
             </thead>
             <tbody class="text-body-md">
@@ -35,7 +48,13 @@
                         <td class="py-md font-mono-data">@r.Numero_Personas</td>
                         <td class="py-md">@r.Ocasion_Especial</td>
                         <td class="py-md">
-                            <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">@r.Estado_Reservacion</span>
+                            <span class="px-sm py-xs rounded-full text-label-md font-bold @EstadoColores.Reservacion(r.Estado_Reservacion)">@r.Estado_Reservacion</span>
+                        </td>
+                        <td class="py-md">
+                            <button type="button" onclick="openEditReservaModal(@r.ID_Reservacion)" title="Editar reservación"
+                                    class="w-8 h-8 inline-flex items-center justify-center rounded-full text-tertiary hover:bg-surface-container-high transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                            </button>
                         </td>
                     </tr>
                 }
@@ -44,3 +63,93 @@
     </div>
 </div>
 <partial name="_Pagination" />
+
+@foreach (var r in Model)
+{
+    <div id="editReservaModal-@r.ID_Reservacion" class="fixed inset-0 z-[100] hidden items-center justify-center app-modal-overlay">
+        <div class="app-modal-panel w-full max-w-[480px] max-h-[90vh] overflow-y-auto flex flex-col animate-fade-in">
+            <div class="bg-primary px-lg py-lg flex items-center justify-between">
+                <div class="flex items-center gap-sm text-on-primary">
+                    <span class="material-symbols-outlined">edit_calendar</span>
+                    <h3 class="font-title-md text-title-md">Editar Reservación #@r.ID_Reservacion</h3>
+                </div>
+                <button type="button" onclick="closeEditReservaModal(@r.ID_Reservacion)" class="text-on-primary/80 hover:text-on-primary">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <form asp-controller="Administrador" asp-action="EditarReservacion" method="post" autocomplete="off" class="p-lg space-y-md">
+                <input type="hidden" name="ID_Reservacion" value="@r.ID_Reservacion" />
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Fecha y Hora</label>
+                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                           type="datetime-local" name="Fecha_Hora" required step="60" value="@r.Fecha_Hora.ToString("yyyy-MM-ddTHH:mm")" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Número de Personas</label>
+                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                           type="number" name="Numero_Personas" min="1" max="50" required value="@r.Numero_Personas" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Ocasión Especial</label>
+                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                           type="text" name="Ocasion_Especial" required value="@r.Ocasion_Especial" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Estado</label>
+                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="Estado_Reservacion" required>
+                        @foreach (var estado in estadosDisponibles)
+                        {
+                            <option value="@estado" selected="@(estado == r.Estado_Reservacion)">@estado</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Notas</label>
+                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                           type="text" name="Notas" required value="@r.Notas" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Cliente</label>
+                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Cliente" required>
+                        @foreach (var item in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.ClientesDisponibles)
+                        {
+                            <option value="@item.Value" selected="@(item.Value == r.ID_Cliente.ToString())">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Mesa</label>
+                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Mesa" required>
+                        @foreach (var item in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.MesasDisponibles)
+                        {
+                            <option value="@item.Value" selected="@(item.Value == r.ID_Mesa.ToString())">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex items-center gap-sm pt-sm">
+                    <button type="submit" class="flex-1 inline-flex items-center justify-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                        <span class="material-symbols-outlined">save</span> Guardar
+                    </button>
+                    <button type="button" onclick="closeEditReservaModal(@r.ID_Reservacion)" class="flex-1 inline-flex items-center justify-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function openEditReservaModal(id) {
+            var modal = document.getElementById('editReservaModal-' + id);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        function closeEditReservaModal(id) {
+            var modal = document.getElementById('editReservaModal-' + id);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+}

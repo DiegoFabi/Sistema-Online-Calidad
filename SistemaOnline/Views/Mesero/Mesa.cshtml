@@ -1,10 +1,13 @@
 @model List<SistemaOnline.Models.Pedido>
+@using SistemaOnline.Services
 @{
     Layout = "_DashboardLayout";
     var mesa = (SistemaOnline.Models.Mesa_Restaurante)ViewBag.Mesa;
+    var reservaciones = (List<SistemaOnline.Models.Reservacion>)ViewBag.Reservaciones;
     ViewData["Title"] = "Mesa " + mesa.Numero_Mesa;
     ViewBag.Active = "dashboard";
-    bool mesaOcupada = Model.Any(p => new[] { "Pendiente", "En Cocina", "Preparando", "Listo" }.Contains(p.Estado_Pedido));
+    bool mesaOcupada = Model.Any(p => new[]{"Pendiente","En Cocina","Preparando","Listo"}.Contains(p.Estado_Pedido));
+    bool mesaReservada = !mesaOcupada && (bool)ViewBag.TieneReservaHoy;
 }
 
 <div class="flex items-center gap-sm mb-md flex-wrap">
@@ -24,16 +27,16 @@
         <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Mesa @mesa.Numero_Mesa</h2>
         <p class="text-on-surface-variant">Cap. @mesa.Capacidad — @mesa.Ubicacion</p>
     </div>
-    <span class="px-md py-sm rounded-full text-label-md font-bold @(mesaOcupada ? "bg-[#c62828] text-white" : "bg-[#2e7d32] text-white")">
-        @(mesaOcupada ? "Ocupada" : "Libre")
+    <span class="px-md py-sm rounded-full text-label-md font-bold @(mesaOcupada ? "bg-[#c62828] text-white" : mesaReservada ? "bg-[#f9a825] text-white" : "bg-[#2e7d32] text-white")">
+        @(mesaOcupada ? "Ocupada" : mesaReservada ? "Reservada" : "Libre")
     </span>
 </div>
 
-@if (!Model.Any())
+@if (!Model.Any() && !reservaciones.Any())
 {
     <div class="min-h-[60vh] flex flex-col items-center justify-center text-center gap-md">
         <span class="material-symbols-outlined text-[72px] text-outline/50">receipt_long</span>
-        <p class="text-on-surface-variant text-body-md">No hay pedidos activos en esta mesa.</p>
+        <p class="text-on-surface-variant text-body-md">No hay pedidos ni reservaciones activas en esta mesa.</p>
         <a asp-controller="Mesero" asp-action="Index"
            class="inline-flex items-center gap-sm h-11 px-lg bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
             <span class="material-symbols-outlined">arrow_back</span>
@@ -65,6 +68,12 @@
     </div>
 </div>
 
+@if (Model.Any())
+{
+    <h3 class="font-title-md text-title-md text-on-surface flex items-center gap-sm mb-md">
+        <span class="material-symbols-outlined">receipt_long</span> Pedidos
+    </h3>
+}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
     @foreach (var p in Model)
     {
@@ -120,6 +129,40 @@
         </div>
     }
 </div>
+
+@if (reservaciones.Any())
+{
+    <h3 class="font-title-md text-title-md text-on-surface flex items-center gap-sm mt-xl mb-md">
+        <span class="material-symbols-outlined">event</span> Reservaciones
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+        @foreach (var r in reservaciones)
+        {
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border-2 border-dashed border-outline-variant p-lg">
+                <div class="flex justify-between items-start mb-md">
+                    <div>
+                        <h3 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+                            @r.Fecha_Hora.ToString("dd/MM/yyyy HH:mm")
+                            @if (r.Fecha_Hora.Date == DateTime.Today)
+                            {
+                                <span class="px-sm py-xs rounded-full text-label-md font-bold bg-caution-yellow text-[#5b4300]">Hoy</span>
+                            }
+                        </h3>
+                        <p class="text-label-md text-on-surface-variant">@(r.Cliente != null ? r.Cliente.Nombre + " " + r.Cliente.Apellidos : "-") — @r.Numero_Personas pers.</p>
+                    </div>
+                    <span class="px-sm py-xs rounded-full text-label-md font-bold @EstadoColores.Reservacion(r.Estado_Reservacion)">@r.Estado_Reservacion</span>
+                </div>
+                <p class="text-body-md text-on-surface-variant">
+                    <span class="font-bold text-on-surface">Ocasión:</span> @r.Ocasion_Especial
+                </p>
+                @if (!string.IsNullOrWhiteSpace(r.Notas))
+                {
+                    <p class="text-body-md text-on-surface-variant mt-xs">@r.Notas</p>
+                }
+            </div>
+        }
+    </div>
+}
 
 @section Scripts {
     <script>

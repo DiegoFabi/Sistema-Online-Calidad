@@ -154,6 +154,10 @@
                 </div>
             </div>
             <div class="flex items-center gap-lg">
+                <div id="relojHeader" class="hidden sm:flex flex-col items-end leading-tight text-on-surface-variant">
+                    <span id="relojHeaderHora" class="font-mono-data text-body-md font-bold text-on-surface"></span>
+                    <span id="relojHeaderFecha" class="text-label-md capitalize"></span>
+                </div>
                 <div class="relative">
                     <button id="notifBellButton" type="button" class="relative text-on-surface-variant hover:text-primary transition-colors">
                         <span class="material-symbols-outlined">notifications</span>
@@ -232,6 +236,22 @@
     </div>
 
     <script>
+        // ---------- Reloj en tiempo real junto a notificaciones ----------
+        (function () {
+            const horaEl = document.getElementById('relojHeaderHora');
+            const fechaEl = document.getElementById('relojHeaderFecha');
+            if (!horaEl || !fechaEl) return;
+
+            function actualizarReloj() {
+                const ahora = new Date();
+                horaEl.textContent = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                fechaEl.textContent = ahora.toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long' });
+            }
+
+            actualizarReloj();
+            setInterval(actualizarReloj, 1000);
+        })();
+
         // ---------- Buscador del header (filtrado por rol) ----------
         (function () {
         @{
@@ -264,6 +284,7 @@
                 searchItems.Append("{ icon: 'table_restaurant', name: 'Mapa de Mesas', url: '" + Url.Action("Index","Mesero") + "' },");
                 searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos', url: '" + Url.Action("Pedidos","Mesero") + "' },");
                 searchItems.Append("{ icon: 'notifications', name: 'Notificaciones', url: '" + Url.Action("Notificaciones","Mesero") + "' },");
+                searchItems.Append("{ icon: 'event', name: 'Reservaciones', url: '" + Url.Action("Reservaciones","Administrador") + "' },");
                 searchItems.Append("{ icon: 'add', name: 'Nuevo Pedido', url: '" + Url.Action("Nuevo","Pedido") + "' },");
             }
             if (User.IsInRole("Chef"))

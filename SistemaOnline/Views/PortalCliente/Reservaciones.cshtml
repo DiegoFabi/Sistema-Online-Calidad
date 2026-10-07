@@ -1,0 +1,41 @@
+﻿@model List<SistemaOnline.Models.Mesa_Restaurante>
+@{
+    Layout = "_PortalClienteLayout";
+    ViewData["Title"] = "Reservaciones";
+    ViewBag.Active = "reservaciones";
+}
+<div class="mb-lg">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Reserva tu mesa</h2>
+    <p class="text-on-surface-variant">Elige una mesa disponible y confirma tu reservación.</p>
+</div>
+
+@if (TempData["Exito"] != null)
+{
+    <p class="mb-lg bg-secondary-container text-on-secondary-container font-bold rounded-lg px-md py-sm">@TempData["Exito"]</p>
+}
+@if (TempData["Error"] != null)
+{
+    <p class="mb-lg bg-error-container text-error font-bold rounded-lg px-md py-sm">@TempData["Error"]</p>
+}
+
+@if (!Model.Any())
+{
+    <p class="text-on-surface-variant text-body-md">No hay mesas libres en este momento.</p>
+}
+else
+{
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
+        @foreach (var m in Model)
+        {
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg flex flex-col items-center text-center gap-sm">
+                <span class="material-symbols-outlined text-primary text-[40px]">table_restaurant</span>
+                <p class="font-title-md text-title-md text-on-surface">Mesa @m.Numero_Mesa</p>
+                <p class="text-on-surface-variant text-body-md">Capacidad: @m.Capacidad</p>
+                <a asp-controller="PortalCliente" asp-action="Reservar" asp-route-idMesa="@m.ID_Mesa"
+                   class="mt-sm inline-flex items-center gap-sm px-md py-sm bg-primary text-on-primary font-bold rounded-full hover:bg-on-primary-fixed-variant transition-all">
+                    Reservar
+                </a>
+            </div>
+        }
+    </div>
+}

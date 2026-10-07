@@ -12,6 +12,15 @@
     <p class="text-on-surface-variant">Administración de cuentas y permisos del sistema.</p>
 </div>
 
+@if (TempData["Exito"] != null)
+{
+    <p class="mb-lg bg-secondary-container text-on-secondary-container font-bold rounded-lg px-md py-sm">@TempData["Exito"]</p>
+}
+@if (TempData["Error"] != null)
+{
+    <p class="mb-lg bg-error-container text-error font-bold rounded-lg px-md py-sm">@TempData["Error"]</p>
+}
+
 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
     <div class="p-lg">
         <table class="w-full text-left">
@@ -22,6 +31,7 @@
                     <th class="pb-md font-bold">Email</th>
                     <th class="pb-md font-bold">Rol</th>
                     <th class="pb-md font-bold">Estado</th>
+                    <th class="pb-md font-bold">Acciones</th>
                 </tr>
             </thead>
             <tbody class="text-body-md">
@@ -44,6 +54,12 @@
                                 <span class="px-sm py-xs bg-error-container text-on-error-container rounded-full text-label-md">Inactivo</span>
                             }
                         </td>
+                        <td class="py-md">
+                            <button type="button" onclick="openEditUsuarioModal(@u.ID_Usuario)" title="Editar usuario"
+                                    class="w-8 h-8 inline-flex items-center justify-center rounded-full text-tertiary hover:bg-surface-container-high transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                            </button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -51,3 +67,75 @@
     </div>
 </div>
 <partial name="_Pagination" />
+
+@foreach (var u in Model)
+{
+    <div id="editUsuarioModal-@u.ID_Usuario" class="fixed inset-0 z-[100] hidden items-center justify-center app-modal-overlay">
+        <div class="app-modal-panel w-full max-w-[440px] flex flex-col animate-fade-in">
+            <div class="bg-primary px-lg py-lg flex items-center justify-between">
+                <div class="flex items-center gap-sm text-on-primary">
+                    <span class="material-symbols-outlined">manage_accounts</span>
+                    <h3 class="font-title-md text-title-md">Editar Usuario #@u.ID_Usuario</h3>
+                </div>
+                <button type="button" onclick="closeEditUsuarioModal(@u.ID_Usuario)" class="text-on-primary/80 hover:text-on-primary">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <form asp-controller="Dashboard" asp-action="EditarUsuario" method="post" autocomplete="off" class="p-lg space-y-md">
+                <input type="hidden" name="ID_Usuario" value="@u.ID_Usuario" />
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Nombre Usuario</label>
+                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                           type="text" name="Nombre_Usuario" required value="@u.Nombre_Usuario" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Email</label>
+                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                           type="email" name="Email" required value="@u.Email" />
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Password</label>
+                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                           type="password" name="Password" required value="@u.Password" />
+                </div>
+                <div class="flex items-center gap-sm">
+                    <input class="h-5 w-5 rounded border border-outline-variant text-primary focus:ring-2 focus:ring-primary/20" type="checkbox" name="Estado" id="chkEstado-@u.ID_Usuario" value="true" checked="@u.Estado" />
+                    <input type="hidden" name="Estado" value="false" />
+                    <label class="font-label-md text-label-md text-on-surface-variant" for="chkEstado-@u.ID_Usuario">Activo</label>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Rol</label>
+                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Rol" required>
+                        @foreach (var item in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.RolesDisponibles)
+                        {
+                            <option value="@item.Value" selected="@(item.Value == u.ID_Rol.ToString())">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex items-center gap-sm pt-sm">
+                    <button type="submit" class="flex-1 inline-flex items-center justify-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+                        <span class="material-symbols-outlined">save</span> Guardar
+                    </button>
+                    <button type="button" onclick="closeEditUsuarioModal(@u.ID_Usuario)" class="flex-1 inline-flex items-center justify-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function openEditUsuarioModal(id) {
+            var modal = document.getElementById('editUsuarioModal-' + id);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        function closeEditUsuarioModal(id) {
+            var modal = document.getElementById('editUsuarioModal-' + id);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+}

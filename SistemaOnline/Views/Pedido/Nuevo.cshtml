@@ -28,9 +28,9 @@
                     <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado_Pedido">Estado del Pedido</label>
                     @if (ViewBag.EsMesero == true)
                     {
-                        <input type="hidden" asp-for="Estado_Pedido" value="En Cocina" />
+                        <input type="hidden" asp-for="Estado_Pedido" value="Pendiente" />
                         <div class="w-full h-11 px-md bg-surface-container-high border border-transparent rounded-lg flex items-center text-body-md text-on-surface-variant cursor-not-allowed">
-                            <span class="material-symbols-outlined text-[16px] mr-sm text-secondary">restaurant</span> En Cocina
+                            <span class="material-symbols-outlined text-[16px] mr-sm text-secondary">restaurant</span> Pendiente
                         </div>
                     }
                     else
@@ -285,7 +285,7 @@
 
             let subtotalCalculado = 0;
             const nombres = [];
-            checkboxes.forEach(function(cb) {
+            checkboxes.forEach(function (cb) {
                 const id = cb.getAttribute('data-id');
                 const precio = parseFloat(cb.getAttribute('data-precio') || 0);
                 const qty = parseInt((document.getElementById('qty-' + id) || {}).value || 1, 10);
@@ -308,7 +308,7 @@
             }
 
             listaProductos.innerHTML = '';
-            checkboxes.forEach(function(cb) {
+            checkboxes.forEach(function (cb) {
                 const id = cb.getAttribute('data-id');
                 const nombre = cb.getAttribute('data-nombre');
                 const precio = parseFloat(cb.getAttribute('data-precio') || 0);
@@ -349,11 +349,11 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('formPedido');
             form.addEventListener('input', actualizarVistaPrevia);
             form.addEventListener('change', actualizarVistaPrevia);
-            document.querySelectorAll('.producto-checkbox').forEach(function(cb) {
+            document.querySelectorAll('.producto-checkbox').forEach(function (cb) {
                 cb.addEventListener('change', actualizarVistaPrevia);
             });
             actualizarVistaPrevia();
@@ -362,13 +362,12 @@
             mesaSelect.addEventListener('change', gestionarAvisoMesaActiva);
             gestionarAvisoMesaActiva();
 
-            document.getElementById('chkDesbloquearMesa').addEventListener('change', function() {
-                // only the overlay warning; mesa select stays always interactive
+            document.getElementById('chkDesbloquearMesa').addEventListener('change', function () {
             });
 
-            document.getElementById('buscadorProductos').addEventListener('input', function() {
+            document.getElementById('buscadorProductos').addEventListener('input', function () {
                 const filtro = this.value.trim().toLowerCase();
-                document.querySelectorAll('.producto-fila').forEach(function(fila) {
+                document.querySelectorAll('.producto-fila').forEach(function (fila) {
                     const nombre = fila.getAttribute('data-filtro-nombre') || '';
                     fila.style.display = nombre.includes(filtro) ? '' : 'none';
                 });

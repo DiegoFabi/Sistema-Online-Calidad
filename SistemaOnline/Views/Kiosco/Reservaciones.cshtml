@@ -27,19 +27,32 @@
         <h2 class="text-4xl font-extrabold mb-2">Reserva tu mesa</h2>
         <p class="text-lg text-[#5b4040] mb-8">Mesas disponibles para hoy. Inicia sesión para confirmar tu reservación.</p>
 
+        @if (TempData["Exito"] != null)
+        {
+            <p class="bg-[#e3f3e3] text-[#1e6b1e] font-bold rounded-lg px-4 py-3 mb-6">@TempData["Exito"]</p>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <p class="bg-[#fbe3e3] text-[#b9172f] font-bold rounded-lg px-4 py-3 mb-6">@TempData["Error"]</p>
+        }
+
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
             @foreach (var m in Model)
             {
-                <div class="bg-white rounded-2xl shadow-lg p-6 text-center border border-[#e3bebd]">
+                <div class="bg-white rounded-2xl shadow-lg p-6 text-center border border-[#e3bebd] flex flex-col items-center gap-2">
                     <span class="material-symbols-outlined text-[#b9172f] text-[40px]">table_restaurant</span>
-                    <p class="text-xl font-bold mt-2">Mesa @m.Numero_Mesa</p>
+                    <p class="text-xl font-bold mt-1">Mesa @m.Numero_Mesa</p>
                     <p class="text-[#5b4040]">Capacidad: @m.Capacidad</p>
+                    <a asp-controller="Kiosco" asp-action="Reservar" asp-route-idMesa="@m.ID_Mesa"
+                       class="mt-2 inline-block bg-[#b9172f] text-white rounded-full px-5 py-2 font-bold hover:bg-[#92001f] transition-colors">
+                        Reservar
+                    </a>
                 </div>
             }
         </div>
 
-        <a asp-controller="Login" asp-action="Login" class="inline-block bg-[#b9172f] text-white rounded-full px-8 py-3 font-bold hover:bg-[#92001f] transition-colors">
-            Iniciar sesión para reservar
+        <a asp-controller="Login" asp-action="Login" class="inline-block text-[#5b4040] font-bold underline">
+            ¿No tienes sesión iniciada? Inicia sesión para reservar
         </a>
     </main>
 </body>
