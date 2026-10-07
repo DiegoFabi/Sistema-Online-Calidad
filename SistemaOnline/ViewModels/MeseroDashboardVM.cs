@@ -10,5 +10,6 @@ namespace SistemaOnline.ViewModels
         public int PedidosActivos { get; set; }
         public List<Pedido> PedidosListos { get; set; } = new();
         public HashSet<int> MesasConPedidoActivo { get; set; } = new();
+        public HashSet<int> MesasReservadas { get; set; } = new();
     }
 }
