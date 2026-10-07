@@ -120,6 +120,16 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar un producto que tiene detalles de pedidos asociados.";
                 return RedirectToAction(nameof(Lista));
             }
+            if (await _context.Productos_Ingredientes.AnyAsync(pi => pi.ID_Producto == id))
+            {
+                TempData["Error"] = "No se puede eliminar un producto que tiene ingredientes de receta asociados.";
+                return RedirectToAction(nameof(Lista));
+            }
+            if (await _context.Productos_Promociones.AnyAsync(pp => pp.ID_Producto == id))
+            {
+                TempData["Error"] = "No se puede eliminar un producto que tiene promociones asociadas.";
+                return RedirectToAction(nameof(Lista));
+            }
             Producto producto = await _context.Productos.FirstAsync(p => p.ID_Producto == id);
             _context.Productos.Remove(producto);
             await _context.SaveChangesAsync();

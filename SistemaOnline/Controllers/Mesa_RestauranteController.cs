@@ -108,6 +108,11 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar una mesa que tiene pedidos asociados.";
                 return RedirectToAction(nameof(Lista));
             }
+            if (await _context.Reservaciones.AnyAsync(r => r.ID_Mesa == id))
+            {
+                TempData["Error"] = "No se puede eliminar una mesa que tiene reservaciones asociadas.";
+                return RedirectToAction(nameof(Lista));
+            }
             Mesa_Restaurante mesa = await _context.Mesas.FirstAsync(m => m.ID_Mesa == id);
             _context.Mesas.Remove(mesa);
             await _context.SaveChangesAsync();

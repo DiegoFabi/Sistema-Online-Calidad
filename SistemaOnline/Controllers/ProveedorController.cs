@@ -108,6 +108,11 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar un proveedor que tiene contratos asociados.";
                 return RedirectToAction(nameof(Lista));
             }
+            if (await _context.Proveedores_Ingredientes.AnyAsync(pi => pi.ID_Proveedor == id))
+            {
+                TempData["Error"] = "No se puede eliminar un proveedor que tiene ingredientes asociados.";
+                return RedirectToAction(nameof(Lista));
+            }
             Proveedor proveedor = await _context.Proveedores.FirstAsync(p => p.ID_Proveedor == id);
             _context.Proveedores.Remove(proveedor);
             await _context.SaveChangesAsync();

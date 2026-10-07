@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -74,6 +74,10 @@ namespace SistemaOnline.Controllers
             return View(mesas);
         }
 
+        // Mismo flujo que KioscoController.Reservar (el Cliente no elige de un select,
+        // se resuelve del Usuario autenticado); se repite aqui porque esta es la pantalla
+        // a la que en verdad llega un Cliente ya logueado (Kiosco es solo para el visitante
+        // anonimo, que aqui ya tiene su propio punto de entrada con sidebar).
         [HttpGet]
         public async Task<IActionResult> Reservar(int idMesa)
         {

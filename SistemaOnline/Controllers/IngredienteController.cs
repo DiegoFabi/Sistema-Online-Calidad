@@ -127,6 +127,16 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar un ingrediente que tiene registros de inventario asociados.";
                 return RedirectToAction(nameof(Lista));
             }
+            if (await _context.Productos_Ingredientes.AnyAsync(pi => pi.ID_Ingrediente == id))
+            {
+                TempData["Error"] = "No se puede eliminar un ingrediente que está en la receta de algún producto.";
+                return RedirectToAction(nameof(Lista));
+            }
+            if (await _context.Proveedores_Ingredientes.AnyAsync(pi => pi.ID_Ingrediente == id))
+            {
+                TempData["Error"] = "No se puede eliminar un ingrediente que tiene proveedores asociados.";
+                return RedirectToAction(nameof(Lista));
+            }
             Ingrediente ingrediente = await _context.Ingredientes.FirstAsync(i => i.ID_Ingrediente == id);
             _context.Ingredientes.Remove(ingrediente);
             await _context.SaveChangesAsync();

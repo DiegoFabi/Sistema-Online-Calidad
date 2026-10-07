@@ -1,4 +1,4 @@
-﻿using SistemaOnline.Data;
+using SistemaOnline.Data;
 using SistemaOnline.Models;
 using SistemaOnline.ViewModels;
 using SistemaOnline.Services;

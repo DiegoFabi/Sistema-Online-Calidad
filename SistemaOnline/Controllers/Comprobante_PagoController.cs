@@ -166,10 +166,10 @@ namespace SistemaOnline.Controllers
             var pago = new Pago
             {
                 Fecha_Hora_Pago = modelo.Fecha_Emision,
-                Monto = modelo.Monto_Total,
-                Metodo_Pago = modelo.Metodo_Pago,
-                Estado = "Pagado",
-                ID_Pedido = modelo.ID_Pedido
+                Monto           = modelo.Monto_Total,
+                Metodo_Pago     = modelo.Metodo_Pago,
+                Estado          = "Pagado",
+                ID_Pedido       = modelo.ID_Pedido
             };
             await _context.Pagos.AddAsync(pago);
 

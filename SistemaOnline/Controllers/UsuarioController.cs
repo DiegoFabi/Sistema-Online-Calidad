@@ -140,6 +140,11 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar la cuenta de administrador principal.";
                 return RedirectToAction(nameof(Lista));
             }
+            if (await _context.Empleados.AnyAsync(e => e.ID_Usuario == id) || await _context.Clientes.AnyAsync(c => c.ID_Usuario == id))
+            {
+                TempData["Error"] = "No se puede eliminar un usuario que tiene un empleado o cliente asociado.";
+                return RedirectToAction(nameof(Lista));
+            }
             Usuario usuario = await _context.Usuarios.FirstAsync(u => u.ID_Usuario == id);
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();

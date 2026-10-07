@@ -83,6 +83,11 @@ namespace SistemaOnline.Controllers
         [HttpGet]
         public async Task<ActionResult> Eliminar(int id)
         {
+            if (await _context.Usuarios.AnyAsync(u => u.ID_Rol == id))
+            {
+                TempData["Error"] = "No se puede eliminar un rol que tiene usuarios asociados.";
+                return RedirectToAction(nameof(Lista));
+            }
             Rol rol = await _context.Roles.FirstAsync(r => r.ID_Rol == id);
             _context.Roles.Remove(rol);
             await _context.SaveChangesAsync();

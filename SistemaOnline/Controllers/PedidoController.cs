@@ -360,7 +360,29 @@ namespace SistemaOnline.Controllers
                 return RedirectToAction(nameof(Lista));
             }
 
-            Pedido pedido = await _context.Pedidos.FirstAsync(p => p.ID_Pedido == id);
+            Pedido pedido = await _context.Pedidos
+                .Include(p => p.Pedido_Detalles)
+                .Include(p => p.Mesa_Restaurante)
+                .FirstAsync(p => p.ID_Pedido == id);
+
+            // Se eliminan primero los detalles del pedido: sin esto, el DELETE del
+            // pedido falla por la restricción de clave foránea de Pedido_Detalle
+            // y el registro queda intacto en la base de datos.
+            if (pedido.Pedido_Detalles != null && pedido.Pedido_Detalles.Any())
+            {
+                _context.Pedidos_Detalles.RemoveRange(pedido.Pedido_Detalles);
+            }
+
+            if (pedido.Mesa_Restaurante != null)
+            {
+                bool otroPedidoActivoEnMesa = await _context.Pedidos
+                    .AnyAsync(p => p.ID_Mesa == pedido.ID_Mesa && p.ID_Pedido != pedido.ID_Pedido && EstadosMesaOcupada.Contains(p.Estado_Pedido));
+                if (!otroPedidoActivoEnMesa)
+                {
+                    pedido.Mesa_Restaurante.Estado = "Libre";
+                }
+            }
+
             _context.Pedidos.Remove(pedido);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Lista));

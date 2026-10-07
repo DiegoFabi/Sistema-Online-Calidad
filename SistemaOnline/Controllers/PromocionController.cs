@@ -115,6 +115,11 @@ namespace SistemaOnline.Controllers
         [HttpGet]
         public async Task<ActionResult> Eliminar(int id)
         {
+            if (await _context.Productos_Promociones.AnyAsync(pp => pp.ID_Promocion == id))
+            {
+                TempData["Error"] = "No se puede eliminar una promoción que tiene productos asociados.";
+                return RedirectToAction(nameof(Lista));
+            }
             Promocion promocion = await _context.Promociones.FirstAsync(p => p.ID_Promocion == id);
             _context.Promociones.Remove(promocion);
             await _context.SaveChangesAsync();

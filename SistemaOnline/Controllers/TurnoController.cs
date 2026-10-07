@@ -97,6 +97,11 @@ namespace SistemaOnline.Controllers
         [HttpGet]
         public async Task<ActionResult> Eliminar(int id)
         {
+            if (await _context.Empleados_Turnos.AnyAsync(et => et.ID_Turno == id))
+            {
+                TempData["Error"] = "No se puede eliminar un turno que tiene empleados asignados.";
+                return RedirectToAction(nameof(Lista));
+            }
             Turno turno = await _context.Turnos.FirstAsync(t => t.ID_Turno == id);
             _context.Turnos.Remove(turno);
             await _context.SaveChangesAsync();
