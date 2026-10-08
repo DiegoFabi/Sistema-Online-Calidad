@@ -110,6 +110,15 @@
                     <div id="resumenProductosSeleccionados" class="mt-sm text-label-md text-on-surface-variant">
                         Ningún producto seleccionado.
                     </div>
+                    @if (ViewData.ModelState.TryGetValue(nameof(Model.ProductosSeleccionados), out var estadoProductos) && estadoProductos.Errors.Count > 0)
+                    {
+                        <ul class="mt-sm text-error text-label-md list-disc list-inside space-y-1">
+                            @foreach (var error in estadoProductos.Errors)
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    }
                 </div>
 
                 <div class="flex items-center gap-sm pt-md">

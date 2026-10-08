@@ -12,9 +12,14 @@
     <p class="text-on-surface-variant">Listado de pedidos para facturación.</p>
 </div>
 
+<div class="mb-md relative max-w-md">
+    <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+    <input id="buscadorTabla" type="text" placeholder="Buscar por mesa, estado..."
+           class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+</div>
 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
     <div class="p-lg">
-        <table class="w-full text-left">
+        <table id="tablaPrincipal" class="w-full text-left">
             <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
                 <tr>
                     <th class="px-md pb-md font-bold">ID</th>

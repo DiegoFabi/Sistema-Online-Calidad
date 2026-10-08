@@ -252,6 +252,27 @@
             setInterval(actualizarReloj, 1000);
         })();
 
+        // ---------- Buscador de tabla (id="buscadorTabla" filtra id="tablaPrincipal") ----------
+        // Compartido por _CRUDListLayout y cualquier otra página con una lista: se registra
+        // una sola vez acá para no duplicar el mismo script en cada vista.
+        (function () {
+            const buscador = document.getElementById('buscadorTabla');
+            if (!buscador) return;
+
+            buscador.addEventListener('input', function () {
+                const filtro = this.value.trim().toLowerCase();
+                const tabla = document.getElementById('tablaPrincipal');
+                if (!tabla) return;
+
+                tabla.querySelectorAll('tbody tr').forEach(function (fila) {
+                    const esVisible = fila.textContent.toLowerCase().includes(filtro);
+                    fila.style.transition = "opacity 0.2s ease";
+                    fila.style.opacity = esVisible ? "1" : "0";
+                    setTimeout(() => { fila.style.display = esVisible ? '' : 'none'; }, 200);
+                });
+            });
+        })();
+
         // ---------- Buscador del header (filtrado por rol) ----------
         (function () {
         @{

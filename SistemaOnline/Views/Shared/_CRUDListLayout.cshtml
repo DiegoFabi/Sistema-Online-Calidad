@@ -100,23 +100,9 @@
 </div>
 
 <script>
-    (function () {
-        const buscador = document.getElementById('buscadorTabla');
-        if (!buscador) return;
-
-        buscador.addEventListener('input', function () {
-            const filtro = this.value.trim().toLowerCase();
-            const tabla = document.getElementById('tablaPrincipal');
-            if (!tabla) return;
-
-            tabla.querySelectorAll('tbody tr').forEach(function (fila) {
-                const esVisible = fila.textContent.toLowerCase().includes(filtro);
-                fila.style.transition = "opacity 0.2s ease";
-                fila.style.opacity = esVisible ? "1" : "0";
-                setTimeout(() => { fila.style.display = esVisible ? '' : 'none'; }, 200);
-            });
-        });
-    })();
+    // El filtrado del buscador de tabla (id="buscadorTabla" / id="tablaPrincipal")
+    // vive una sola vez en _DashboardLayout.cshtml y se reutiliza en todas las
+    // páginas que lo necesiten, con o sin este partial.
 
     function abrirModalEliminar(url) {
         document.getElementById('btnConfirmarEliminar').href = url;
