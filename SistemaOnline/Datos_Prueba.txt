@@ -64,17 +64,17 @@ GO
 -- ==============================================================================
 SET IDENTITY_INSERT Mesas ON;
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (1, 1, 4, 'Salón Principal', 'Ocupada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (2, 2, 4, 'Salón Principal', 'Libre');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (2, 2, 4, 'Salón Principal', 'Ocupado');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (3, 3, 4, 'Salón Principal', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (4, 4, 6, 'Salón Principal', 'Ocupada');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (5, 5, 6, 'Salón Principal', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (6, 6, 6, 'Salón Principal', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (7, 7, 2, 'Terraza', 'Reservada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (8, 8, 2, 'Terraza', 'Libre');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (8, 8, 2, 'Terraza', 'Ocupado');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (9, 9, 4, 'Terraza', 'Ocupada');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (10, 10, 4, 'Terraza', 'Libre');
 INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (11, 11, 8, 'Sala Privada', 'Reservada');
-INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (12, 12, 8, 'Sala Privada', 'Libre');
+INSERT INTO Mesas (ID_Mesa, Numero_Mesa, Capacidad, Ubicacion, Estado) VALUES (12, 12, 8, 'Sala Privada', 'Ocupado');
 SET IDENTITY_INSERT Mesas OFF;
 GO
 
@@ -625,7 +625,7 @@ INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion,
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (17, 44.11, '2026-08-21', 13.49, 64.67, 17);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (18, 29.43, '2026-08-07', 6.31, 33.63, 18);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (19, 60.48, '2026-08-31', 18.84, 85.50, 19);
-INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (20, 12.12, '2026-08-14', 5.90, 42.41, 20);
+INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (20, 12.12, '2026-08-14', 8, 42.41, 20);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (21, 30.00, '2026-08-07', 10.00, 47.26, 21);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (22, 2.53, '2026-08-18', 6.96, 45.76, 22);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (23, 64.76, '2026-08-06', 19.85, 79.44, 23);
@@ -638,7 +638,7 @@ INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion,
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (30, 62.02, '2026-08-26', 12.26, 77.22, 30);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (31, 2.00, '2026-08-12', 4.00, 75.56, 31);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (32, 30.19, '2026-08-14', 8.74, 41.60, 32);
-INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (33, 3.00, '2026-08-12', 5.00, 62.01, 33);
+INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (33, 0.00, '2026-08-12', 5.00, 62.01, 33);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (34, 8.60, '2026-08-15', 6.18, 25.89, 34);
 INSERT INTO Inventarios (ID_Inventario, Cantidad_Stock, Fecha_Ultima_Reposicion, Stock_Minimo, Stock_Maximo, ID_Ingrediente) VALUES (35, 67.38, '2026-08-23', 19.44, 96.30, 35);
 SET IDENTITY_INSERT Inventarios OFF;
@@ -740,8 +740,12 @@ INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, T
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (53, '2026-08-29', 'Entregado', NULL, 25.00, 29.50, 7, 5, 5);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (54, '2026-08-29', 'Pagado', NULL, 43.50, 51.33, 8, 12, 6);
 INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (55, '2026-08-30', 'Pagado', NULL, 145.50, 171.69, 9, 19, 7);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (56, '2026-09-01', 'Pendiente', NULL, 22.00, 25.96, 6, NULL, 2);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (57, '2026-09-01', 'Preparando', NULL, 29.00, 34.22, 7, NULL, 8);
+INSERT INTO Pedidos (ID_Pedido, Fecha, Estado_Pedido, Observaciones, SubTotal, Total, ID_Empleado, ID_Cliente, ID_Mesa) VALUES (58, '2026-09-01', 'Listo', NULL, 26.00, 30.68, 8, NULL, 12);
 SET IDENTITY_INSERT Pedidos OFF;
 GO
+
 SET IDENTITY_INSERT Pedidos_Detalles ON;
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (1, 1, 28.50, 1, 1);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (2, 1, 30.00, 2, 10);
@@ -842,6 +846,9 @@ INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pe
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (97, 2, 25.00, 55, 37);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (98, 1, 10.00, 55, 44);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (99, 3, 28.50, 55, 1);
+INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (100, 1, 22.00, 56, 2);  
+INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (101, 1, 29.00, 57, 9);  
+INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (102, 1, 26.00, 58, 5);  
 SET IDENTITY_INSERT Pedidos_Detalles OFF;
 GO
 
