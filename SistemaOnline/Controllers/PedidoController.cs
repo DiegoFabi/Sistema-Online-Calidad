@@ -142,8 +142,9 @@ namespace SistemaOnline.Controllers
             Dictionary<int, decimal> ingredientesNecesarios = new();
             if (modelo.ProductosSeleccionados != null && modelo.ProductosSeleccionados.Any())
             {
-                ingredientesNecesarios = await CalcularIngredientesNecesarios(modelo.ProductosSeleccionados, modelo.CantidadesProductos);
-                foreach (var error in await ValidarStockSuficiente(ingredientesNecesarios))
+                var (necesario, productosPorIngrediente) = await CalcularIngredientesNecesarios(modelo.ProductosSeleccionados, modelo.CantidadesProductos);
+                ingredientesNecesarios = necesario;
+                foreach (var error in await ValidarStockSuficiente(ingredientesNecesarios, productosPorIngrediente))
                 {
                     ModelState.AddModelError(nameof(modelo.ProductosSeleccionados), error);
                 }
@@ -481,9 +482,10 @@ namespace SistemaOnline.Controllers
         }
 
         // Suma, por ingrediente, cuanto se necesita para preparar los productos seleccionados
-        // (receta de Producto_Ingrediente x cantidad pedida). Productos sin receta (ej. bebidas)
-        // simplemente no aportan ninguna restriccion de stock.
-        private async Task<Dictionary<int, decimal>> CalcularIngredientesNecesarios(List<int> productosSeleccionados, Dictionary<int, int>? cantidadesProductos)
+        // (receta de Producto_Ingrediente x cantidad pedida), y de que producto(s) viene cada
+        // ingrediente (para poder decir en el mensaje de error que producto es el responsable).
+        // Productos sin receta (ej. bebidas) simplemente no aportan ninguna restriccion de stock.
+        private async Task<(Dictionary<int, decimal> Necesario, Dictionary<int, List<string>> ProductosPorIngrediente)> CalcularIngredientesNecesarios(List<int> productosSeleccionados, Dictionary<int, int>? cantidadesProductos)
         {
             var cantidadPorProducto = new Dictionary<int, int>();
             foreach (var idProd in productosSeleccionados)
@@ -493,23 +495,34 @@ namespace SistemaOnline.Controllers
             }
 
             var recetas = await _context.Productos_Ingredientes
+                .Include(pi => pi.Producto)
                 .Where(pi => cantidadPorProducto.Keys.Contains(pi.ID_Producto))
                 .ToListAsync();
 
             var necesarioPorIngrediente = new Dictionary<int, decimal>();
+            var productosPorIngrediente = new Dictionary<int, List<string>>();
             foreach (var receta in recetas)
             {
                 decimal necesario = receta.Cantidad * cantidadPorProducto[receta.ID_Producto];
                 necesarioPorIngrediente[receta.ID_Ingrediente] = necesarioPorIngrediente.TryGetValue(receta.ID_Ingrediente, out decimal actual)
                     ? actual + necesario
                     : necesario;
+
+                if (!productosPorIngrediente.TryGetValue(receta.ID_Ingrediente, out var nombres))
+                {
+                    nombres = new List<string>();
+                    productosPorIngrediente[receta.ID_Ingrediente] = nombres;
+                }
+                string nombreProducto = receta.Producto?.Nombre_Plato ?? $"producto #{receta.ID_Producto}";
+                if (!nombres.Contains(nombreProducto)) nombres.Add(nombreProducto);
             }
-            return necesarioPorIngrediente;
+            return (necesarioPorIngrediente, productosPorIngrediente);
         }
 
-        // Compara lo necesario contra el stock disponible y devuelve un mensaje por cada
-        // ingrediente insuficiente (lista vacia = hay stock para todo el pedido).
-        private async Task<List<string>> ValidarStockSuficiente(Dictionary<int, decimal> necesarioPorIngrediente)
+        // Compara lo necesario contra el stock disponible y devuelve un mensaje claro por cada
+        // ingrediente insuficiente, indicando el ingrediente, el o los productos que lo requieren,
+        // y el stock disponible vs. el necesario (lista vacia = hay stock para todo el pedido).
+        private async Task<List<string>> ValidarStockSuficiente(Dictionary<int, decimal> necesarioPorIngrediente, Dictionary<int, List<string>> productosPorIngrediente)
         {
             var errores = new List<string>();
             if (!necesarioPorIngrediente.Any())
@@ -529,7 +542,12 @@ namespace SistemaOnline.Controllers
                 if (disponible < cantidadNecesaria)
                 {
                     string nombre = inv?.Ingrediente?.Nombre_Ingrediente ?? $"ingrediente #{idIngrediente}";
-                    errores.Add($"No hay stock suficiente de '{nombre}' para este pedido (disponible: {disponible:0.###}, necesario: {cantidadNecesaria:0.###}).");
+                    string unidad = inv?.Ingrediente?.Unidad_Medida ?? "";
+                    string productos = productosPorIngrediente.TryGetValue(idIngrediente, out var lista) && lista.Any()
+                        ? string.Join(", ", lista)
+                        : "el producto seleccionado";
+                    errores.Add($"No se pudo registrar el pedido: falta stock de '{nombre}' para {productos} " +
+                                 $"(disponible: {disponible:0.###} {unidad}, necesario: {cantidadNecesaria:0.###} {unidad}).");
                 }
             }
             return errores;
