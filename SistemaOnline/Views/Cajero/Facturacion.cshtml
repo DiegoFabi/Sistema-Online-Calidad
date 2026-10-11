@@ -42,7 +42,7 @@
                         <td class="px-md py-md font-mono-data">@p.SubTotal.ToString("C2")</td>
                         <td class="px-md py-md font-bold">@p.Total.ToString("C2")</td>
                         <td class="px-md py-md">
-                            <span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full text-label-md">@p.Estado_Pedido</span>
+                            <partial name="_EstadoPedidoBadge" model="@p.Estado_Pedido" />
                         </td>
                         <td class="px-md py-md text-right">
                             @if (p.Estado_Pedido == "Pagado")

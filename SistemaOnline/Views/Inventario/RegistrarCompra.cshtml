@@ -1,7 +1,7 @@
 @model SistemaOnline.ViewModels.RegistrarCompraVM
 @{
     Layout = "_DashboardLayout";
-    ViewData["Title"] = "Registrar Compra";
+    ViewData["Title"] = "Solicitud de Compra";
     ViewBag.Active = "negocio";
     string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
         ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
@@ -13,34 +13,35 @@
         <span class="font-title-sm">Volver al Inventario</span>
     </a>
     <div class="mb-lg">
-        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Registrar Compra a Proveedor</h2>
-        <p class="text-on-surface-variant">Repone stock de un ingrediente y deja constancia de la compra.</p>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Solicitud de Compra a Proveedor</h2>
+        <p class="text-on-surface-variant">Envía una solicitud de reposición de stock al proveedor elegido.</p>
     </div>
     <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
-        <form asp-controller="Inventario" asp-action="RegistrarCompra" method="post" autocomplete="off" class="space-y-md">
+        <form id="formSolicitudCompra" asp-controller="Inventario" asp-action="RegistrarCompra" method="post" autocomplete="off" class="space-y-md">
             <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Proveedor">Proveedor</label>
-                <select class="@Cls("ID_Proveedor")" asp-for="ID_Proveedor" asp-items="Model.ProveedoresDisponibles" id="ID_Proveedor">
+                <select class="@Cls("ID_Proveedor")" asp-for="ID_Proveedor" asp-items="Model.ProveedoresDisponibles" id="ID_Proveedor" onchange="alCambiarProveedor()">
                     <option value="">-- Selecciona un proveedor --</option>
                 </select>
                 <span asp-validation-for="ID_Proveedor" class="text-error text-label-md"></span>
             </div>
             <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Ingrediente">Ingrediente</label>
-                <select class="@Cls("ID_Ingrediente")" asp-for="ID_Ingrediente" asp-items="Model.IngredientesDisponibles" id="ID_Ingrediente">
-                    <option value="">-- Selecciona un ingrediente --</option>
-                </select>
-                <span asp-validation-for="ID_Ingrediente" class="text-error text-label-md"></span>
-            </div>
-            <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="CantidadComprada">Cantidad Comprada</label>
-                <input class="@Cls("CantidadComprada")" type="number" step="0.001" min="0.001" required asp-for="CantidadComprada" />
-                <span asp-validation-for="CantidadComprada" class="text-error text-label-md"></span>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Ingredientes a Solicitar</label>
+                <button type="button" id="btnAbrirIngredientes" onclick="openIngredientesCompraModal()" disabled
+                        class="w-full inline-flex items-center justify-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    Seleccionar Ingredientes
+                </button>
+                <p id="avisoSinProveedor" class="mt-sm text-label-md text-on-surface-variant">Elige primero un proveedor para ver sus ingredientes.</p>
+                <div id="resumenIngredientesCompra" class="mt-sm text-label-md text-on-surface-variant hidden">
+                    <span id="resumenNombresCompra"></span>
+                    — Total estimado: <span id="totalEstimadoCompraResumen" class="font-bold font-mono-data"></span>
+                </div>
             </div>
             <div class="flex items-center gap-sm pt-md">
                 <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
-                    <span class="material-symbols-outlined">add_shopping_cart</span> Registrar Compra
+                    <span class="material-symbols-outlined">send</span> Enviar Solicitud
                 </button>
                 <a asp-controller="Inventario" asp-action="Lista" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
                     <span class="material-symbols-outlined">arrow_back</span> Cancelar
@@ -49,3 +50,215 @@
         </form>
     </div>
 </div>
+
+<!-- Modal de Ingredientes a Solicitar (mismo patrón visual que Ingredientes de la Receta) -->
+<div id="ingredientesCompraModal" class="fixed inset-0 z-[100] hidden items-center justify-center app-modal-overlay">
+    <div class="app-modal-panel w-full max-w-[720px] max-h-[85vh] overflow-y-auto flex flex-col animate-fade-in">
+        <div class="bg-primary px-lg py-lg flex items-center justify-between sticky top-0 z-10">
+            <div class="flex items-center gap-sm text-on-primary">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <h3 class="font-title-md text-title-md">Ingredientes del Proveedor</h3>
+            </div>
+            <button type="button" onclick="closeIngredientesCompraModal()" class="text-on-primary/80 hover:text-on-primary">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-lg pb-0">
+            <div class="relative mb-md">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] leading-none pointer-events-none select-none">search</span>
+                <input id="buscadorIngredientesCompra" type="text" placeholder="Buscar ingrediente..."
+                       class="w-full h-11 pl-10 pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+            </div>
+        </div>
+        <div class="p-lg pt-0">
+            @if (Model.IngredientesParaComprar.Any())
+            {
+                <table class="w-full text-left border-collapse">
+                    <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                        <tr>
+                            <th class="pb-xs px-sm font-bold">Ingrediente</th>
+                            <th class="pb-xs px-sm font-bold text-right">Stock Actual</th>
+                            <th class="pb-xs px-sm font-bold text-right">Cantidad a Solicitar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ingrediente in Model.IngredientesParaComprar)
+                        {
+                            bool seleccionado = Model.IngredientesSeleccionados.Contains(ingrediente.ID_Ingrediente);
+                            decimal cantInicial = seleccionado && Model.CantidadesIngredientes.TryGetValue(ingrediente.ID_Ingrediente, out decimal c) ? c : 1m;
+                            string proveedoresCsv = string.Join(",", ingrediente.ProveedoresIds);
+                            <tr class="ingrediente-compra-fila border-b border-outline-variant/10 hover:bg-surface-container-high"
+                                data-filtro-nombre="@ingrediente.Nombre_Ingrediente.ToLower()"
+                                data-proveedores="@proveedoresCsv">
+                                <td class="py-sm px-sm">
+                                    <label class="flex items-center gap-sm text-body-md cursor-pointer">
+                                        <input type="checkbox" name="IngredientesSeleccionados" value="@ingrediente.ID_Ingrediente"
+                                               form="formSolicitudCompra"
+                                               @(seleccionado ? "checked" : "")
+                                               data-nombre="@ingrediente.Nombre_Ingrediente"
+                                               data-id="@ingrediente.ID_Ingrediente"
+                                               data-costo="@ingrediente.CostoUnitario.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                               class="ingrediente-compra-checkbox h-5 w-5 flex-shrink-0 rounded border-outline-variant text-primary focus:ring-primary/20"
+                                               onchange="toggleStepperIngredienteCompra(this)" />
+                                        @ingrediente.Nombre_Ingrediente
+                                    </label>
+                                </td>
+                                <td class="py-sm px-sm text-right">
+                                    <span class="text-label-md font-mono-data text-on-surface-variant whitespace-nowrap">@ingrediente.StockActual.ToString("0.###") @ingrediente.Unidad_Medida</span>
+                                </td>
+                                <td class="py-sm px-sm">
+                                    <div class="flex items-center justify-end gap-xs">
+                                        <div class="stepper-ingrediente-compra @(seleccionado ? "flex" : "hidden") items-center gap-xs" id="stepper-compra-@ingrediente.ID_Ingrediente">
+                                            <button type="button" onclick="changeQtyIngredienteCompra(this, -0.1)" class="w-7 h-7 flex-shrink-0 rounded-full bg-surface-container-highest text-on-surface text-label-md font-bold flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">−</button>
+                                            <input type="number" name="CantidadesIngredientes[@ingrediente.ID_Ingrediente]" form="formSolicitudCompra"
+                                                   id="qty-compra-@ingrediente.ID_Ingrediente" value="@cantInicial.ToString(System.Globalization.CultureInfo.InvariantCulture)" min="0.001" max="999" step="0.001"
+                                                   data-id="@ingrediente.ID_Ingrediente"
+                                                   class="w-20 h-8 text-center bg-surface-container-low rounded text-body-md font-mono-data border border-outline-variant/40 focus:outline-none focus:border-primary qty-ingrediente-compra-input"
+                                                   oninput="actualizarResumenIngredientesCompra()" />
+                                            <button type="button" onclick="changeQtyIngredienteCompra(this, 0.1)" class="w-7 h-7 flex-shrink-0 rounded-full bg-surface-container-highest text-on-surface text-label-md font-bold flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">+</button>
+                                            <span class="text-label-md font-mono-data text-on-surface-variant">@ingrediente.Unidad_Medida</span>
+                                        </div>
+                                        <span class="stepper-ingrediente-compra-hint @(seleccionado ? "hidden" : "") text-label-md text-on-surface-variant">Marca para solicitar</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-label-md text-on-surface-variant italic px-sm py-md">No hay ingredientes con inventario registrado.</p>
+            }
+            <p id="avisoSinCoincidenciasCompra" class="hidden text-label-md text-on-surface-variant italic px-sm py-md">Este proveedor no tiene ingredientes asociados.</p>
+        </div>
+        <div class="flex items-center justify-between gap-md w-full p-lg pt-0 sticky bottom-0 bg-surface-container-lowest">
+            <span class="text-body-md text-on-surface">
+                Total estimado: <span id="totalEstimadoCompra" class="font-bold font-mono-data">S/ 0.00</span>
+            </span>
+            <button type="button" onclick="closeIngredientesCompraModal()"
+                    class="px-md py-sm rounded-lg bg-primary text-on-primary font-bold hover:bg-on-primary-fixed-variant transition-all">
+                Listo
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function proveedorSeleccionado() {
+            return document.getElementById('ID_Proveedor').value;
+        }
+
+        function openIngredientesCompraModal() {
+            document.getElementById('ingredientesCompraModal').classList.remove('hidden');
+            document.getElementById('ingredientesCompraModal').classList.add('flex');
+        }
+        function closeIngredientesCompraModal() {
+            document.getElementById('ingredientesCompraModal').classList.add('hidden');
+            document.getElementById('ingredientesCompraModal').classList.remove('flex');
+            actualizarResumenIngredientesCompra();
+        }
+
+        function toggleStepperIngredienteCompra(cb) {
+            const id = cb.getAttribute('data-id');
+            const stepperEl = document.getElementById('stepper-compra-' + id);
+            const hintEl = stepperEl.parentElement.querySelector('.stepper-ingrediente-compra-hint');
+            if (cb.checked) {
+                stepperEl.classList.remove('hidden');
+                stepperEl.classList.add('flex');
+                if (hintEl) hintEl.classList.add('hidden');
+            } else {
+                stepperEl.classList.add('hidden');
+                stepperEl.classList.remove('flex');
+                if (hintEl) hintEl.classList.remove('hidden');
+            }
+            actualizarResumenIngredientesCompra();
+        }
+
+        function changeQtyIngredienteCompra(btn, delta) {
+            const stepperEl = btn.parentElement;
+            const input = stepperEl.querySelector('.qty-ingrediente-compra-input');
+            let val = parseFloat(input.value) || 1;
+            val = Math.max(0.001, Math.min(999, Math.round((val + delta) * 1000) / 1000));
+            input.value = val;
+            actualizarResumenIngredientesCompra();
+        }
+
+        // Total estimado = suma de (Costo_Unitario del ingrediente × cantidad marcada),
+        // con el costo ya registrado en el Ingrediente (sin pedir nada nuevo al usuario).
+        function calcularTotalEstimadoCompra() {
+            let total = 0;
+            document.querySelectorAll('.ingrediente-compra-checkbox:checked').forEach(function (cb) {
+                const costo = parseFloat(cb.getAttribute('data-costo')) || 0;
+                const qtyInput = document.getElementById('qty-compra-' + cb.getAttribute('data-id'));
+                const cantidad = qtyInput ? (parseFloat(qtyInput.value) || 0) : 0;
+                total += costo * cantidad;
+            });
+            return total;
+        }
+
+        function actualizarResumenIngredientesCompra() {
+            const checkboxes = document.querySelectorAll('.ingrediente-compra-checkbox:checked');
+            const resumen = document.getElementById('resumenIngredientesCompra');
+            const totalTexto = 'S/ ' + calcularTotalEstimadoCompra().toFixed(2);
+            document.getElementById('totalEstimadoCompra').textContent = totalTexto;
+
+            if (checkboxes.length === 0) {
+                resumen.classList.add('hidden');
+                return;
+            }
+            resumen.classList.remove('hidden');
+            const nombres = Array.from(checkboxes).map(function (cb) { return cb.getAttribute('data-nombre'); });
+            document.getElementById('resumenNombresCompra').textContent = nombres.join(', ');
+            document.getElementById('totalEstimadoCompraResumen').textContent = totalTexto;
+        }
+
+        // El ingrediente y el proveedor están ligados: solo se pueden solicitar ingredientes
+        // que ese proveedor suministra (Proveedores_Ingredientes). Al cambiar de proveedor se
+        // ocultan las filas que no le corresponden y se desmarca cualquier selección previa
+        // que haya quedado inválida.
+        function alCambiarProveedor() {
+            const idProveedor = proveedorSeleccionado();
+            const btn = document.getElementById('btnAbrirIngredientes');
+            const aviso = document.getElementById('avisoSinProveedor');
+            let visibles = 0;
+
+            document.querySelectorAll('.ingrediente-compra-fila').forEach(function (fila) {
+                const proveedores = (fila.getAttribute('data-proveedores') || '').split(',').filter(Boolean);
+                const corresponde = idProveedor !== '' && proveedores.includes(idProveedor);
+                fila.classList.toggle('hidden', !corresponde);
+                if (corresponde) visibles++;
+
+                if (!corresponde) {
+                    const checkbox = fila.querySelector('.ingrediente-compra-checkbox');
+                    if (checkbox.checked) {
+                        checkbox.checked = false;
+                        toggleStepperIngredienteCompra(checkbox);
+                    }
+                }
+            });
+
+            document.getElementById('avisoSinCoincidenciasCompra').classList.toggle('hidden', !(idProveedor !== '' && visibles === 0));
+            btn.disabled = idProveedor === '';
+            aviso.classList.toggle('hidden', idProveedor !== '');
+            actualizarResumenIngredientesCompra();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            alCambiarProveedor();
+            actualizarResumenIngredientesCompra();
+
+            document.getElementById('buscadorIngredientesCompra').addEventListener('input', function () {
+                const filtro = this.value.trim().toLowerCase();
+                document.querySelectorAll('.ingrediente-compra-fila').forEach(function (fila) {
+                    const nombre = fila.getAttribute('data-filtro-nombre') || '';
+                    const coincideNombre = nombre.includes(filtro);
+                    const proveedores = (fila.getAttribute('data-proveedores') || '').split(',').filter(Boolean);
+                    const corresponde = proveedores.includes(proveedorSeleccionado());
+                    fila.classList.toggle('hidden', !(coincideNombre && corresponde));
+                });
+            });
+        });
+    </script>
+}

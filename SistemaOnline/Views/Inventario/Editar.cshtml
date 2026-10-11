@@ -16,25 +16,27 @@
         <form asp-controller="Inventario" asp-action="Editar" method="post" autocomplete="off" class="space-y-md">
             <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
             <input type="hidden" asp-for="ID_Inventario" />
-            <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Cantidad_Stock">Cantidad en Stock</label>
-                <input class="@Cls("Cantidad_Stock")" type="number" step="0.01" required asp-for="Cantidad_Stock" />
-                <span asp-validation-for="Cantidad_Stock" class="text-error text-label-md"></span>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-md">
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Cantidad_Stock">Stock Actual</label>
+                    <input class="@Cls("Cantidad_Stock")" type="number" step="0.01" required asp-for="Cantidad_Stock" />
+                    <span asp-validation-for="Cantidad_Stock" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Stock_Minimo">Stock Mínimo</label>
+                    <input class="@Cls("Stock_Minimo")" type="number" step="0.01" required asp-for="Stock_Minimo" />
+                    <span asp-validation-for="Stock_Minimo" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Stock_Maximo">Stock Máximo</label>
+                    <input class="@Cls("Stock_Maximo")" type="number" step="0.01" required asp-for="Stock_Maximo" />
+                    <span asp-validation-for="Stock_Maximo" class="text-error text-label-md"></span>
+                </div>
             </div>
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Ultima_Reposicion">Fecha de Última Reposición</label>
                 <input class="@Cls("Fecha_Ultima_Reposicion")" type="date" required asp-for="Fecha_Ultima_Reposicion" />
                 <span asp-validation-for="Fecha_Ultima_Reposicion" class="text-error text-label-md"></span>
-            </div>
-            <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Stock_Minimo">Stock Mínimo</label>
-                <input class="@Cls("Stock_Minimo")" type="number" step="0.01" required asp-for="Stock_Minimo" />
-                <span asp-validation-for="Stock_Minimo" class="text-error text-label-md"></span>
-            </div>
-            <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Stock_Maximo">Stock Máximo</label>
-                <input class="@Cls("Stock_Maximo")" type="number" step="0.01" required asp-for="Stock_Maximo" />
-                <span asp-validation-for="Stock_Maximo" class="text-error text-label-md"></span>
             </div>
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Ingrediente">Ingrediente</label>

@@ -225,6 +225,16 @@
                     </div>
                     <input type="checkbox" id="cfgDesactivarAnimaciones" class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20" />
                 </label>
+                <label class="flex items-center justify-between gap-md p-md rounded-lg bg-surface-container-low cursor-pointer">
+                    <div class="flex items-center gap-md">
+                        <span class="material-symbols-outlined text-primary">volume_off</span>
+                        <div>
+                            <p class="font-bold text-on-surface">Deshabilitar sonidos de interfaz</p>
+                            <p class="text-label-md text-on-surface-variant">Silencia los sonidos de confirmación y notificación del sistema.</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="cfgDesactivarSonidos" class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20" />
+                </label>
             </div>
             <div class="flex gap-md w-full p-lg pt-0">
                 <button type="button" onclick="closeConfiguracionModal()"
@@ -454,9 +464,10 @@
         });
         })();
 
-        // ---------- Sonido de notificación/confirmación ----------
+        // ---------- Sonido de notificación/confirmación (respeta preferencia "Deshabilitar sonidos") ----------
         const sonidoNotificacion = new Audio('/sounds/notificacion.wav');
         function reproducirSonidoNotificacion() {
+        if (localStorage.getItem('app_desactivar_sonidos') === 'true') return;
         sonidoNotificacion.currentTime = 0;
         sonidoNotificacion.play().catch(function () { });
         }
@@ -480,18 +491,15 @@
         document.getElementById('configuracionModal').classList.remove('flex');
         }
 
-        // Close modals (configuracion + logout) when clicking on the overlay
+        // Cierra cualquier ventana emergente que use el patrón compartido .app-modal-overlay
+        // (Configuración, cerrar sesión, ingredientes de receta, detalles de pedido,
+        // solicitud de compra, editar reserva/usuario, etc.) al hacer click fuera de su
+        // panel. Un solo listener delegado cubre todas las que ya existen y las que se
+        // agreguen después, sin necesitar un manejador de click por cada modal.
         document.addEventListener('click', function (e) {
-        var cfgModal = document.getElementById('configuracionModal');
-        if (cfgModal && !cfgModal.classList.contains('hidden')) {
-            if (e.target === cfgModal) closeConfiguracionModal();
-        }
-        var logoutModal = document.getElementById('logoutModal');
-        if (logoutModal && !logoutModal.classList.contains('hidden')) {
-            if (e.target === logoutModal) {
-                logoutModal.classList.add('hidden');
-                logoutModal.classList.remove('flex');
-            }
+        if (e.target.classList && e.target.classList.contains('app-modal-overlay') && !e.target.classList.contains('hidden')) {
+            e.target.classList.add('hidden');
+            e.target.classList.remove('flex');
         }
         });
 
@@ -503,6 +511,17 @@
 
         desactivarAnimaciones.addEventListener('change', function () {
         localStorage.setItem('app_desactivar_animaciones', desactivarAnimaciones.checked);
+        });
+        })();
+
+        (function () {
+        const desactivarSonidos = document.getElementById('cfgDesactivarSonidos');
+        if (!desactivarSonidos) return;
+
+        desactivarSonidos.checked = localStorage.getItem('app_desactivar_sonidos') === 'true';
+
+        desactivarSonidos.addEventListener('change', function () {
+        localStorage.setItem('app_desactivar_sonidos', desactivarSonidos.checked);
         });
         })();
     </script>

@@ -2,6 +2,12 @@
     string titulo = ViewData["Titulo"] as string ?? "Listado";
     string descripcion = ViewData["Descripcion"] as string ?? "";
     string controlador = ViewData["Controlador"] as string ?? "";
+    // Normalmente el botón "Nuevo" apunta al mismo controlador que este listado. Cuando un
+    // listado necesita crear mediante OTRO controlador (p.ej. Inventario/Lista crea desde
+    // Ingrediente/Nuevo, ya que el inventario se genera automáticamente), esa página fija
+    // ViewData["NuevoControlador"] por separado — así la paginación y el resto de este
+    // partial (que sí deben quedarse en "controlador") no se ven afectados.
+    string nuevoControlador = ViewData["NuevoControlador"] as string ?? controlador;
     string nuevoTexto = ViewData["NuevoTexto"] as string ?? "Nuevo";
     string buscadorPlaceholder = ViewData["BuscadorPlaceholder"] as string ?? "Buscar...";
 }
@@ -61,7 +67,7 @@
                 <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">@titulo</h2>
                 <p class="text-on-surface-variant">@descripcion</p>
             </div>
-            <a asp-controller="@controlador" asp-action="Nuevo"
+            <a asp-controller="@nuevoControlador" asp-action="Nuevo" asp-route-retorno="@(nuevoControlador != controlador ? controlador : null)"
                class="btn-hover-effect inline-flex items-center gap-sm h-11 px-md bg-primary text-on-primary font-title-md rounded-lg shadow-md">
                 <span class="material-symbols-outlined">add</span>
                 @nuevoTexto
@@ -74,6 +80,23 @@
         <input id="buscadorTabla" type="text" placeholder="@buscadorPlaceholder"
                class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
     </div>
+
+    @* Mensajes de TempData (p.ej. al bloquear una eliminación por dependencias, o tras una
+       acción exitosa) centralizados aquí porque este partial lo incluyen todos los listados
+       CRUD: antes cada Eliminar() podía fijar TempData["Error"] pero casi ninguna vista lo
+       mostraba, así que una eliminación bloqueada parecía no hacer nada en la interfaz. *@
+    @if (TempData["Error"] != null)
+    {
+        <div class="mb-md p-base rounded-lg bg-error-container text-on-error-container font-body-md text-body-md">
+            @TempData["Error"]
+        </div>
+    }
+    @if (TempData["Exito"] != null)
+    {
+        <div class="mb-md p-base rounded-lg bg-secondary-container text-on-secondary-container font-body-md text-body-md">
+            @TempData["Exito"]
+        </div>
+    }
 </div>
 
 <!-- Modal global de confirmación de eliminación -->

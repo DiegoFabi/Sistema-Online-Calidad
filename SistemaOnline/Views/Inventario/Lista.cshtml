@@ -1,21 +1,23 @@
 @model List<SistemaOnline.ViewModels.InventarioVM>
+@using SistemaOnline.Services
 @{
     Layout = "_DashboardLayout";
-    ViewData["Title"] = "Inventarios";
+    ViewData["Title"] = "Inventario de Ingredientes";
     ViewBag.Active = "negocio";
-    ViewData["Titulo"] = "Lista de Inventarios";
-    ViewData["Descripcion"] = "Administra el inventario de ingredientes.";
+    ViewData["Titulo"] = "Inventario de Ingredientes";
+    ViewData["Descripcion"] = "Consulta y ajusta el stock de los ingredientes ya registrados.";
+    // "Controlador" se deja en Inventario para que la paginación y los enlaces de este mismo
+    // listado (ver _Pagination.cshtml) sigan apuntando aquí. Solo el botón "Nuevo" lleva a
+    // Ingrediente/Nuevo (vía NuevoControlador): los registros de Inventario ya no se crean de
+    // forma manual e independiente, se generan automáticamente al registrar un Ingrediente
+    // (ver IngredienteController.Nuevo), que además recibe "retorno=Inventario" para volver
+    // aquí en vez de a Ingrediente/Lista al terminar.
     ViewData["Controlador"] = "Inventario";
-    ViewData["NuevoTexto"] = "Nuevo Inventario";
+    ViewData["NuevoControlador"] = "Ingrediente";
+    ViewData["NuevoTexto"] = "Nuevo Ingrediente";
     ViewData["BuscadorPlaceholder"] = "Buscar por ingrediente...";
 }
 <partial name="_CRUDListLayout" />
-@if (TempData["Exito"] != null)
-{
-    <div class="mb-md p-base rounded-lg bg-secondary-container text-on-secondary-container font-body-md text-body-md">
-        @TempData["Exito"]
-    </div>
-}
 <div class="mb-md">
     <a asp-controller="Inventario" asp-action="RegistrarCompra" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
         <span class="material-symbols-outlined">add_shopping_cart</span> Registrar Compra a Proveedor
@@ -31,6 +33,7 @@
                     <th class="px-md pb-md font-bold">Última Reposición</th>
                     <th class="px-md pb-md font-bold">Stock Mínimo</th>
                     <th class="px-md pb-md font-bold">Stock Máximo</th>
+                    <th class="px-md pb-md font-bold">Estado</th>
                     <th class="px-md pb-md font-bold col-ellipsis">Ingrediente</th>
                     <th class="px-md pb-md font-bold">Acciones</th>
                 </tr>
@@ -38,13 +41,21 @@
             <tbody class="text-body-md">
                 @foreach (var item in Model)
                 {
+                    var estadoStock = EstadoColores.InventarioEstado(item.Cantidad_Stock, item.Stock_Minimo, item.Stock_Maximo);
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
                         <td class="px-md py-md font-mono-data">@item.ID_Inventario</td>
                         <td class="px-md py-md font-mono-data">@item.Cantidad_Stock</td>
                         <td class="px-md py-md font-mono-data">@item.Fecha_Ultima_Reposicion.ToString("dd/MM/yyyy")</td>
                         <td class="px-md py-md font-mono-data">@item.Stock_Minimo</td>
                         <td class="px-md py-md font-mono-data">@item.Stock_Maximo</td>
-                        <td class="px-md py-md font-bold col-ellipsis" title="@item.IngredienteNombre">@item.IngredienteNombre</td>
+                        <td class="px-md py-md">
+                            <span class="px-sm py-xs rounded-full text-label-md font-bold @estadoStock.Clases">@estadoStock.Texto</span>
+                        </td>
+                        <td class="px-md py-md font-bold col-ellipsis" title="@item.IngredienteNombre">
+                            <a asp-controller="Inventario" asp-action="Editar" asp-route-id="@item.ID_Inventario" class="hover:text-primary hover:underline transition-colors">
+                                @item.IngredienteNombre
+                            </a>
+                        </td>
                         <td class="px-md py-md">
                             <div class="flex items-center gap-xs">
                                 <a asp-controller="Inventario" asp-action="Editar" asp-route-id="@item.ID_Inventario" title="Editar"

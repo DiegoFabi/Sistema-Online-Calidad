@@ -21,7 +21,7 @@
                     <h3 class="font-title-md text-title-md text-on-surface">Pedido #@p.ID_Pedido — Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</h3>
                     <p class="text-label-md text-on-surface-variant">@p.Fecha.ToString("dd/MM/yyyy")</p>
                 </div>
-                <span class="px-sm py-xs bg-tertiary-container text-on-tertiary-container rounded-full text-label-md">@p.Estado_Pedido</span>
+                <partial name="_EstadoPedidoBadge" model="@p.Estado_Pedido" />
             </div>
             <table class="w-full text-left">
                 <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">

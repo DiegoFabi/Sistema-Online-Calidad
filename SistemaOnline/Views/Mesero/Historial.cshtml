@@ -28,19 +28,13 @@ else
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
         @foreach (var p in Model)
         {
-            string estadoBadgeCls = p.Estado_Pedido switch {
-                "Pagado"     => "bg-secondary-container text-on-secondary-container",
-                "Entregado"  => "bg-primary-container text-on-primary-container",
-                "Cancelado"  => "bg-error-container text-on-error-container",
-                _            => "bg-surface-container-high text-on-surface-variant"
-            };
             <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg flex flex-col opacity-90">
                 <div class="flex justify-between items-start mb-md">
                     <div>
                         <h3 class="font-title-md text-title-md text-on-surface">Mesa @(p.Mesa_Restaurante?.Numero_Mesa)</h3>
                         <p class="text-label-md text-on-surface-variant">Pedido #@p.ID_Pedido · @p.Fecha.ToString("dd/MM/yyyy")</p>
                     </div>
-                    <span class="px-sm py-xs @estadoBadgeCls rounded-full text-label-md">@p.Estado_Pedido</span>
+                    <partial name="_EstadoPedidoBadge" model="@p.Estado_Pedido" />
                 </div>
                 <div class="space-y-sm mb-md flex-1">
                     @foreach (var det in p.Pedido_Detalles)

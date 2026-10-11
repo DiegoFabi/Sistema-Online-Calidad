@@ -1,0 +1,9 @@
+﻿@model string
+@using SistemaOnline.Services
+@{
+    var estado = EstadoColores.Pedido(Model);
+}
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-full text-label-md font-bold whitespace-nowrap @estado.Clases">
+    <span class="material-symbols-outlined text-[14px]">@estado.Icono</span>
+    @Model
+</span>

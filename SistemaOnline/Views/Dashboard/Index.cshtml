@@ -181,7 +181,7 @@
                             <td class="px-md py-md">@(pedido.Mesa_Restaurante != null ? "Mesa " + pedido.Mesa_Restaurante.Numero_Mesa : "-")</td>
                             <td class="px-md py-md font-bold">@pedido.Total.ToString("C2")</td>
                             <td class="px-md py-md">
-                                <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">@pedido.Estado_Pedido</span>
+                                <partial name="_EstadoPedidoBadge" model="@pedido.Estado_Pedido" />
                             </td>
                         </tr>
                     }

@@ -29,6 +29,10 @@
                 <span class="material-symbols-outlined">restaurant_menu</span>
                 <span class="font-body-md">Menú</span>
             </a>
+            <a class="@Cls("kiosco")" asp-controller="Kiosco" asp-action="Index" target="_blank" rel="noopener">
+                <span class="material-symbols-outlined">point_of_sale</span>
+                <span class="font-body-md">Kiosco de autoservicio</span>
+            </a>
             <a class="@Cls("promociones")" asp-controller="PortalCliente" asp-action="Promociones">
                 <span class="material-symbols-outlined">sell</span>
                 <span class="font-body-md">Promociones</span>
@@ -90,6 +94,10 @@
             document.getElementById('logoutModalCliente').classList.add('hidden');
             document.getElementById('logoutModalCliente').classList.remove('flex');
         }
+
+        document.getElementById('logoutModalCliente').addEventListener('click', function (e) {
+            if (e.target === this) closeLogoutModalCliente();
+        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

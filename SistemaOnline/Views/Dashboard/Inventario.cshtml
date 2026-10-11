@@ -1,4 +1,5 @@
 @model List<SistemaOnline.Models.Inventario>
+@using SistemaOnline.Services
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Inventario";
@@ -33,7 +34,7 @@
             <tbody class="text-body-md">
                 @foreach (var i in Model)
                 {
-                    bool critico = i.Cantidad_Stock <= i.Stock_Minimo;
+                    var estadoStock = EstadoColores.InventarioEstado(i.Cantidad_Stock, i.Stock_Minimo, i.Stock_Maximo);
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
                         <td class="px-md py-md font-bold">@i.Ingrediente.Nombre_Ingrediente</td>
                         <td class="px-md py-md font-mono-data">@i.Cantidad_Stock @i.Ingrediente.Unidad_Medida</td>
@@ -41,14 +42,7 @@
                         <td class="px-md py-md font-mono-data">@i.Stock_Maximo</td>
                         <td class="px-md py-md">@i.Fecha_Ultima_Reposicion.ToString("dd/MM/yyyy")</td>
                         <td class="px-md py-md">
-                            @if (critico)
-                            {
-                                <span class="px-sm py-xs bg-error-container text-on-error-container rounded-full text-label-md">Crítico</span>
-                            }
-                            else
-                            {
-                                <span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-md">Normal</span>
-                            }
+                            <span class="px-sm py-xs rounded-full text-label-md font-bold @estadoStock.Clases">@estadoStock.Texto</span>
                         </td>
                     </tr>
                 }
