@@ -316,7 +316,6 @@ INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacio
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (26, 'Inca Kola', 'Gaseosa nacional peruana sabor original en botella 500ml', 5, 5.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (27, 'Té de Hierbas', 'Infusión de manzanilla, muña o menta con miel de abeja', 5, 6.00, 1, 2);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (28, 'Café Pasado', 'Café peruano de altura preparado al paso con leche o solo', 5, 8.00, 1, 2);
-INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (29, 'Cuy al Horno', 'Cuy entero marinado en ají panca y hierbas andinas horneado con papas nativas', 60, 45.00, 1, 5);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (30, 'Cabrito con Frejoles', 'Cabrito norteño estofado en chicha de jora con frejoles y yuca', 55, 38.00, 1, 5);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (31, 'Chupe de Camarones', 'Sopa cremosa de camarones con papa, choclo, huevo y queso fresco', 35, 33.00, 1, 1);
 INSERT INTO Productos (ID_Producto, Nombre_Plato, Descripcion, Tiempo_Preparacion, Precio, Disponibilidad, ID_Categoria) VALUES (32, 'Tallarines Verdes con Bistec', 'Tallarines en salsa de albahaca con bistec de res a la plancha', 25, 26.50, 1, 1);
@@ -465,8 +464,6 @@ INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Me
 INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (44, 0.423, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #17)', 33, 17);
 INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (45, 0.216, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #18)', 11, 18);
 INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (46, 0.312, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #19)', 33, 19);
-INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (47, 1.022, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #29)', 6, 29);
-INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (48, 0.117, 'litro', 'Insumo base de la receta (ver ficha técnica del plato #29)', 4, 29);
 INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (49, 1.264, 'atado', 'Insumo base de la receta (ver ficha técnica del plato #30)', 3, 30);
 INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (50, 0.355, 'lata', 'Insumo base de la receta (ver ficha técnica del plato #30)', 5, 30);
 INSERT INTO Productos_Ingredientes (ID_Producto_Ingrediente, Cantidad, Unidad_Medida, Observaciones, ID_Ingrediente, ID_Producto) VALUES (51, 0.495, 'kg', 'Insumo base de la receta (ver ficha técnica del plato #31)', 6, 31);
@@ -588,7 +585,6 @@ INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (17, 5);
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (18, 5);
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (19, 5);
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (48, 6);
-INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (29, 6);
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (49, 6);
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (50, 6);
 INSERT INTO Productos_Promociones (ID_Producto, ID_Promocion) VALUES (30, 6);
@@ -781,7 +777,6 @@ INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pe
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (32, 3, 14.00, 19, 13);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (33, 1, 9.00, 19, 20);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (34, 3, 8.00, 20, 22);
-INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (35, 2, 45.00, 20, 29);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (36, 2, 24.50, 20, 36);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (37, 3, 33.00, 21, 31);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (38, 2, 19.00, 22, 40);
@@ -821,7 +816,6 @@ INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pe
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (72, 2, 14.00, 40, 16);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (73, 1, 23.00, 41, 11);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (74, 1, 9.00, 42, 20);
-INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (75, 2, 45.00, 43, 29);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (76, 2, 24.50, 43, 36);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (77, 1, 28.00, 44, 38);
 INSERT INTO Pedidos_Detalles (ID_Pedido_Detalle, Cantidad, PrecioUnitario, ID_Pedido, ID_Producto) VALUES (78, 1, 10.50, 44, 45);
