@@ -8,13 +8,22 @@ namespace SistemaOnline.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "Selecciona un proveedor.")]
         public int ID_Proveedor { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Selecciona un ingrediente.")]
-        public int ID_Ingrediente { get; set; }
-
-        [Range(0.001, double.MaxValue, ErrorMessage = "La cantidad comprada debe ser mayor a 0.")]
-        public decimal CantidadComprada { get; set; }
+        public List<int> IngredientesSeleccionados { get; set; } = new();
+        public Dictionary<int, decimal> CantidadesIngredientes { get; set; } = new();
 
         public List<SelectListItem> ProveedoresDisponibles { get; set; } = new();
-        public List<SelectListItem> IngredientesDisponibles { get; set; } = new();
+
+        public List<IngredienteCompraVM> IngredientesParaComprar { get; set; } = new();
+    }
+
+    public class IngredienteCompraVM
+    {
+        public int ID_Ingrediente { get; set; }
+        public string Nombre_Ingrediente { get; set; } = "";
+        public string Unidad_Medida { get; set; } = "";
+        public decimal StockActual { get; set; }
+
+        public decimal CostoUnitario { get; set; }
+        public List<int> ProveedoresIds { get; set; } = new();
     }
 }

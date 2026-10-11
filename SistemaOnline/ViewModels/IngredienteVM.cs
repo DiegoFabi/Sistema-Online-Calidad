@@ -24,10 +24,21 @@ namespace SistemaOnline.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "Selecciona una categoría válida.")]
         public int ID_Cat_Ingrediente { get; set; }
 
+        [Range(0, double.MaxValue, ErrorMessage = "El stock actual no puede ser negativo.")]
+        public decimal? Stock_Actual { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "El stock mínimo no puede ser negativo.")]
+        public decimal Stock_Minimo { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "El stock máximo no puede ser negativo.")]
+        public decimal Stock_Maximo { get; set; }
+
         // Para mostrar en Lista
         public string? CategoriaNombre { get; set; }
 
         // Para los selects en Nuevo/Editar
         public List<SelectListItem> CategoriasDisponibles { get; set; } = new();
+
+        public string? Retorno { get; set; }
     }
 }

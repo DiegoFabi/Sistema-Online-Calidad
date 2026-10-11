@@ -27,7 +27,26 @@ namespace SistemaOnline.ViewModels
         // Para mostrar en Lista
         public string? CategoriaRelNombre { get; set; }
 
-        // Para los selects en Nuevo/Editar
         public List<SelectListItem> CategoriasDisponibles { get; set; } = new();
+
+        public List<int> IngredientesSeleccionados { get; set; } = new();
+
+        public Dictionary<int, decimal> CantidadesIngredientes { get; set; } = new();
+
+        public List<CategoriaIngredientesVM> CategoriasIngredientes { get; set; } = new();
+    }
+
+    public class CategoriaIngredientesVM
+    {
+        public int ID_Cat_Ingrediente { get; set; }
+        public string Nombre_Categoria { get; set; }
+        public List<IngredienteOpcionVM> Ingredientes { get; set; } = new();
+    }
+
+    public class IngredienteOpcionVM
+    {
+        public int ID_Ingrediente { get; set; }
+        public string Nombre_Ingrediente { get; set; }
+        public string Unidad_Medida { get; set; }
     }
 }
