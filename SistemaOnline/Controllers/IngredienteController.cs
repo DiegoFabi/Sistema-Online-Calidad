@@ -40,7 +40,7 @@ namespace SistemaOnline.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Nuevo()
+        public async Task<IActionResult> Nuevo(string? retorno = null)
         {
             if (!await _context.Categorias_Ingredientes.AnyAsync())
             {
@@ -52,7 +52,8 @@ namespace SistemaOnline.Controllers
             {
                 Descripcion = "¡Nada por agregar!",
                 Estado = true,
-                CategoriasDisponibles = await ObtenerCategorias()
+                CategoriasDisponibles = await ObtenerCategorias(),
+                Retorno = retorno
             };
             return View(modelo);
         }
@@ -60,6 +61,15 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> Nuevo(IngredienteVM modelo)
         {
+            modelo.Nombre_Ingrediente = modelo.Nombre_Ingrediente?.Trim();
+
+            if (modelo.Stock_Minimo > modelo.Stock_Maximo)
+                ModelState.AddModelError(nameof(modelo.Stock_Minimo), "El stock mínimo no puede ser mayor al stock máximo.");
+
+            if (!string.IsNullOrWhiteSpace(modelo.Nombre_Ingrediente) &&
+                await _context.Ingredientes.AnyAsync(i => i.Nombre_Ingrediente == modelo.Nombre_Ingrediente))
+                ModelState.AddModelError(nameof(modelo.Nombre_Ingrediente), "Ya existe un ingrediente registrado con ese nombre.");
+
             if (!ModelState.IsValid)
             {
                 modelo.CategoriasDisponibles = await ObtenerCategorias();
@@ -77,6 +87,28 @@ namespace SistemaOnline.Controllers
             };
             await _context.Ingredientes.AddAsync(ingrediente);
             await _context.SaveChangesAsync();
+
+            // El ingrediente se vincula automáticamente a su registro de Inventario con el
+            // stock indicado en este mismo formulario: el stock se gestiona en el modelo
+            // Inventario (no se agregan columnas de stock a Ingrediente), y así no hace
+            // falta crear el inventario por separado — ver también InventarioController,
+            // donde se quitó la creación manual de inventarios independientes.
+            await _context.Inventarios.AddAsync(new Inventario
+            {
+                ID_Ingrediente = ingrediente.ID_Ingrediente,
+                Cantidad_Stock = modelo.Stock_Actual ?? 0,
+                Stock_Minimo = modelo.Stock_Minimo,
+                Stock_Maximo = modelo.Stock_Maximo,
+                Fecha_Ultima_Reposicion = DateTime.Now
+            });
+            await _context.SaveChangesAsync();
+
+            // Vuelve a Inventario/Lista si se llegó aquí desde ahí (botón "Nuevo Ingrediente"
+            // de esa página); si no, al propio listado de Ingredientes.
+            if (modelo.Retorno == "Inventario")
+            {
+                return RedirectToAction("Lista", "Inventario");
+            }
             return RedirectToAction(nameof(Lista));
         }
 
@@ -101,6 +133,12 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> Editar(IngredienteVM modelo)
         {
+            modelo.Nombre_Ingrediente = modelo.Nombre_Ingrediente?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(modelo.Nombre_Ingrediente) &&
+                await _context.Ingredientes.AnyAsync(i => i.Nombre_Ingrediente == modelo.Nombre_Ingrediente && i.ID_Ingrediente != modelo.ID_Ingrediente))
+                ModelState.AddModelError(nameof(modelo.Nombre_Ingrediente), "Ya existe otro ingrediente registrado con ese nombre.");
+
             if (!ModelState.IsValid)
             {
                 modelo.CategoriasDisponibles = await ObtenerCategorias();
@@ -122,11 +160,6 @@ namespace SistemaOnline.Controllers
         [HttpGet]
         public async Task<ActionResult> Eliminar(int id)
         {
-            if (await _context.Inventarios.AnyAsync(i => i.ID_Ingrediente == id))
-            {
-                TempData["Error"] = "No se puede eliminar un ingrediente que tiene registros de inventario asociados.";
-                return RedirectToAction(nameof(Lista));
-            }
             if (await _context.Productos_Ingredientes.AnyAsync(pi => pi.ID_Ingrediente == id))
             {
                 TempData["Error"] = "No se puede eliminar un ingrediente que está en la receta de algún producto.";
@@ -137,7 +170,21 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar un ingrediente que tiene proveedores asociados.";
                 return RedirectToAction(nameof(Lista));
             }
-            Ingrediente ingrediente = await _context.Ingredientes.FirstAsync(i => i.ID_Ingrediente == id);
+
+            Ingrediente ingrediente = await _context.Ingredientes
+                .Include(i => i.Inventarios)
+                .FirstAsync(i => i.ID_Ingrediente == id);
+
+            // El Inventario de un ingrediente ya no es un registro independiente: se crea
+            // automáticamente junto con el ingrediente (ver Nuevo()), así que se borra junto
+            // con él en vez de bloquear la eliminación. Antes bloqueaba siempre que existiera
+            // un Inventario asociado, lo cual — tras automatizar su creación — terminaba
+            // impidiendo borrar cualquier ingrediente nuevo.
+            if (ingrediente.Inventarios != null && ingrediente.Inventarios.Any())
+            {
+                _context.Inventarios.RemoveRange(ingrediente.Inventarios);
+            }
+
             _context.Ingredientes.Remove(ingrediente);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Lista));

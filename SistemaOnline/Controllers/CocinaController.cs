@@ -54,7 +54,7 @@ namespace SistemaOnline.Controllers
                     if (nuevoEstado == "Listo")
                     {
                         var mesa = pedido.Mesa_Restaurante != null ? $"Mesa {pedido.Mesa_Restaurante.Numero_Mesa}" : $"Mesa {pedido.ID_Mesa}";
-                        NotificacionStore.Agregar("notifications_active", "Pedido listo para servir", $"Pedido #{pedido.ID_Pedido} ({mesa}) está listo. El mesero debe recogerlo.");
+                        NotificacionStore.AgregarUnaVez($"pedido-listo-{pedido.ID_Pedido}", "notifications_active", "Pedido listo para servir", $"Pedido #{pedido.ID_Pedido} ({mesa}) está listo. El mesero debe recogerlo.");
                     }
                 }
             }

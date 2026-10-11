@@ -311,6 +311,7 @@ namespace SistemaOnline.Controllers
             Pedido pedido = await _context.Pedidos
                 .Include(p => p.Pedido_Detalles)
                 .FirstAsync(p => p.ID_Pedido == modelo.ID_Pedido);
+            int mesaAnterior = pedido.ID_Mesa;
             pedido.Fecha = modelo.Fecha;
             pedido.Estado_Pedido = modelo.Estado_Pedido;
             pedido.Observaciones = modelo.Observaciones;
@@ -347,7 +348,36 @@ namespace SistemaOnline.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            // Al editar el pedido (cambio de estado y/o de mesa) la mesa no se actualiza
+            // automaticamente: se sincroniza aqui para que una mesa cuyo pedido ya quedo
+            // completado (Pagado/Cancelado/Servido) vuelva a quedar Libre, y para que la
+            // mesa anterior tambien se libere si el pedido se reasigno a otra mesa.
+            await SincronizarEstadoMesa(mesaAnterior);
+            if (modelo.ID_Mesa != mesaAnterior)
+            {
+                await SincronizarEstadoMesa(modelo.ID_Mesa);
+            }
+
             return RedirectToAction(nameof(Lista));
+        }
+
+        // Pone la mesa en "Ocupada" si todavia tiene algun pedido activo, o la libera
+        // ("Libre") si no tiene ninguno. Usado tras editar un pedido, donde un cambio de
+        // estado o de mesa puede dejar desactualizado el campo Estado de Mesa_Restaurante.
+        private async Task SincronizarEstadoMesa(int idMesa)
+        {
+            bool tieneActivos = await _context.Pedidos
+                .AnyAsync(p => p.ID_Mesa == idMesa && EstadosMesaOcupada.Contains(p.Estado_Pedido));
+            var mesa = await _context.Mesas.FindAsync(idMesa);
+            if (mesa == null) return;
+
+            string nuevoEstado = tieneActivos ? "Ocupada" : "Libre";
+            if (mesa.Estado != nuevoEstado)
+            {
+                mesa.Estado = nuevoEstado;
+                await _context.SaveChangesAsync();
+            }
         }
 
         [HttpGet]
@@ -391,8 +421,13 @@ namespace SistemaOnline.Controllers
 
         private async Task<List<int>> ObtenerMesasConPedidoActivo()
         {
+            // Usa la misma definicion de "mesa ocupada" que el resto del controlador
+            // (EstadosMesaOcupada), para que este aviso no contradiga el estado real de la
+            // mesa que ya se muestra en el Mapa de Mesas del Mesero. Antes consideraba
+            // activo cualquier pedido que no fuera Pagado/Cancelado, lo que incluia estados
+            // como "Entregado" que el resto del sistema ya trata como mesa libre.
             return await _context.Pedidos
-                .Where(p => p.Estado_Pedido != "Pagado" && p.Estado_Pedido != "Cancelado")
+                .Where(p => EstadosMesaOcupada.Contains(p.Estado_Pedido))
                 .Select(p => p.ID_Mesa)
                 .Distinct()
                 .ToListAsync();

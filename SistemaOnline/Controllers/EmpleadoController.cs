@@ -279,7 +279,12 @@ namespace SistemaOnline.Controllers
             }
             if (await _context.Contratos_Empleados.AnyAsync(c => c.ID_Empleado == id))
             {
-                TempData["Error"] = "No se puede eliminar un empleado que tiene contratos asociados.";
+                // No se elimina en cascada: a diferencia de un registro de inventario
+                // auto-generado, el contrato es información de negocio (salario, cláusulas,
+                // vigencia) que no debe perderse solo por borrar al empleado. Como Nuevo()
+                // siempre crea un contrato inicial junto con el empleado, este bloqueo se
+                // cumple para todo empleado — el mensaje indica a dónde ir para desbloquearlo.
+                TempData["Error"] = "No se puede eliminar un empleado que tiene contratos asociados. Elimina primero sus contratos desde Gestión de Negocio → Contratos.";
                 return RedirectToAction(nameof(Lista));
             }
             if (await _context.Empleados_Turnos.AnyAsync(et => et.ID_Empleado == id))
