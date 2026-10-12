@@ -40,8 +40,8 @@ builder.Services.AddDbContext<APPDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLCadena")));
 
 // Envío de correo real por SMTP (ver appsettings.Development.json, sección "Smtp").
-builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
-builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+//builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
+//builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 
 builder.Services.AddSession();
 var app = builder.Build();
