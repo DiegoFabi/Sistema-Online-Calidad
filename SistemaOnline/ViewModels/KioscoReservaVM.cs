@@ -1,7 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaOnline.ViewModels
 {
+    // ViewModel para la reservacion que un Cliente autenticado hace desde el Kiosco:
+    // a diferencia de ReservacionVM (uso interno del Administrador/Mesero), aqui no se
+    // elige Cliente ni Mesa por un select; el Cliente es el usuario que inicio sesion
+    // y la Mesa viene fija del boton "Reservar" sobre el que hizo clic.
     public class KioscoReservaVM
     {
         public int ID_Mesa { get; set; }

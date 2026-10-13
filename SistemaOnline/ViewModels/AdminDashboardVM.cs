@@ -25,6 +25,21 @@ namespace SistemaOnline.ViewModels
         public List<EmpleadoVentaVM> TopEmpleados { get; set; } = new();
         public List<VentaMensualVM> VentasPorMes { get; set; } = new();
         public List<EstadoPedidoVM> PedidosPorEstado { get; set; } = new();
+
+        // Productos más vendidos (CP-55): top 5 inicial sin filtros; los filtros
+        // combinables se vuelven a pedir por AJAX a DashboardController.ProductosMasVendidos.
+        public List<ProductoMasVendidoVM> ProductosMasVendidos { get; set; } = new();
+        public List<Producto_Categoria> CategoriasDisponibles { get; set; } = new();
+        public List<string> MetodosPagoDisponibles { get; set; } = new();
+    }
+
+    public class ProductoMasVendidoVM
+    {
+        public string Producto { get; set; } = string.Empty;
+        public string Categoria { get; set; } = string.Empty;
+        public string MetodoPago { get; set; } = string.Empty;
+        public int CantidadVendida { get; set; }
+        public decimal TotalVendido { get; set; }
     }
 
     public class VentaMensualVM

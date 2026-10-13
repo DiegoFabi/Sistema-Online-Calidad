@@ -1,4 +1,4 @@
-﻿using SistemaOnline.Models;
+using SistemaOnline.Models;
 using SistemaOnline.Services;
 
 namespace SistemaOnline.ViewModels
@@ -11,6 +11,7 @@ namespace SistemaOnline.ViewModels
         public List<MetodoPagoVM> MetodosPago { get; set; } = new();
         public List<Pago> Pagos { get; set; } = new();
 
+        // Cierre de turno: efectivo esperado (solo pagos en Efectivo) vs. contado por el Cajero
         public decimal EfectivoEsperado { get; set; }
         public RegistroCierreCaja? CierreRegistrado { get; set; }
     }

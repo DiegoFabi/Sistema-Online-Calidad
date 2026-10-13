@@ -24,6 +24,10 @@ namespace SistemaOnline.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "Selecciona una categoría válida.")]
         public int ID_Cat_Ingrediente { get; set; }
 
+        // Stock inicial: solo se usa al crear el ingrediente (ver IngredienteController.Nuevo),
+        // para generar automáticamente su registro de Inventario. El stock en sí vive en el
+        // modelo Inventario, no en Ingrediente. Stock_Actual es nullable porque es opcional:
+        // no se debe obligar a indicarlo al registrar el ingrediente.
         [Range(0, double.MaxValue, ErrorMessage = "El stock actual no puede ser negativo.")]
         public decimal? Stock_Actual { get; set; }
 
@@ -39,6 +43,10 @@ namespace SistemaOnline.ViewModels
         // Para los selects en Nuevo/Editar
         public List<SelectListItem> CategoriasDisponibles { get; set; } = new();
 
+        // Controlador al que volver tras guardar (p.ej. "Inventario", cuando se llega aquí
+        // desde el botón "Nuevo Ingrediente" de Inventario/Lista), para no devolver siempre
+        // a Ingrediente/Lista sin importar desde dónde se entró. Viaja como campo oculto del
+        // formulario para sobrevivir a una redisplay por validación.
         public string? Retorno { get; set; }
     }
 }

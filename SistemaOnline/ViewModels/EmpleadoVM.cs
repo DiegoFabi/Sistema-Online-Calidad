@@ -35,11 +35,15 @@ namespace SistemaOnline.ViewModels
         // Para mostrar en Lista
         public string? UsuarioNombre { get; set; }
 
+        // Para los selects en Nuevo/Editar
         public int? ID_Turno { get; set; }
         public List<SelectListItem> UsuariosDisponibles { get; set; } = new();
         public List<SelectListItem> TurnosDisponibles { get; set; } = new();
         public List<SelectListItem> CargosDisponibles { get; set; } = new();
 
+        // Contrato inicial del empleado (solo se usa/valida en EmpleadoController.Nuevo();
+        // Editar() no lo toca, por eso estos campos no llevan [Required]/[Range] — su
+        // validacion se hace a mano en Nuevo() para no afectar el ModelState de Editar()).
         [DataType(DataType.Date)]
         public DateTime Contrato_Fecha_Inicio { get; set; } = DateTime.Today;
 

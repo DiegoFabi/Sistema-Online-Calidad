@@ -27,12 +27,16 @@ namespace SistemaOnline.ViewModels
         // Para mostrar en Lista
         public string? CategoriaRelNombre { get; set; }
 
+        // Para los selects en Nuevo/Editar
         public List<SelectListItem> CategoriasDisponibles { get; set; } = new();
 
+        // IDs de ingredientes seleccionados en el modal "Ingredientes de la Receta"
         public List<int> IngredientesSeleccionados { get; set; } = new();
 
+        // Cantidades por ingrediente (ID_Ingrediente → cantidad)
         public Dictionary<int, decimal> CantidadesIngredientes { get; set; } = new();
 
+        // Categorías con sus ingredientes, para el modal "Ingredientes de la Receta"
         public List<CategoriaIngredientesVM> CategoriasIngredientes { get; set; } = new();
     }
 

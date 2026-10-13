@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SistemaOnline.ViewModels
@@ -14,6 +14,8 @@ namespace SistemaOnline.ViewModels
         // Para mostrar en Lista
         public string? ProveedorNombre { get; set; }
         public string? IngredienteNombre { get; set; }
+
+        // Para los selects en Nuevo
         public List<SelectListItem> ProveedoresDisponibles { get; set; } = new();
         public List<SelectListItem> IngredientesDisponibles { get; set; } = new();
     }

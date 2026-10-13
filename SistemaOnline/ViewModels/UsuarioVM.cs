@@ -15,9 +15,6 @@ namespace SistemaOnline.ViewModels
 
         [Required, MaxLength(255)]
         public string Password { get; set; }
-        [Required, MaxLength(255)]
-        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
-        public string RepeatPassword { get; set; }
 
         public bool Estado { get; set; }
 

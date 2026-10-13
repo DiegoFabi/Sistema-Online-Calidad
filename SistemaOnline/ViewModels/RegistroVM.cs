@@ -1,7 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaOnline.ViewModels
 {
+    // ViewModel exclusivo para el autoregistro publico de Clientes (LoginController.Registro).
+    // Separado de UsuarioVM porque ese se usa para el CRUD de Usuario que gestiona el
+    // Administrador (con ID_Rol seleccionable); aqui el rol "Cliente" se asigna en el
+    // servidor y nunca se pide en el formulario.
     public class RegistroVM
     {
         [Required(ErrorMessage = "El nombre completo es obligatorio.")]

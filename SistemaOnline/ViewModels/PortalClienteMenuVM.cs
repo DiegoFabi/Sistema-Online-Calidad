@@ -1,4 +1,4 @@
-﻿using SistemaOnline.Models;
+using SistemaOnline.Models;
 
 namespace SistemaOnline.ViewModels
 {
