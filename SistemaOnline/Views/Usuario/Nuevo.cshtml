@@ -27,8 +27,14 @@
             </div>
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Password">Password</label>
-                <input class="@Cls("Password")" type="password" required asp-for="Password" />
+                <input class="@Cls("Password")" type="password" required asp-for="Password" id="Password" />
                 <span asp-validation-for="Password" class="text-error text-label-md"></span>
+            </div>
+            <div>
+                <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ConfirmPassword">Confirmar Password</label>
+                <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+                       type="password" required name="ConfirmPassword" id="ConfirmPassword" />
+                <span id="errorConfirmPassword" class="text-error text-label-md hidden">Las contraseñas no coinciden.</span>
             </div>
             <div class="flex items-center gap-sm">
                 <input class="h-5 w-5 rounded border border-outline-variant text-primary focus:ring-2 focus:ring-primary/20" asp-for="Estado" type="checkbox" id="chkEstado" />
@@ -52,3 +58,36 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Confirmar Password: campo de UI, no forma parte del modelo. Si no coincide con
+        // Password, se bloquea el envío del formulario y se muestra el error en pantalla.
+        (function () {
+            var form = document.querySelector('form[asp-action], form');
+            var password = document.getElementById('Password');
+            var confirmPassword = document.getElementById('ConfirmPassword');
+            var error = document.getElementById('errorConfirmPassword');
+            if (!form || !password || !confirmPassword) return;
+
+            function validar() {
+                var coincide = password.value === confirmPassword.value;
+                error.classList.toggle('hidden', coincide);
+                confirmPassword.classList.toggle('border-error', !coincide);
+                return coincide;
+            }
+
+            confirmPassword.addEventListener('input', validar);
+            password.addEventListener('input', function () {
+                if (confirmPassword.value) validar();
+            });
+
+            form.addEventListener('submit', function (e) {
+                if (!validar()) {
+                    e.preventDefault();
+                    confirmPassword.focus();
+                }
+            });
+        })();
+    </script>
+}

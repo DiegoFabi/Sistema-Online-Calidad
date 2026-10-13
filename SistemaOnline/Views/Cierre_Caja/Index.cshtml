@@ -1,4 +1,5 @@
 @model SistemaOnline.ViewModels.Cierre_CajaVM
+@using SistemaOnline.Services
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Cierre de Caja";
@@ -99,6 +100,7 @@
                     <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
                         <tr>
                             <th class="px-md pb-md font-bold">Pedido</th>
+                            <th class="px-md pb-md font-bold">Mesa</th>
                             <th class="px-md pb-md font-bold">Hora</th>
                             <th class="px-md pb-md font-bold">Método</th>
                             <th class="px-md pb-md font-bold">Monto</th>
@@ -109,6 +111,7 @@
                         {
                             <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
                                 <td class="px-md py-md font-mono-data">#@pg.ID_Pedido</td>
+                                <td class="px-md py-md">@PedidoResumen.Mesa(pg.Pedido)</td>
                                 <td class="px-md py-md">@pg.Fecha_Hora_Pago.ToString("HH:mm")</td>
                                 <td class="px-md py-md">@pg.Metodo_Pago</td>
                                 <td class="px-md py-md font-bold">@pg.Monto.ToString("C2")</td>

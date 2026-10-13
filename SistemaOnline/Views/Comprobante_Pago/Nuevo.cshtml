@@ -51,7 +51,8 @@
                 </div>
                 <div>
                     <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Monto Total</label>
-                    <input class="@Cls("Monto_Total") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="Monto_Total" id="Monto_Total" />
+                    <input class="@Cls("Monto_Total")" type="number" step="0.01" min="0" asp-for="Monto_Total" id="Monto_Total" />
+                    <span asp-validation-for="Monto_Total" class="text-error text-label-md"></span>
                 </div>
             </div>
 
@@ -217,7 +218,8 @@
         }
 
         // Cargar resumen desde ViewBag data
-        function cargarResumenPedido(idStr) {
+        function cargarResumenPedido(idStr, autoFillMonto) {
+            if (autoFillMonto === undefined) autoFillMonto = true;
             var id = parseInt(idStr, 10);
             var pedido = resumenPedidos.find(function (p) { return (p.ID_Pedido || p.id_Pedido) === id; });
             if (!pedido) { document.getElementById('resumenPedidoBox').classList.add('hidden'); return; }
@@ -240,13 +242,15 @@
             var igv = Math.round(subTotal * 0.18 * 100) / 100;
             document.getElementById('Sub_Total').value = subTotal.toFixed(2);
             document.getElementById('IGV').value = igv.toFixed(2);
-            document.getElementById('Monto_Total').value = total.toFixed(2);
+            if (autoFillMonto) document.getElementById('Monto_Total').value = total.toFixed(2);
         }
 
-        // Cargar si hay pedido pre-seleccionado
+        // Cargar si hay pedido pre-seleccionado. Si la página se recarga por un error de
+        // validación, no se pisa el Monto Total que la persona ya escribió (ahora editable).
         document.addEventListener('DOMContentLoaded', function () {
             var sel = document.getElementById('ID_Pedido');
-            if (sel && sel.value) cargarResumenPedido(sel.value);
+            var sinErrores = @(ViewData.ModelState.IsValid ? "true" : "false");
+            if (sel && sel.value) cargarResumenPedido(sel.value, sinErrores);
 
             // Restaurar toggle si hay errores de validación (EmitirComprobante=true en el modelo)
             if (@(Model.EmitirComprobante ? "true" : "false")) {

@@ -1,0 +1,122 @@
+@model SistemaOnline.Models.Comprobante_Pago
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Detalle del Comprobante";
+    ViewBag.Active = "facturacion";
+    var pedido = Model.Pedido;
+    var mesaTexto = SistemaOnline.Services.PedidoResumen.Mesa(pedido);
+    var clienteNombre = Model.Razon_Social
+        ?? (pedido.Cliente != null ? $"{pedido.Cliente.Nombre} {pedido.Cliente.Apellidos}".Trim() : null)
+        ?? "Cliente Varios";
+    var esFactura = Model.Tipo_Comprobante == "Factura";
+}
+
+<style>
+    /* La boleta se imprime en blanco y negro puro, sin los colores del tema
+       (primario rojo, fondos, etc.): solo texto negro sobre blanco, como un
+       comprobante real. */
+    @@media print {
+        #SideNavBar, header, #barraAccionesDetalle {
+            display: none !important;
+        }
+
+        main {
+            padding-left: 0 !important;
+        }
+
+        section {
+            margin-top: 0 !important;
+            background: #fff !important;
+        }
+
+        #boleta {
+            box-shadow: none !important;
+            border: 1px solid #000 !important;
+        }
+    }
+
+    #boleta, #boleta * {
+        color: #000 !important;
+    }
+</style>
+
+<div id="barraAccionesDetalle" class="flex justify-between items-center mb-lg max-w-[720px] mx-auto">
+    <a asp-controller="Cajero" asp-action="Facturacion" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+        <span class="material-symbols-outlined">arrow_back</span> Volver
+    </a>
+    <button type="button" onclick="window.print()"
+            class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all active:scale-[0.98]">
+        <span class="material-symbols-outlined">picture_as_pdf</span>
+        Exportar a PDF
+    </button>
+</div>
+
+<div id="boleta" class="max-w-[720px] mx-auto bg-white border border-black p-lg font-mono-data text-body-md">
+    <div class="text-center border-b border-black pb-md mb-md">
+        <p class="font-title-md text-title-md font-extrabold tracking-wide">EL RANCHO SAGRADO</p>
+        <p class="text-label-md mt-1">Sistema de Gestión de Ventas</p>
+    </div>
+
+    <div class="text-center border border-black rounded-none py-sm mb-md">
+        <p class="font-bold tracking-wide">@(esFactura ? "FACTURA ELECTRÓNICA" : "BOLETA DE VENTA ELECTRÓNICA")</p>
+        <p class="font-extrabold text-title-md">@(Model.Serie ?? "-") - @(Model.Numero_Comprobante ?? "-")</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-md gap-y-1 text-label-md mb-md">
+        <p><span class="font-bold">Fecha de emisión:</span> @Model.Fecha_Emision.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><span class="font-bold">Estado:</span> @Model.Estado_Comprobante</p>
+        <p><span class="font-bold">Pedido:</span> #@pedido.ID_Pedido</p>
+        <p><span class="font-bold">Mesa:</span> @mesaTexto</p>
+        <p><span class="font-bold">Atendido por:</span> @(pedido.Empleado != null ? $"{pedido.Empleado.Nombre} {pedido.Empleado.Apellidos}" : "-")</p>
+        <p><span class="font-bold">Método de pago:</span> @Model.Metodo_Pago</p>
+    </div>
+
+    <div class="border-t border-black pt-sm mb-md text-label-md">
+        <p class="font-bold">Cliente</p>
+        <p>@clienteNombre</p>
+        @if (esFactura && !string.IsNullOrWhiteSpace(Model.RUC))
+        {
+            <p>RUC: @Model.RUC</p>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Direccion_Fiscal))
+        {
+            <p>@Model.Direccion_Fiscal</p>
+        }
+    </div>
+
+    <table class="w-full text-left border-t border-black text-label-md">
+        <thead>
+            <tr class="border-b border-black">
+                <th class="py-xs pr-xs">Cant.</th>
+                <th class="py-xs pr-xs">Descripción</th>
+                <th class="py-xs pr-xs text-right">P. Unit.</th>
+                <th class="py-xs text-right">Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (pedido.Pedido_Detalles != null)
+            {
+                @foreach (var det in pedido.Pedido_Detalles)
+                {
+                    <tr class="border-b border-black/30">
+                        <td class="py-xs pr-xs align-top">@det.Cantidad</td>
+                        <td class="py-xs pr-xs align-top">@(det.Producto != null ? det.Producto.Nombre_Plato : "-")</td>
+                        <td class="py-xs pr-xs text-right align-top">@det.PrecioUnitario.ToString("F2")</td>
+                        <td class="py-xs text-right align-top">@((det.Cantidad * det.PrecioUnitario).ToString("F2"))</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="border-t border-black mt-md pt-sm ml-auto w-full max-w-[260px] space-y-1 text-label-md">
+        <div class="flex justify-between"><span>Sub Total</span><span>S/ @Model.Sub_Total.ToString("F2")</span></div>
+        <div class="flex justify-between"><span>IGV (18%)</span><span>S/ @Model.IGV.ToString("F2")</span></div>
+        <div class="flex justify-between font-extrabold text-body-md border-t border-black pt-xs mt-xs"><span>TOTAL</span><span>S/ @Model.Monto_Total.ToString("F2")</span></div>
+    </div>
+
+    <div class="text-center border-t border-black mt-lg pt-sm text-label-md">
+        <p>Gracias por su preferencia.</p>
+        <p>Este documento refleja la información registrada en el sistema de El Rancho Sagrado.</p>
+    </div>
+</div>

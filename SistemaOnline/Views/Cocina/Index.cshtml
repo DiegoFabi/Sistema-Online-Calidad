@@ -168,42 +168,42 @@
 </div>
 
 @section Scripts {
-    <script>
-        function fmtElapsed(seconds) {
-            const m = Math.floor(seconds / 60);
-            const s = seconds % 60;
-            return (m > 0 ? m + 'm ' : '') + s + 's';
-        }
+<script>
+    function fmtElapsed(seconds) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return (m > 0 ? m + 'm ' : '') + s + 's';
+    }
 
-        function updateTimers() {
-            const now = new Date();
-            document.querySelectorAll('[data-fecha-iso]').forEach(function (card) {
-                const fecha = new Date(card.getAttribute('data-fecha-iso'));
-                const maxMin = parseFloat(card.getAttribute('data-max-min') || 0);
-                const elapsed = Math.max(0, Math.floor((now - fecha) / 1000));
+    function updateTimers() {
+        const now = new Date();
+        document.querySelectorAll('[data-fecha-iso]').forEach(function (card) {
+            const fecha = new Date(card.getAttribute('data-fecha-iso'));
+            const maxMin = parseFloat(card.getAttribute('data-max-min') || 0);
+            const elapsed = Math.max(0, Math.floor((now - fecha) / 1000));
 
-                const timerEl = card.querySelector('.timer');
-                if (timerEl) timerEl.textContent = fmtElapsed(elapsed);
+            const timerEl = card.querySelector('.timer');
+            if (timerEl) timerEl.textContent = fmtElapsed(elapsed);
 
-                const fillEl = card.querySelector('.progress-fill');
-                if (fillEl && maxMin > 0) {
-                    const pct = Math.min(100, (elapsed / (maxMin * 60)) * 100);
-                    fillEl.style.width = pct + '%';
-                    if (pct < 60) {
-                        fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-secondary';
-                    } else if (pct < 90) {
-                        fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-tertiary';
-                    } else {
-                        fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-error';
-                    }
+            const fillEl = card.querySelector('.progress-fill');
+            if (fillEl && maxMin > 0) {
+                const pct = Math.min(100, (elapsed / (maxMin * 60)) * 100);
+                fillEl.style.width = pct + '%';
+                if (pct < 60) {
+                    fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-secondary';
+                } else if (pct < 90) {
+                    fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-tertiary';
+                } else {
+                    fillEl.className = 'progress-fill h-full rounded-full transition-all duration-500 bg-error';
                 }
-            });
-        }
+            }
+        });
+    }
 
-        updateTimers();
-        setInterval(updateTimers, 1000);
+    updateTimers();
+    setInterval(updateTimers, 1000);
 
-        // Auto-refresh page every 30 seconds
-        setTimeout(function () { location.reload(); }, 30000);
-    </script>
+    // Auto-refresh page every 30 seconds
+    setTimeout(function () { location.reload(); }, 30000);
+</script>
 }

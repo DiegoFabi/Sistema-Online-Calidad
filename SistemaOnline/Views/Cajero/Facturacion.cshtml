@@ -28,6 +28,8 @@
                     <th class="px-md pb-md font-bold">Subtotal</th>
                     <th class="px-md pb-md font-bold">Total</th>
                     <th class="px-md pb-md font-bold">Estado</th>
+                    <th class="px-md pb-md font-bold">Comprobante</th>
+                    <th class="px-md pb-md font-bold">Emitir</th>
                     <th class="px-md pb-md font-bold"></th>
                 </tr>
             </thead>
@@ -35,6 +37,7 @@
                 @foreach (var p in Model)
                 {
                     var cobrable = p.Estado_Pedido == "Pendiente" || p.Estado_Pedido == "Servido";
+                    var comprobante = p.Comprobantes_Pago?.FirstOrDefault();
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
                         <td class="px-md py-md font-mono-data">#@p.ID_Pedido</td>
                         <td class="px-md py-md">@p.Fecha.ToString("dd/MM/yyyy")</td>
@@ -43,6 +46,22 @@
                         <td class="px-md py-md font-bold">@p.Total.ToString("C2")</td>
                         <td class="px-md py-md">
                             <partial name="_EstadoPedidoBadge" model="@p.Estado_Pedido" />
+                        </td>
+                        <td class="px-md py-md">@(comprobante?.Tipo_Comprobante ?? "-")</td>
+                        <td class="px-md py-md text-right">
+                            @if (comprobante != null)
+                            {
+                                <a asp-controller="Comprobante_Pago" asp-action="Detalle" asp-route-id="@comprobante.ID_Comprobante" title="Detalles"
+                                   class="w-9 h-9 inline-flex items-center justify-center rounded-full text-tertiary hover:bg-surface-container-high transition-colors">
+                                    <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <button type="button" disabled title="Sin comprobante emitido" class="w-9 h-9 inline-flex items-center justify-center rounded-full text-on-surface-variant/40 cursor-not-allowed">
+                                    <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                </button>
+                            }
                         </td>
                         <td class="px-md py-md text-right">
                             @if (p.Estado_Pedido == "Pagado")

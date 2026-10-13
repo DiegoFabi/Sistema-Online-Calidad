@@ -132,6 +132,71 @@
         </div>
     </div>
 
+    <!-- Productos Más Vendidos (CP-55): lista top 5, con búsqueda + filtros combinables
+         (categoría y método de pago) dinámicos desde la BD, vía AJAX a
+         DashboardController.ProductosMasVendidos(). -->
+    <div class="col-span-12 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md mb-lg">
+            <h3 class="font-title-md text-title-md text-on-surface">Productos Más Vendidos</h3>
+            <div class="flex flex-nowrap items-center gap-sm">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+                    <input id="buscarProductoMasVendido" type="text" placeholder="Buscar producto..."
+                           class="h-11 w-48 pl-[40px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+                </div>
+                <select id="filtroCategoriaProducto" class="h-11 pl-md pr-xl bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
+                    <option value="">Todas las categorías</option>
+                    @foreach (var c in Model.CategoriasDisponibles)
+                    {
+                        <option value="@c.ID_Categoria">@c.Nombre_Categoria</option>
+                    }
+                </select>
+                <select id="filtroMetodoPagoProducto" class="h-11 pl-md pr-xl bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
+                    <option value="">Todos los métodos de pago</option>
+                    @foreach (var m in Model.MetodosPagoDisponibles)
+                    {
+                        <option value="@m">@m</option>
+                    }
+                </select>
+                <button type="button" id="limpiarFiltrosProductoMasVendido" title="Limpiar filtros"
+                        class="flex-shrink-0 inline-flex items-center justify-center w-11 h-11 bg-surface-container-high text-on-surface rounded-lg hover:bg-surface-container-highest transition-all">
+                    <span class="material-symbols-outlined text-[20px]">cleaning_services</span>
+                </button>
+            </div>
+        </div>
+        <table class="w-full text-left">
+            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                <tr>
+                    <th class="px-md pb-md font-bold">Producto</th>
+                    <th class="px-md pb-md font-bold">Categoría</th>
+                    <th class="px-md pb-md font-bold">Método de Pago</th>
+                    <th class="px-md pb-md font-bold">Cantidad Vendida</th>
+                    <th class="px-md pb-md font-bold">Total Vendido</th>
+                </tr>
+            </thead>
+            <tbody id="tablaProductosMasVendidos" class="text-body-md">
+                @foreach (var p in Model.ProductosMasVendidos)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                        <td class="px-md py-md font-bold">@p.Producto</td>
+                        <td class="px-md py-md">@p.Categoria</td>
+                        <td class="px-md py-md">@p.MetodoPago</td>
+                        <td class="px-md py-md font-mono-data">@p.CantidadVendida</td>
+                        <td class="px-md py-md font-mono-data">@p.TotalVendido.ToString("C2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (!Model.ProductosMasVendidos.Any())
+        {
+            <p id="sinProductosMasVendidos" class="text-on-surface-variant text-body-md py-md">No hay ventas que coincidan con los filtros seleccionados.</p>
+        }
+        else
+        {
+            <p id="sinProductosMasVendidos" class="text-on-surface-variant text-body-md py-md hidden">No hay ventas que coincidan con los filtros seleccionados.</p>
+        }
+    </div>
+
     <!-- Top Empleados -->
     <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20 flex flex-col">
         <h3 class="font-title-md text-title-md text-on-surface mb-lg">Mejores Empleados</h3>
@@ -215,3 +280,62 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Productos Más Vendidos (CP-55): búsqueda + filtros combinables (categoría, método
+        // de pago) que se piden por AJAX a DashboardController.ProductosMasVendidos, sin
+        // recargar el panel. Las opciones de los selects ya vienen renderizadas desde la BD.
+        (function () {
+            var inputBuscar = document.getElementById('buscarProductoMasVendido');
+            var selectCategoria = document.getElementById('filtroCategoriaProducto');
+            var selectMetodoPago = document.getElementById('filtroMetodoPagoProducto');
+            var btnLimpiar = document.getElementById('limpiarFiltrosProductoMasVendido');
+            var tbody = document.getElementById('tablaProductosMasVendidos');
+            var mensajeVacio = document.getElementById('sinProductosMasVendidos');
+            if (!tbody) return;
+
+            function formatearMoneda(valor) {
+                return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(valor);
+            }
+
+            function pintarFilas(productos) {
+                tbody.innerHTML = productos.map(function (p) {
+                    return '<tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">' +
+                        '<td class="px-md py-md font-bold">' + p.producto + '</td>' +
+                        '<td class="px-md py-md">' + p.categoria + '</td>' +
+                        '<td class="px-md py-md">' + p.metodoPago + '</td>' +
+                        '<td class="px-md py-md font-mono-data">' + p.cantidadVendida + '</td>' +
+                        '<td class="px-md py-md font-mono-data">' + formatearMoneda(p.totalVendido) + '</td>' +
+                        '</tr>';
+                }).join('');
+                mensajeVacio.classList.toggle('hidden', productos.length > 0);
+            }
+
+            function cargarProductosMasVendidos() {
+                var params = new URLSearchParams();
+                if (selectCategoria.value) params.set('categoria', selectCategoria.value);
+                if (selectMetodoPago.value) params.set('metodoPago', selectMetodoPago.value);
+                if (inputBuscar.value.trim()) params.set('buscar', inputBuscar.value.trim());
+
+                fetch('@Url.Action("ProductosMasVendidos", "Dashboard")?' + params.toString())
+                    .then(function (r) { return r.json(); })
+                    .then(pintarFilas);
+            }
+
+            var timeoutBusqueda;
+            inputBuscar.addEventListener('input', function () {
+                clearTimeout(timeoutBusqueda);
+                timeoutBusqueda = setTimeout(cargarProductosMasVendidos, 300);
+            });
+            selectCategoria.addEventListener('change', cargarProductosMasVendidos);
+            selectMetodoPago.addEventListener('change', cargarProductosMasVendidos);
+            btnLimpiar.addEventListener('click', function () {
+                inputBuscar.value = '';
+                selectCategoria.value = '';
+                selectMetodoPago.value = '';
+                cargarProductosMasVendidos();
+            });
+        })();
+    </script>
+}

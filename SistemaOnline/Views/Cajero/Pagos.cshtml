@@ -1,15 +1,33 @@
 @model List<SistemaOnline.Models.Pago>
+@using SistemaOnline.Services
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Pagos";
     ViewBag.Active = "pagos";
     ViewData["Controlador"] = "Cajero";
     ViewData["AccionLista"] = "Pagos";
+    DateTime fechaSeleccionada = ViewBag.Fecha ?? DateTime.Today;
+    bool esHoy = fechaSeleccionada.Date == DateTime.Today;
 }
 
-<div class="mb-lg">
-    <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Pagos del Día</h2>
-    <p class="text-on-surface-variant">Pagos procesados hoy.</p>
+<div class="mb-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Pagos del Día</h2>
+        <p class="text-on-surface-variant">Pagos procesados el @fechaSeleccionada.ToString("dd/MM/yyyy")@(esHoy ? " (hoy)" : "").</p>
+    </div>
+    <form asp-controller="Cajero" asp-action="Pagos" method="get" class="flex items-center gap-sm">
+        <input type="date" name="fecha" value="@fechaSeleccionada.ToString("yyyy-MM-dd")"
+               class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" />
+        <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all">
+            <span class="material-symbols-outlined">search</span> Ver
+        </button>
+        @if (!esHoy)
+        {
+            <a asp-controller="Cajero" asp-action="Pagos" class="inline-flex items-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
+                Hoy
+            </a>
+        }
+    </form>
 </div>
 
 <div class="mb-md relative max-w-md">
@@ -24,6 +42,7 @@
                 <tr>
                     <th class="px-md pb-md font-bold">ID Pago</th>
                     <th class="px-md pb-md font-bold">Pedido</th>
+                    <th class="px-md pb-md font-bold">Mesa</th>
                     <th class="px-md pb-md font-bold">Fecha</th>
                     <th class="px-md pb-md font-bold">Método</th>
                     <th class="px-md pb-md font-bold">Monto</th>
@@ -36,6 +55,7 @@
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
                         <td class="px-md py-md font-mono-data">#@pg.ID_Pago</td>
                         <td class="px-md py-md font-mono-data">#@pg.ID_Pedido</td>
+                        <td class="px-md py-md">@PedidoResumen.Mesa(pg.Pedido)</td>
                         <td class="px-md py-md">@pg.Fecha_Hora_Pago.ToString("dd/MM/yyyy HH:mm")</td>
                         <td class="px-md py-md">@pg.Metodo_Pago</td>
                         <td class="px-md py-md font-bold">@pg.Monto.ToString("C2")</td>
