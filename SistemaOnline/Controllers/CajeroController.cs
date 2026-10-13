@@ -7,7 +7,6 @@ using SistemaOnline.ViewModels;
 
 namespace SistemaOnline.Controllers
 {
-    [Authorize(Roles = "Cajero")]
     public class CajeroController : Controller
     {
         private readonly APPDBContext _dbcontext;
@@ -16,6 +15,7 @@ namespace SistemaOnline.Controllers
             _dbcontext = dbContext;
         }
 
+        [Authorize(Roles = "Cajero")]
         public async Task<IActionResult> Index(string orden = "desc")
         {
             var hoy = DateTime.Today;
@@ -41,7 +41,7 @@ namespace SistemaOnline.Controllers
             ViewBag.Orden = orden;
 
             vm.PagosRecientes = await _dbcontext.Pagos
-                .Include(pg => pg.Pedido)
+                .Include(pg => pg.Pedido).ThenInclude(p => p.Mesa_Restaurante)
                 .OrderByDescending(pg => pg.Fecha_Hora_Pago)
                 .Take(6)
                 .ToListAsync();
@@ -60,10 +60,12 @@ namespace SistemaOnline.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Cajero")]
         public async Task<IActionResult> Facturacion(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var query = _dbcontext.Pedidos
                 .Include(p => p.Mesa_Restaurante)
+                .Include(p => p.Comprobantes_Pago)
                 .Where(p => p.Estado_Pedido == "Entregado" || p.Estado_Pedido == "Pagado")
                 .OrderByDescending(p => p.ID_Pedido);
 
@@ -75,14 +77,17 @@ namespace SistemaOnline.Controllers
             return View(resultado.Items);
         }
 
-        public async Task<IActionResult> Pagos(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
+        // Única página del panel de Cajero habilitada también para el Administrador
+        // (ver _Sidebar.cshtml): se reutiliza esta misma acción/vista, sin duplicar nada.
+        [Authorize(Roles = "Cajero,Administrador")]
+        public async Task<IActionResult> Pagos(DateTime? fecha, int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
-            var hoy = DateTime.Today;
-            var manana = hoy.AddDays(1);
+            var dia = (fecha ?? DateTime.Today).Date;
+            var siguienteDia = dia.AddDays(1);
 
             var query = _dbcontext.Pagos
-                .Include(pg => pg.Pedido)
-                .Where(pg => pg.Fecha_Hora_Pago >= hoy && pg.Fecha_Hora_Pago < manana)
+                .Include(pg => pg.Pedido).ThenInclude(p => p.Mesa_Restaurante)
+                .Where(pg => pg.Fecha_Hora_Pago >= dia && pg.Fecha_Hora_Pago < siguienteDia)
                 .OrderByDescending(pg => pg.Fecha_Hora_Pago);
 
             var resultado = await query.ToPagedListAsync(page, pageSize);
@@ -90,9 +95,11 @@ namespace SistemaOnline.Controllers
             ViewBag.PageSize = resultado.PageSize;
             ViewBag.TotalPages = resultado.TotalPages;
             ViewBag.TotalCount = resultado.TotalCount;
+            ViewBag.Fecha = dia;
             return View(resultado.Items);
         }
 
+        [Authorize(Roles = "Cajero")]
         public async Task<IActionResult> Clientes(string? buscar, int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var query = _dbcontext.Clientes.AsQueryable();
