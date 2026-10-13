@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 
 namespace SistemaOnline.Services
 {
@@ -13,6 +13,9 @@ namespace SistemaOnline.Services
         public string Detalle { get; set; } = "";
     }
 
+    // Historial de acciones criticas (quien hizo que y cuando). En memoria, igual que
+    // NotificacionStore/LoginAttemptStore: no requiere ninguna tabla ni columna nueva
+    // en la base de datos. Se reinicia si la aplicacion se reinicia.
     public static class AuditoriaStore
     {
         private const int MaxRegistros = 500;

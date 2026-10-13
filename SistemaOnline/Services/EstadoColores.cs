@@ -1,4 +1,4 @@
-﻿namespace SistemaOnline.Services
+namespace SistemaOnline.Services
 {
     // Mapeo de Estado -> clases de color, compartido por todas las vistas que muestran
     // un estado de Reservacion (Dashboard, Administrador/Reservaciones, etc.) para que

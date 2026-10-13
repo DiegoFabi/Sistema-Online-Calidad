@@ -1,7 +1,13 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace SistemaOnline.Services
 {
+    // Bloqueo temporal por intentos fallidos de inicio de sesion. No usa ninguna tabla ni
+    // columna nueva en la base de datos (no se permite alterar el esquema): el estado en
+    // memoria se respalda en un archivo JSON local junto al ejecutable, para que un
+    // bloqueo activo sobreviva a cerrar y volver a abrir la aplicacion. Antes era
+    // puramente en memoria y se reiniciaba con cada arranque del proceso, lo que permitia
+    // saltarse el bloqueo simplemente reiniciando el programa.
     public static class LoginAttemptStore
     {
         private const int MaxIntentos = 5;
