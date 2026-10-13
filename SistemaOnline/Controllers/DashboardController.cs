@@ -100,7 +100,72 @@ namespace SistemaOnline.Controllers
                 })
                 .ToList();
 
+            // Productos más vendidos (CP-55): top 5 inicial sin filtros. Los filtros
+            // combinables (categoría, método de pago, búsqueda) se vuelven a pedir por AJAX
+            // a ProductosMasVendidos() más abajo, que hace la misma consulta.
+            vm.ProductosMasVendidos = await ObtenerProductosMasVendidosAsync(null, null, null);
+            (vm.CategoriasDisponibles, vm.MetodosPagoDisponibles) = await ObtenerFiltrosDeVentasAsync();
+
             return View(vm);
+        }
+
+        // Alimenta el apartado "Productos más vendidos" de Dashboard/Index por AJAX cada vez
+        // que cambia alguno de sus 3 filtros combinables, sin recargar el panel completo.
+        [HttpGet]
+        public async Task<IActionResult> ProductosMasVendidos(int? categoria, string? metodoPago, string? buscar)
+        {
+            var productos = await ObtenerProductosMasVendidosAsync(categoria, metodoPago, buscar);
+            return Json(productos);
+        }
+
+        // Top 5 combinaciones Producto + Método de pago por cantidad vendida. Se agrupa por
+        // la pareja (no solo por producto) para que la columna "Método de pago" de la lista
+        // siempre tenga un valor concreto en vez de quedar ambigua o en blanco cuando un mismo
+        // producto se pagó con más de un medio distinto.
+        private async Task<List<ProductoMasVendidoVM>> ObtenerProductosMasVendidosAsync(int? categoria, string? metodoPago, string? buscar)
+        {
+            var query = _dbcontext.Pedidos_Detalles
+                .Include(pd => pd.Producto).ThenInclude(p => p.Producto_Categoria)
+                .Include(pd => pd.Pedido).ThenInclude(p => p.Pagos)
+                .AsQueryable();
+
+            if (categoria.HasValue)
+                query = query.Where(pd => pd.Producto.ID_Categoria == categoria.Value);
+
+            if (!string.IsNullOrWhiteSpace(buscar))
+                query = query.Where(pd => pd.Producto.Nombre_Plato.Contains(buscar));
+
+            var detalles = await query.ToListAsync();
+
+            return detalles
+                .SelectMany(pd => pd.Pedido.Pagos.DefaultIfEmpty(), (pd, pago) => new { pd, pago })
+                .Where(x => string.IsNullOrWhiteSpace(metodoPago) || (x.pago != null && x.pago.Metodo_Pago == metodoPago))
+                .GroupBy(x => new
+                {
+                    x.pd.Producto.Nombre_Plato,
+                    Categoria = x.pd.Producto.Producto_Categoria.Nombre_Categoria,
+                    Metodo = x.pago != null ? x.pago.Metodo_Pago : "Sin pago registrado"
+                })
+                .Select(g => new ProductoMasVendidoVM
+                {
+                    Producto = g.Key.Nombre_Plato,
+                    Categoria = g.Key.Categoria,
+                    MetodoPago = g.Key.Metodo,
+                    CantidadVendida = g.Sum(x => x.pd.Cantidad),
+                    TotalVendido = g.Sum(x => x.pd.Cantidad * x.pd.PrecioUnitario)
+                })
+                .OrderByDescending(f => f.CantidadVendida)
+                .Take(5)
+                .ToList();
+        }
+
+        // Listas dinámicas (desde la BD, no hardcodeadas) para los selects de categoría y
+        // método de pago. Compartida entre Index/ProductosMasVendidos y Reportes().
+        private async Task<(List<Producto_Categoria> Categorias, List<string> Metodos)> ObtenerFiltrosDeVentasAsync()
+        {
+            var categorias = await _dbcontext.Productos_Categorias.OrderBy(c => c.Nombre_Categoria).ToListAsync();
+            var metodos = await _dbcontext.Pagos.Select(pg => pg.Metodo_Pago).Distinct().OrderBy(m => m).ToListAsync();
+            return (categorias, metodos);
         }
 
         public async Task<IActionResult> Usuarios(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
@@ -196,8 +261,9 @@ namespace SistemaOnline.Controllers
 
             ViewBag.CategoriaSeleccionada = categoria;
             ViewBag.MetodoPagoSeleccionado = metodoPago;
-            ViewBag.CategoriasDisponibles = await _dbcontext.Productos_Categorias.OrderBy(c => c.Nombre_Categoria).ToListAsync();
-            ViewBag.MetodosPagoDisponibles = await _dbcontext.Pagos.Select(pg => pg.Metodo_Pago).Distinct().OrderBy(m => m).ToListAsync();
+            var filtros = await ObtenerFiltrosDeVentasAsync();
+            ViewBag.CategoriasDisponibles = filtros.Categorias;
+            ViewBag.MetodosPagoDisponibles = filtros.Metodos;
 
             return View(resultado.Items);
         }

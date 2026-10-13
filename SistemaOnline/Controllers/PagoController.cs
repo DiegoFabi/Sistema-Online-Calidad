@@ -19,7 +19,12 @@ namespace SistemaOnline.Controllers
         [HttpGet]
         public async Task<IActionResult> Lista(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
-            var query = _context.Pagos.Include(p => p.Pedido).OrderBy(p => p.ID_Pago).Select(p => new PagoVM
+            var query = _context.Pagos
+                .Include(p => p.Pedido).ThenInclude(ped => ped.Mesa_Restaurante)
+                .OrderBy(p => p.ID_Pago);
+
+            var resultado = await query.ToPagedListAsync(page, pageSize);
+            var items = resultado.Items.Select(p => new PagoVM
             {
                 ID_Pago = p.ID_Pago,
                 Fecha_Hora_Pago = p.Fecha_Hora_Pago,
@@ -28,15 +33,14 @@ namespace SistemaOnline.Controllers
                 Detalles_Tarjeta = p.Detalles_Tarjeta,
                 Estado = p.Estado,
                 ID_Pedido = p.ID_Pedido,
-                PedidoInfo = $"Pedido #{p.Pedido.ID_Pedido} - {p.Pedido.Estado_Pedido}"
-            });
+                PedidoInfo = PedidoResumen.Resumen(p.Pedido)
+            }).ToList();
 
-            var resultado = await query.ToPagedListAsync(page, pageSize);
             ViewBag.Page = resultado.Page;
             ViewBag.PageSize = resultado.PageSize;
             ViewBag.TotalPages = resultado.TotalPages;
             ViewBag.TotalCount = resultado.TotalCount;
-            return View(resultado.Items);
+            return View(items);
         }
 
         [HttpGet]

@@ -26,7 +26,7 @@ namespace SistemaOnline.Controllers
             var siguienteDia = dia.AddDays(1);
 
             var pagosDelDia = await _context.Pagos
-                .Include(pg => pg.Pedido)
+                .Include(pg => pg.Pedido).ThenInclude(p => p.Mesa_Restaurante)
                 .Where(pg => pg.Fecha_Hora_Pago >= dia && pg.Fecha_Hora_Pago < siguienteDia && pg.Estado == "Pagado")
                 .OrderByDescending(pg => pg.Fecha_Hora_Pago)
                 .ToListAsync();

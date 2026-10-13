@@ -16,10 +16,33 @@ namespace SistemaOnline.Controllers
             _context = context;
         }
 
+        // Vista imprimible del comprobante (botón "Detalles" de Cajero/Facturacion):
+        // reutiliza únicamente datos ya existentes (Comprobante_Pago + su Pedido), sin
+        // inventar ningún dato de la empresa que el sistema no tenga registrado.
+        [HttpGet]
+        public async Task<IActionResult> Detalle(int id)
+        {
+            var comprobante = await _context.Comprobantes_Pagos
+                .Include(c => c.Pedido).ThenInclude(p => p.Mesa_Restaurante)
+                .Include(c => c.Pedido).ThenInclude(p => p.Empleado)
+                .Include(c => c.Pedido).ThenInclude(p => p.Cliente)
+                .Include(c => c.Pedido).ThenInclude(p => p.Pedido_Detalles).ThenInclude(pd => pd.Producto)
+                .FirstOrDefaultAsync(c => c.ID_Comprobante == id);
+
+            if (comprobante == null) return NotFound();
+
+            return View(comprobante);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Lista(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
-            var query = _context.Comprobantes_Pagos.Include(c => c.Pedido).OrderBy(c => c.ID_Comprobante).Select(c => new Comprobante_PagoVM
+            var query = _context.Comprobantes_Pagos
+                .Include(c => c.Pedido).ThenInclude(p => p.Mesa_Restaurante)
+                .OrderBy(c => c.ID_Comprobante);
+
+            var resultado = await query.ToPagedListAsync(page, pageSize);
+            var items = resultado.Items.Select(c => new Comprobante_PagoVM
             {
                 ID_Comprobante = c.ID_Comprobante,
                 Tipo_Comprobante = c.Tipo_Comprobante,
@@ -35,15 +58,14 @@ namespace SistemaOnline.Controllers
                 RUC = c.RUC,
                 Direccion_Fiscal = c.Direccion_Fiscal,
                 ID_Pedido = c.ID_Pedido,
-                PedidoInfo = $"Pedido #{c.Pedido.ID_Pedido} - {c.Pedido.Estado_Pedido}"
-            });
+                PedidoInfo = PedidoResumen.Resumen(c.Pedido)
+            }).ToList();
 
-            var resultado = await query.ToPagedListAsync(page, pageSize);
             ViewBag.Page = resultado.Page;
             ViewBag.PageSize = resultado.PageSize;
             ViewBag.TotalPages = resultado.TotalPages;
             ViewBag.TotalCount = resultado.TotalCount;
-            return View(resultado.Items);
+            return View(items);
         }
 
         [HttpGet]
@@ -135,6 +157,14 @@ namespace SistemaOnline.Controllers
                 await _context.Comprobantes_Pagos.AnyAsync(c => c.ID_Pedido == modelo.ID_Pedido))
             {
                 ModelState.AddModelError(string.Empty, "Este pedido ya fue cobrado anteriormente.");
+            }
+            else if (modelo.Monto_Total <= 0)
+            {
+                ModelState.AddModelError(nameof(modelo.Monto_Total), "El monto total debe ser mayor a cero.");
+            }
+            else if (modelo.Monto_Total < pedidoACobrar.Total)
+            {
+                ModelState.AddModelError(nameof(modelo.Monto_Total), $"El monto total no puede ser menor al monto calculado del pedido ({pedidoACobrar.Total:C2}).");
             }
 
             if (!ModelState.IsValid)

@@ -287,11 +287,14 @@ namespace SistemaOnline.Controllers
                 TempData["Error"] = "No se puede eliminar un empleado que tiene contratos asociados. Elimina primero sus contratos desde Gestión de Negocio → Contratos.";
                 return RedirectToAction(nameof(Lista));
             }
-            if (await _context.Empleados_Turnos.AnyAsync(et => et.ID_Empleado == id))
-            {
-                TempData["Error"] = "No se puede eliminar un empleado que tiene turnos asignados.";
-                return RedirectToAction(nameof(Lista));
-            }
+            // El turno, a diferencia del contrato, no es información de negocio que deba
+            // conservarse: es solo la asignación vigente del empleado a un horario. La FK
+            // Empleados_Turnos -> Empleados no tiene ON DELETE CASCADE en el esquema real
+            // (NO ACTION por defecto), así que hay que desvincularlo explícitamente aquí
+            // antes de borrar al empleado, en vez de exigir que el administrador lo haga a mano.
+            var turnosAsignados = await _context.Empleados_Turnos.Where(et => et.ID_Empleado == id).ToListAsync();
+            _context.Empleados_Turnos.RemoveRange(turnosAsignados);
+
             Empleado empleado = await _context.Empleados.FirstAsync(e => e.ID_Empleado == id);
             _context.Empleados.Remove(empleado);
             await _context.SaveChangesAsync();

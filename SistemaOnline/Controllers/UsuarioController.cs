@@ -53,6 +53,15 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> Nuevo(UsuarioVM modelo)
         {
+            // "Confirmar Password" es un campo de la vista, no un atributo del modelo: se lee
+            // directo del formulario (no está en UsuarioVM) como respaldo por si el usuario
+            // logra enviar el formulario sin pasar por la validación de JavaScript.
+            string confirmPassword = Request.Form["ConfirmPassword"];
+            if (modelo.Password != confirmPassword)
+            {
+                ModelState.AddModelError(string.Empty, "Las contraseñas no coinciden.");
+            }
+
             if (!ModelState.IsValid)
             {
                 modelo.RolesDisponibles = await ObtenerRoles();
