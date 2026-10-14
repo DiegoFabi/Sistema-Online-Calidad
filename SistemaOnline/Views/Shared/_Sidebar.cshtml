@@ -49,12 +49,6 @@
                 <span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
                 <span class="font-body-md">Cierre de Caja</span>
             </a>
-            <!-- Misma página de Pagos del panel de Cajero (CajeroController.Pagos), sin duplicar
-                 controlador ni vista: solo se habilitó su autorización también para Administrador. -->
-            <a class="@Cls("pagos")" asp-controller="Cajero" asp-action="Pagos">
-                <span class="material-symbols-outlined" data-icon="payments">payments</span>
-                <span class="font-body-md">Pagos</span>
-            </a>
             <a class="@Cls("auditoria")" asp-controller="Administrador" asp-action="Auditoria">
                 <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
                 <span class="font-body-md">Auditoría</span>
@@ -62,6 +56,12 @@
             <a class="@Cls("negocio")" asp-controller="Negocio" asp-action="Advertencia">
                 <span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
                 <span class="font-body-md">Administrar Negocio</span>
+            </a>
+            <!-- Misma página de Pagos del panel de Cajero (CajeroController.Pagos), sin duplicar
+                 controlador ni vista: solo se habilitó su autorización también para Administrador. -->
+            <a class="@Cls("pagos")" asp-controller="Cajero" asp-action="Pagos">
+                <span class="material-symbols-outlined" data-icon="payments">payments</span>
+                <span class="font-body-md">Pagos</span>
             </a>
         }
         @if (User.IsInRole("Cajero"))
