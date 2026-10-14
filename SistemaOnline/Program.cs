@@ -36,8 +36,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromSeconds(5000);
     });
 
+
+var provider = builder.Configuration["MySql"]; // "SqlServer" o "MySql"
 builder.Services.AddDbContext<APPDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLCadena")));
+{
+    if (provider == "MySql")
+        options.UseMySQL(builder.Configuration.GetConnectionString("MySQLCadena")!);
+    else
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SQLCadena"));
+});
+
 
 // Envío de correo real por SMTP (ver appsettings.Development.json, sección "Smtp").
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
