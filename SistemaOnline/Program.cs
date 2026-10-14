@@ -36,8 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromSeconds(5000);
     });
 
-
-var provider = builder.Configuration["MySql"]; // "SqlServer" o "MySql"
+var provider = builder.Configuration["DatabaseProvider"]; // "SqlServer" o "MySql"
 builder.Services.AddDbContext<APPDBContext>(options =>
 {
     if (provider == "MySql")
