@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaOnline.Data;
 using SistemaOnline.Models;
+using SistemaOnline.Services;
 using SistemaOnline.ViewModels;
 
 namespace SistemaOnline.Controllers
@@ -75,43 +76,11 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> Reservar(KioscoReservaVM modelo)
         {
-            if (modelo.Fecha_Hora <= DateTime.Now)
+            var mesa = await ReservaClienteService.RegistrarAsync(_dbcontext, modelo, User, ModelState, "Reservación generada desde el Kiosco.");
+            if (mesa == null)
             {
-                ModelState.AddModelError(nameof(modelo.Fecha_Hora), "La reservación debe ser para una fecha y hora futura.");
-            }
-
-            var mesa = await _dbcontext.Mesas.FirstOrDefaultAsync(m => m.ID_Mesa == modelo.ID_Mesa);
-            if (mesa == null || mesa.Estado != "Libre")
-            {
-                ModelState.AddModelError(string.Empty, "Esa mesa ya no está disponible para reservar.");
-            }
-
-            int idUsuario = int.Parse(User.FindFirstValue("idUser")!);
-            var cliente = await _dbcontext.Clientes.FirstOrDefaultAsync(c => c.ID_Usuario == idUsuario);
-            if (cliente == null)
-            {
-                ModelState.AddModelError(string.Empty, "Tu cuenta no tiene un perfil de cliente asociado; contacta al administrador.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                modelo.Numero_Mesa = mesa?.Numero_Mesa ?? modelo.Numero_Mesa;
                 return View(modelo);
             }
-
-            Reservacion reservacion = new Reservacion
-            {
-                Fecha_Hora = modelo.Fecha_Hora!.Value,
-                Numero_Personas = modelo.Numero_Personas,
-                Ocasion_Especial = modelo.Ocasion_Especial,
-                Estado_Reservacion = "Pendiente",
-                Notas = string.IsNullOrWhiteSpace(modelo.Notas) ? "Reservación generada desde el Kiosco." : modelo.Notas,
-                ID_Cliente = cliente!.ID_Cliente,
-                ID_Mesa = modelo.ID_Mesa
-            };
-            await _dbcontext.Reservaciones.AddAsync(reservacion);
-            mesa!.Estado = "Reservada";
-            await _dbcontext.SaveChangesAsync();
 
             TempData["Exito"] = $"Tu reservación para la Mesa {mesa.Numero_Mesa} quedó registrada.";
             return RedirectToAction(nameof(Reservaciones));

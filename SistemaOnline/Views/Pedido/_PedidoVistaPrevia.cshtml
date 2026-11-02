@@ -1,0 +1,40 @@
+@model SistemaOnline.ViewModels.PedidoVM
+@* Bloque compartido por Pedido/Nuevo y Pedido/Editar: el HTML generado es el mismo que tenían ambas vistas. *@
+        <!-- Vista Previa Dinámica -->
+        <div class="col-span-12 lg:col-span-5">
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg sticky top-20">
+                <h3 class="font-title-md text-title-md text-on-surface mb-md flex items-center gap-sm">
+                    <span class="material-symbols-outlined">visibility</span> Vista Previa Dinámica
+                </h3>
+                <div class="space-y-md text-body-md">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">table_restaurant</span> Mesa</span>
+                        <span id="previewMesa" class="font-bold text-on-surface">-</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">flag</span> Estado</span>
+                        <span id="previewEstado" class="font-bold text-on-surface">-</span>
+                    </div>
+                    <div class="border-t border-outline-variant/20 pt-sm">
+                        <p class="flex items-center gap-xs font-bold text-on-surface mb-sm"><span class="material-symbols-outlined text-[18px]">restaurant_menu</span> Productos</p>
+                        <ul id="previewProductos" class="space-y-xs text-on-surface-variant">
+                            <li class="text-label-md italic">Ninguno seleccionado</li>
+                        </ul>
+                    </div>
+                    <div class="pt-sm border-t border-outline-variant/20 space-y-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">receipt_long</span> SubTotal</span>
+                            <span id="previewSubTotal" class="font-bold text-on-surface">0.00</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">percent</span> IGV (18%)</span>
+                            <span id="previewIGV" class="font-bold text-on-surface">0.00</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">payments</span> Total</span>
+                            <span id="previewTotal" class="font-bold text-primary text-title-md">0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,19 @@
+@model SistemaOnline.ViewModels.PedidoVM
+@* Bloque compartido por Pedido/Nuevo y Pedido/Editar: el HTML generado es el mismo que tenían ambas vistas. *@
+        <div class="bg-primary px-lg py-lg flex items-center justify-between sticky top-0 z-10">
+            <div class="flex items-center gap-sm text-on-primary">
+                <span class="material-symbols-outlined">restaurant_menu</span>
+                <h3 class="font-title-md text-title-md">Detalles del Pedido</h3>
+            </div>
+            <button type="button" onclick="closeDetallesModal()" class="text-on-primary/80 hover:text-on-primary">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-lg pb-0">
+            <div class="relative mb-md">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] leading-none pointer-events-none select-none">search</span>
+                <label for="buscadorProductos" class="sr-only">Buscar producto</label>
+                <input id="buscadorProductos" type="text" placeholder="Buscar producto..."
+                       class="w-full h-11 pl-10 pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+            </div>
+        </div>

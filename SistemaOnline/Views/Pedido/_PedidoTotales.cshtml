@@ -1,0 +1,22 @@
+@model SistemaOnline.ViewModels.PedidoVM
+@* Bloque compartido por Pedido/Nuevo y Pedido/Editar: el HTML generado es el mismo que tenían ambas vistas. *@
+@{
+    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
+        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
+        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
+}
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="SubTotal">SubTotal</label>
+                    <input class="@Cls("SubTotal") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="SubTotal" id="SubTotal" />
+                    <span asp-validation-for="SubTotal" class="text-error text-label-md"></span>
+                </div>
+                <div>
+                    <label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs mb-1" for="Total">
+                        Total
+                        <button type="button" onclick="document.getElementById('Total').readOnly = !document.getElementById('Total').readOnly; document.getElementById('Total').classList.toggle('cursor-not-allowed'); document.getElementById('Total').classList.toggle('bg-surface-container-high');" class="text-on-surface-variant hover:text-primary" title="Permitir edición manual excepcional del total">
+                            <span class="material-symbols-outlined text-[14px]">edit</span>
+                        </button>
+                    </label>
+                    <input class="@Cls("Total") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="Total" id="Total" />
+                    <span asp-validation-for="Total" class="text-error text-label-md"></span>
+                </div>

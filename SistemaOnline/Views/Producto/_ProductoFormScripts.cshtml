@@ -1,0 +1,57 @@
+@* Scripts compartidos por Producto/Nuevo y Producto/Editar. *@
+    <script>
+        function openIngredientesModal() {
+            document.getElementById('ingredientesModal').classList.remove('hidden');
+            document.getElementById('ingredientesModal').classList.add('flex');
+        }
+        function closeIngredientesModal() {
+            document.getElementById('ingredientesModal').classList.add('hidden');
+            document.getElementById('ingredientesModal').classList.remove('flex');
+            actualizarResumenIngredientes();
+        }
+
+        function toggleStepperIngrediente(cb) {
+            const id = cb.getAttribute('data-id');
+            const stepperEl = document.getElementById('stepper-ing-' + id);
+            if (cb.checked) {
+                stepperEl.classList.remove('hidden');
+                stepperEl.classList.add('flex');
+            } else {
+                stepperEl.classList.add('hidden');
+                stepperEl.classList.remove('flex');
+            }
+            actualizarResumenIngredientes();
+        }
+
+        function changeQtyIngrediente(btn, delta) {
+            const stepperEl = btn.parentElement;
+            const input = stepperEl.querySelector('.qty-ingrediente-input');
+            let val = parseFloat(input.value) || 1;
+            val = Math.max(0.001, Math.min(999, Math.round((val + delta) * 1000) / 1000));
+            input.value = val;
+            actualizarResumenIngredientes();
+        }
+
+        function actualizarResumenIngredientes() {
+            const checkboxes = document.querySelectorAll('.ingrediente-checkbox:checked');
+            const resumen = document.getElementById('resumenIngredientesSeleccionados');
+            if (checkboxes.length === 0) {
+                resumen.textContent = 'Ningún ingrediente seleccionado.';
+                return;
+            }
+            const nombres = Array.from(checkboxes).map(function (cb) { return cb.getAttribute('data-nombre'); });
+            resumen.textContent = nombres.join(', ');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            actualizarResumenIngredientes();
+
+            document.getElementById('buscadorIngredientes').addEventListener('input', function () {
+                const filtro = this.value.trim().toLowerCase();
+                document.querySelectorAll('.ingrediente-fila').forEach(function (fila) {
+                    const nombre = fila.getAttribute('data-filtro-nombre') || '';
+                    fila.style.display = nombre.includes(filtro) ? '' : 'none';
+                });
+            });
+        });
+    </script>
