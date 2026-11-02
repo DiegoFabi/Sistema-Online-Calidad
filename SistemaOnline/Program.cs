@@ -36,6 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromSeconds(5000);
     });
 
+
 builder.Services.AddDbContext<APPDBContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("MySQLCadena")!));
 
@@ -50,7 +51,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<APPDBContext>();
-    db.Database.Migrate();
+    await db.Database.MigrateAsync();
 }
 
 // Configure the HTTP request pipeline.
