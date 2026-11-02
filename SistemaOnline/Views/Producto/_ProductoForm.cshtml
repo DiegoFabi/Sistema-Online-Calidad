@@ -1,31 +1,25 @@
-@model SistemaOnline.ViewModels.ProductoVM
+@inherits SistemaOnline.Views.Shared.FormularioPage<SistemaOnline.ViewModels.ProductoVM>
 @* Formulario compartido por Producto/Nuevo y Producto/Editar: el HTML generado es el mismo que tenían ambas vistas. *@
-@{
-    bool esNuevo = ViewData["EsNuevo"] is true;
-    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
-        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
-        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
-}
 <div class="max-w-2xl mx-auto">
     <div class="mb-lg">
-@if (esNuevo)
-{
-        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nuevo Producto</h2>
-        <p class="text-on-surface-variant">Registra un nuevo producto.</p>
-}
-else
-{
-        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Editar Producto</h2>
-        <p class="text-on-surface-variant">Modifica los datos del producto.</p>
-}
+        @if (EsNuevo)
+        {
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nuevo Producto</h2>
+            <p class="text-on-surface-variant">Registra un nuevo producto.</p>
+        }
+        else
+        {
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Editar Producto</h2>
+            <p class="text-on-surface-variant">Modifica los datos del producto.</p>
+        }
     </div>
     <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
-        <form id="formProducto" asp-controller="Producto" asp-action="@(esNuevo ? "Nuevo" : "Editar")" method="post" autocomplete="off" class="space-y-md">
+        <form id="formProducto" asp-controller="Producto" asp-action="@(EsNuevo ? "Nuevo" : "Editar")" method="post" autocomplete="off" class="space-y-md">
             <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
-@if (!esNuevo)
-{
-            <input type="hidden" asp-for="ID_Producto" />
-}
+            @if (!EsNuevo)
+            {
+                <input type="hidden" asp-for="ID_Producto" />
+            }
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Nombre_Plato">Nombre del Plato</label>
                 <input class="@Cls("Nombre_Plato")" type="text" required asp-for="Nombre_Plato" />
@@ -122,7 +116,7 @@ else
                                 <label class="flex items-center gap-sm text-body-md cursor-pointer flex-1">
                                     <input type="checkbox" name="IngredientesSeleccionados" value="@ingrediente.ID_Ingrediente"
                                            form="formProducto"
-                                           @(seleccionado ? "checked" : "")
+                                    @(seleccionado ? "checked" : "")
                                            data-nombre="@ingrediente.Nombre_Ingrediente"
                                            data-id="@ingrediente.ID_Ingrediente"
                                            class="ingrediente-checkbox h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20"

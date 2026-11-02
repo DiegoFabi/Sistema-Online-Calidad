@@ -1,31 +1,25 @@
-@model SistemaOnline.ViewModels.ReservacionVM
+@inherits SistemaOnline.Views.Shared.FormularioPage<SistemaOnline.ViewModels.ReservacionVM>
 @* Formulario compartido por Reservacion/Nuevo y Reservacion/Editar: el HTML generado es el mismo que tenían ambas vistas. *@
-@{
-    bool esNuevo = ViewData["EsNuevo"] is true;
-    string Cls(string campo) => !ViewData.ModelState.ContainsKey(campo) || ViewData.ModelState[campo].Errors.Count == 0
-        ? "w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface"
-        : "w-full h-11 px-md bg-surface-container-low border border-error rounded-lg focus:ring-2 focus:ring-error/20 transition-all font-body-md text-body-md text-on-surface";
-}
 <div class="max-w-2xl mx-auto">
     <div class="mb-lg">
-@if (esNuevo)
-{
-        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nueva Reservación</h2>
-        <p class="text-on-surface-variant">Registra una nueva reservación.</p>
-}
-else
-{
-        <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Editar Reservación</h2>
-        <p class="text-on-surface-variant">Actualiza la información de la reservación.</p>
-}
+        @if (EsNuevo)
+        {
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Nueva Reservación</h2>
+            <p class="text-on-surface-variant">Registra una nueva reservación.</p>
+        }
+        else
+        {
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Editar Reservación</h2>
+            <p class="text-on-surface-variant">Actualiza la información de la reservación.</p>
+        }
     </div>
     <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg">
-        <form asp-controller="Reservacion" asp-action="@(esNuevo ? "Nuevo" : "Editar")" method="post" autocomplete="off" class="space-y-md">
+        <form asp-controller="Reservacion" asp-action="@(EsNuevo ? "Nuevo" : "Editar")" method="post" autocomplete="off" class="space-y-md">
             <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
-@if (!esNuevo)
-{
-            <input type="hidden" asp-for="ID_Reservacion" />
-}
+            @if (!EsNuevo)
+            {
+                <input type="hidden" asp-for="ID_Reservacion" />
+            }
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Fecha_Hora">Fecha y Hora</label>
                 <input class="@Cls("Fecha_Hora")" type="datetime-local" required step="60"
@@ -45,20 +39,20 @@ else
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="Estado_Reservacion">Estado de la Reservación</label>
                 <select class="@Cls("Estado_Reservacion")" required asp-for="Estado_Reservacion">
-@if (esNuevo)
-{
-                    <option value="Pendiente" selected>Pendiente</option>
-                    <option value="Confirmada" disabled>Confirmada</option>
-                    <option value="Cancelada" disabled>Cancelada</option>
-                    <option value="Completada" disabled>Completada</option>
-}
-else
-{
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Confirmada">Confirmada</option>
-                    <option value="Cancelada">Cancelada</option>
-                    <option value="Completada">Completada</option>
-}
+                    @if (EsNuevo)
+                    {
+                        <option value="Pendiente" selected>Pendiente</option>
+                        <option value="Confirmada" disabled>Confirmada</option>
+                        <option value="Cancelada" disabled>Cancelada</option>
+                        <option value="Completada" disabled>Completada</option>
+                    }
+                    else
+                    {
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Confirmada">Confirmada</option>
+                        <option value="Cancelada">Cancelada</option>
+                        <option value="Completada">Completada</option>
+                    }
                 </select>
                 <span asp-validation-for="Estado_Reservacion" class="text-error text-label-md"></span>
             </div>
