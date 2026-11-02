@@ -1,13 +1,14 @@
 {
+  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
     "http": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:5036",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5036"
+      }
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",
@@ -19,6 +20,5 @@
       "publishAllPorts": true,
       "useSSL": false
     }
-  },
-  "$schema": "https://json.schemastore.org/launchsettings.json"
+  }
 }

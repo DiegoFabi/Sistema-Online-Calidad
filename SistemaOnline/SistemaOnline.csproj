@@ -4,8 +4,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Contenedor: Dockerfile en esta carpeta, contexto de construcción en la carpeta de la solución -->
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..</DockerfileContext>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Configuración propia de cada PC: se lee en desarrollo, pero no se publica ni entra en la imagen -->
+    <Content Update="appsettings.Local.json;appsettings.Local.example.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
@@ -13,9 +20,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <!-- Opción para desarrolladores: motor original (SQL Server, local/SSMS). No se quita. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.24.2-preview.1" />
+    <!-- Despliegue en Railway: proveedor MySQL oficial de Oracle, usado por Program.cs en
+         producción. Pomelo (la alternativa de comunidad) todavía no publica una versión
+         compatible con EF Core 10; este paquete sí, en la misma versión 10.0.x. -->
     <PackageReference Include="MySql.EntityFrameworkCore" Version="10.0.9" />
+    <!-- Herramientas de contenedor de Visual Studio (perfil "Container (Dockerfile)") -->
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.24.2-preview.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
