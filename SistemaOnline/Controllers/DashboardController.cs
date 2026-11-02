@@ -45,7 +45,6 @@ namespace SistemaOnline.Controllers
                 .ToListAsync();
 
             vm.TopEmpleados = await _dbcontext.Pedidos
-                .Include(p => p.Empleado)
                 .Where(p => p.Empleado != null)
                 .GroupBy(p => new { p.ID_Empleado, p.Empleado.Nombre, p.Empleado.Apellidos })
                 .Select(g => new EmpleadoVentaVM
@@ -190,6 +189,12 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarUsuario(UsuarioVM modelo)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "No se pudo actualizar el usuario: revisa los datos ingresados.";
+                return RedirectToAction(nameof(Usuarios));
+            }
+
             Usuario? usuario = await _dbcontext.Usuarios.FirstOrDefaultAsync(u => u.ID_Usuario == modelo.ID_Usuario);
             if (usuario == null || !await _dbcontext.Roles.AnyAsync(r => r.ID_Rol == modelo.ID_Rol))
             {

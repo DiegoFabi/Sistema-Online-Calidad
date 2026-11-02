@@ -51,12 +51,11 @@ namespace SistemaOnline.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Nuevo(UsuarioVM modelo)
+        public async Task<IActionResult> Nuevo(UsuarioVM modelo, [FromForm(Name = "ConfirmPassword")] string? confirmPassword)
         {
-            // "Confirmar Password" es un campo de la vista, no un atributo del modelo: se lee
-            // directo del formulario (no está en UsuarioVM) como respaldo por si el usuario
-            // logra enviar el formulario sin pasar por la validación de JavaScript.
-            string confirmPassword = Request.Form["ConfirmPassword"];
+            // "Confirmar Password" es un campo de la vista, no un atributo de UsuarioVM (que
+            // también usan Editar y el modal del Dashboard): llega por model binding como
+            // parámetro aparte, de respaldo por si se envía el formulario sin la validación JS.
             if (modelo.Password != confirmPassword)
             {
                 ModelState.AddModelError(string.Empty, "Las contraseñas no coinciden.");

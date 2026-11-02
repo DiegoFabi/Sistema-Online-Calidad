@@ -24,9 +24,6 @@ namespace SistemaOnline.Controllers
         public async Task<IActionResult> Lista(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var query = _context.Pedidos
-                .Include(p => p.Empleado)
-                .Include(p => p.Mesa_Restaurante)
-                .Include(p => p.Cliente)
                 .OrderBy(p => p.ID_Pedido)
                 .Select(p => new PedidoVM
                 {

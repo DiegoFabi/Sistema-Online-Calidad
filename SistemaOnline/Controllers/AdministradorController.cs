@@ -111,6 +111,12 @@ namespace SistemaOnline.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarReservacion(ReservacionVM modelo)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "No se pudo actualizar la reservación: revisa los datos ingresados.";
+                return RedirectToAction(nameof(Reservaciones));
+            }
+
             var estadosActivos = new[] { "Pendiente", "Confirmada" };
 
             var reservacion = await _dbcontext.Reservaciones.FirstOrDefaultAsync(r => r.ID_Reservacion == modelo.ID_Reservacion);

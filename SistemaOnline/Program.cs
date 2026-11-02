@@ -36,15 +36,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromSeconds(5000);
     });
 
-var provider = builder.Configuration["DatabaseProvider"]; // "SqlServer" o "MySql"
 builder.Services.AddDbContext<APPDBContext>(options =>
-{
-    if (provider == "MySql")
-        options.UseMySQL(builder.Configuration.GetConnectionString("MySQLCadena")!);
-    else
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SQLCadena"));
-});
-
+    options.UseMySQL(builder.Configuration.GetConnectionString("MySQLCadena")!));
 
 // Envío de correo real por SMTP (ver appsettings.Development.json, sección "Smtp").
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
@@ -53,13 +46,12 @@ builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 builder.Services.AddSession();
 var app = builder.Build();
 
-/* Migrar base de datos al iniciar
+// Migrar base de datos al iniciar
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<APPDBContext>();
     db.Database.Migrate();
 }
-*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -95,4 +87,4 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 
-app.Run();
+await app.RunAsync();

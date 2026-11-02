@@ -20,9 +20,6 @@ namespace SistemaOnline.Controllers
         public async Task<IActionResult> Lista(int page = 1, int pageSize = PaginationExtensions.DefaultPageSize)
         {
             var query = _context.Empleados
-            .Include(e => e.Usuario)
-            .Include(e => e.Empleado_Turnos)
-                .ThenInclude(et => et.Turno)
             .OrderBy(e => e.ID_Empleado)
             .Select(e => new EmpleadoVM
             {
@@ -322,7 +319,6 @@ namespace SistemaOnline.Controllers
                 return Json(new List<object>());
 
             var usuarios = await _context.Usuarios
-                .Include(u => u.Rol)
                 .Where(u => u.Rol.Nombre_Rol == cargo)
                 .Select(u => new { value = u.ID_Usuario.ToString(), text = u.Nombre_Usuario })
                 .ToListAsync();
