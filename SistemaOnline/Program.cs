@@ -9,10 +9,7 @@ using SistemaOnline.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración propia de cada PC (opcional y fuera de Git): appsettings.Local.json, junto a
-// appsettings.json. Sirve para poner el servidor o la contraseña de la base de datos de esa
-// máquina sin tocar los archivos compartidos. Se inserta antes de las variables de entorno para
-// que estas sigan teniendo prioridad.
+// Configuración propia de cada PC
 var fuentes = ((IConfigurationBuilder)builder.Configuration).Sources;
 int posEntorno = fuentes.ToList().FindLastIndex(s =>
     s is EnvironmentVariablesConfigurationSource e && string.IsNullOrEmpty(e.Prefix));
@@ -24,11 +21,14 @@ fuentes.Insert(posEntorno < 0 ? fuentes.Count : posEntorno, new JsonConfiguratio
     ReloadOnChange = true
 });
 
-// Plataformas como Railway indican el puerto en la variable PORT.
 var puerto = Environment.GetEnvironmentVariable("PORT");
 if (!string.IsNullOrWhiteSpace(puerto))
 {
-    builder.WebHost.UseUrls($"http://0.0.0.0:{puerto}");
+    if (!int.TryParse(puerto, out int numeroPuerto) || numeroPuerto is < 1 or > 65535)
+    {
+        throw new InvalidOperationException($"La variable PORT='{puerto}' no es un puerto válido.");
+    }
+    builder.WebHost.ConfigureKestrel(opciones => opciones.ListenAnyIP(numeroPuerto));
 }
 
 // Add services to the container.
@@ -60,7 +60,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromSeconds(5000);
     });
 
-// Motor de base de datos: "MySql" o "SqlServer"
+// Motor de base de datos: "MySql" o "SqlServer" 
 var proveedorBD = builder.Configuration["DatabaseProvider"] ?? "MySql";
 bool usarSqlServer = proveedorBD.Equals("SqlServer", StringComparison.OrdinalIgnoreCase);
 if (!usarSqlServer && !proveedorBD.Equals("MySql", StringComparison.OrdinalIgnoreCase))
@@ -85,7 +85,7 @@ builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 builder.Services.AddSession();
 var app = builder.Build();
 
-// Crear base de datos
+// Crear la base de datos
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<APPDBContext>();
