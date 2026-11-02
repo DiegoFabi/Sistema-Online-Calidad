@@ -75,8 +75,8 @@
                 </div>
 
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Detalles del Pedido</label>
-                    <button type="button" onclick="openDetallesModal()"
+                    <span id="lblDetallesPedido" class="font-label-md text-label-md text-on-surface-variant block mb-1">Detalles del Pedido</span>
+                    <button aria-describedby="lblDetallesPedido" type="button" onclick="openDetallesModal()"
                             class="w-full inline-flex items-center justify-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
                         <span class="material-symbols-outlined">restaurant_menu</span>
                         Seleccionar Productos
@@ -153,6 +153,7 @@
         <div class="p-lg pb-0">
             <div class="relative mb-md">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] leading-none pointer-events-none select-none">search</span>
+                <label for="buscadorProductos" class="sr-only">Buscar producto</label>
                 <input id="buscadorProductos" type="text" placeholder="Buscar producto..."
                        class="w-full h-11 pl-10 pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
             </div>

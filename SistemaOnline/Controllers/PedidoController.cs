@@ -309,7 +309,7 @@ namespace SistemaOnline.Controllers
                 .Include(p => p.Pedido_Detalles)
                 .FirstAsync(p => p.ID_Pedido == modelo.ID_Pedido);
             int mesaAnterior = pedido.ID_Mesa;
-            pedido.Fecha = modelo.Fecha;
+            pedido.Fecha = modelo.Fecha!.Value;
             pedido.Estado_Pedido = modelo.Estado_Pedido;
             pedido.Observaciones = modelo.Observaciones;
             pedido.SubTotal = subTotalEditado;

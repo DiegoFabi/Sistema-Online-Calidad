@@ -5,137 +5,137 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>@ViewData["Title"] - Rancho Sagrado</title>
     <partial name="_DesignTokensHead" />
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.js" integrity="sha384-6g9ac3IRHxfAehR0tjADjZf1ZOKuyD3gHqFYbVVRoijMLYCF7mRPYafPn+znRCBC" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <style>
-        :root {
-        --color-primary: #b9172f;
-        --color-primary-dark: #92001f;
-        --color-surface: #f8f9fa;
-        --color-surface-low: #f3f4f5;
-        --color-sidebar-bg: #212529;
-        --color-header-bg: #f8f9fa;
-        }
+            :root {
+                --color-primary: #b9172f;
+                --color-primary-dark: #92001f;
+                --color-surface: #f8f9fa;
+                --color-surface-low: #f3f4f5;
+                --color-sidebar-bg: #212529;
+                --color-header-bg: #f8f9fa;
+            }
 
-        #SideNavBar {
-        background-color: var(--color-sidebar-bg);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-        }
+            #SideNavBar {
+                background-color: var(--color-sidebar-bg);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            }
 
-        #SideNavBar {
-        color: #e1e3e4;
-        }
+            #SideNavBar {
+                color: #e1e3e4;
+            }
 
-        #SideNavBar .text-on-surface-variant:not(#logoutModal *) {
-        color: #e1e3e4;
-        }
+                #SideNavBar .text-on-surface-variant:not(#logoutModal *) {
+                    color: #e1e3e4;
+                }
 
-        #SideNavBar .hover\:bg-surface-container-high:hover {
-        background-color: rgba(255, 255, 255, 0.08) !important;
-        }
+                #SideNavBar .hover\:bg-surface-container-high:hover {
+                    background-color: rgba(255, 255, 255, 0.08) !important;
+                }
 
-        header {
-        background-color: var(--color-header-bg);
-        border-bottom: 2px solid #dee2e6;
-        }
+            header {
+                background-color: var(--color-header-bg);
+                border-bottom: 2px solid #dee2e6;
+            }
 
-        .glass-card {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(8px);
-        border: 2px solid #dee2e6;
-        }
+            .glass-card {
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(8px);
+                border: 2px solid #dee2e6;
+            }
 
-        .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-        }
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 4px;
+            }
 
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #e3bebd;
-        border-radius: 10px;
-        }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #e3bebd;
+                border-radius: 10px;
+            }
 
-        @@keyframes pulse-soft {
-        0%, 100% {
-        opacity: 1;
-        }
+            @@keyframes pulse-soft {
+                0%, 100% {
+                    opacity: 1;
+                }
 
-        50% {
-        opacity: 0.7;
-        }
-        }
+                50% {
+                    opacity: 0.7;
+                }
+            }
 
-        .animate-pulse-soft {
-        animation: pulse-soft 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
+            .animate-pulse-soft {
+                animation: pulse-soft 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
 
-        /* Patrón compartido de modal con blur + overlay oscuro,
-        reutilizado por Configuración y por Detalles del Pedido */
-        .app-modal-overlay {
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(8px);
-        }
+            /* Patrón compartido de modal con blur + overlay oscuro,
+                    reutilizado por Configuración y por Detalles del Pedido */
+            .app-modal-overlay {
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(8px);
+            }
 
-        .app-modal-panel {
-        background: #fff;
-        border-radius: 0.5rem;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-        }
+            .app-modal-panel {
+                background: #fff;
+                border-radius: 0.5rem;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            }
 
-        #searchSuggestions {
-        background: #fff;
-        }
+            #searchSuggestions {
+                background: #fff;
+            }
 
-        /* Efectos visibles de las preferencias de Configuración (solo UI, sin persistencia en backend) */
-        html.dark body {
-        background-color: #1c1410;
-        color: #f3e9e3;
-        }
+            /* Efectos visibles de las preferencias de Configuración (solo UI, sin persistencia en backend) */
+            html.dark body {
+                background-color: #1c1410;
+                color: #f3e9e3;
+            }
 
-        html.dark #SideNavBar,
-        html.dark header,
-        html.dark .bg-surface-container-lowest,
-        html.dark .app-modal-panel {
-        background-color: #2a201b !important;
-        color: #f3e9e3 !important;
-        }
+            html.dark #SideNavBar,
+            html.dark header,
+            html.dark .bg-surface-container-lowest,
+            html.dark .app-modal-panel {
+                background-color: #2a201b !important;
+                color: #f3e9e3 !important;
+            }
 
-        html.dark .bg-surface-container-low,
-        html.dark .bg-surface-container-high,
-        html.dark .bg-surface-container-highest,
-        html.dark .bg-slate-50 {
-        background-color: #3a2e27 !important;
-        color: #f3e9e3 !important;
-        }
+            html.dark .bg-surface-container-low,
+            html.dark .bg-surface-container-high,
+            html.dark .bg-surface-container-highest,
+            html.dark .bg-slate-50 {
+                background-color: #3a2e27 !important;
+                color: #f3e9e3 !important;
+            }
 
-        html.dark .text-on-surface,
-        html.dark .text-on-surface-variant {
-        color: #f3e9e3 !important;
-        }
+            html.dark .text-on-surface,
+            html.dark .text-on-surface-variant {
+                color: #f3e9e3 !important;
+            }
 
-        body.compact-view .p-lg {
-        padding: 8px !important;
-        }
+            body.compact-view .p-lg {
+                padding: 8px !important;
+            }
 
-        body.compact-view .gap-lg {
-        gap: 8px !important;
-        }
+            body.compact-view .gap-lg {
+                gap: 8px !important;
+            }
 
-        body.compact-view .mb-lg {
-        margin-bottom: 8px !important;
-        }
+            body.compact-view .mb-lg {
+                margin-bottom: 8px !important;
+            }
 
-        body.compact-view table td,
-        body.compact-view table th {
-        padding-top: 4px !important;
-        padding-bottom: 4px !important;
-        }
+            body.compact-view table td,
+            body.compact-view table th {
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+            }
 
-        /* Tarjetas/elementos bloqueados por falta de pre-condiciones (Negocio/Gestión y similares) */
-        .card-bloqueada {
-        opacity: 0.7;
-        cursor: not-allowed;
-        pointer-events: none;
-        }
+            /* Tarjetas/elementos bloqueados por falta de pre-condiciones (Negocio/Gestión y similares) */
+            .card-bloqueada {
+                opacity: 0.7;
+                cursor: not-allowed;
+                pointer-events: none;
+            }
     </style>
 </head>
 <body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
@@ -146,6 +146,7 @@
                 <h2 class="font-title-md text-title-md text-on-surface">@ViewData["Title"]</h2>
                 <div class="relative ml-lg w-full max-w-sm">
                     <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+                    <label for="globalSearchInput" class="sr-only">Buscar secciones</label>
                     <input id="globalSearchInput" type="text" autocomplete="off" placeholder="Buscar secciones..."
                            class="w-full h-10 pl-[44px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
                     <div id="searchSuggestions"
@@ -246,284 +247,279 @@
     </div>
 
     <script>
-        // ---------- Reloj en tiempo real junto a notificaciones ----------
-        (function () {
-            const horaEl = document.getElementById('relojHeaderHora');
-            const fechaEl = document.getElementById('relojHeaderFecha');
-            if (!horaEl || !fechaEl) return;
+            // ---------- Reloj en tiempo real junto a notificaciones ----------
+            (function () {
+                const horaEl = document.getElementById('relojHeaderHora');
+                const fechaEl = document.getElementById('relojHeaderFecha');
+                if (!horaEl || !fechaEl) return;
 
-            function actualizarReloj() {
-                const ahora = new Date();
-                horaEl.textContent = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                fechaEl.textContent = ahora.toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long' });
-            }
+                function actualizarReloj() {
+                    const ahora = new Date();
+                    horaEl.textContent = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    fechaEl.textContent = ahora.toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long' });
+                }
 
-            actualizarReloj();
-            setInterval(actualizarReloj, 1000);
-        })();
+                actualizarReloj();
+                setInterval(actualizarReloj, 1000);
+            })();
 
-        // ---------- Buscador de tabla (id="buscadorTabla" filtra id="tablaPrincipal") ----------
-        // Compartido por _CRUDListLayout y cualquier otra página con una lista: se registra
-        // una sola vez acá para no duplicar el mismo script en cada vista.
-        (function () {
-            const buscador = document.getElementById('buscadorTabla');
-            if (!buscador) return;
+            // ---------- Buscador de tabla (id="buscadorTabla" filtra id="tablaPrincipal") ----------
+            // Compartido por _CRUDListLayout y cualquier otra página con una lista: se registra
+            // una sola vez acá para no duplicar el mismo script en cada vista.
+            (function () {
+                const buscador = document.getElementById('buscadorTabla');
+                if (!buscador) return;
 
-            buscador.addEventListener('input', function () {
-                const filtro = this.value.trim().toLowerCase();
-                const tabla = document.getElementById('tablaPrincipal');
-                if (!tabla) return;
+                buscador.addEventListener('input', function () {
+                    const filtro = this.value.trim().toLowerCase();
+                    const tabla = document.getElementById('tablaPrincipal');
+                    if (!tabla) return;
 
-                tabla.querySelectorAll('tbody tr').forEach(function (fila) {
-                    const esVisible = fila.textContent.toLowerCase().includes(filtro);
-                    fila.style.transition = "opacity 0.2s ease";
-                    fila.style.opacity = esVisible ? "1" : "0";
-                    setTimeout(() => { fila.style.display = esVisible ? '' : 'none'; }, 200);
+                    tabla.querySelectorAll('tbody tr').forEach(function (fila) {
+                        const esVisible = fila.textContent.toLowerCase().includes(filtro);
+                        fila.style.transition = "opacity 0.2s ease";
+                        fila.style.opacity = esVisible ? "1" : "0";
+                        setTimeout(() => { fila.style.display = esVisible ? '' : 'none'; }, 200);
+                    });
                 });
+            })();
+
+            // ---------- Buscador del header (filtrado por rol) ----------
+            (function () {
+                @{
+                        var searchItems = new System.Text.StringBuilder();
+                            searchItems.Append("const items = [");
+                        if (User.IsInRole("Administrador"))
+                        {
+                                    searchItems.Append("{ icon: 'dashboard', name: 'Dashboard', url: '" + Url.Action("Index", "Dashboard") + "' },");
+                                    searchItems.Append("{ icon: 'group', name: 'Usuarios y Roles', url: '" + Url.Action("Usuarios", "Dashboard") + "' },");
+                                    searchItems.Append("{ icon: 'inventory_2', name: 'Inventario', url: '" + Url.Action("Inventario", "Dashboard") + "' },");
+                                    searchItems.Append("{ icon: 'bar_chart', name: 'Reportes', url: '" + Url.Action("Reportes", "Dashboard") + "' },");
+                                    searchItems.Append("{ icon: 'supervisor_account', name: 'Supervisión', url: '" + Url.Action("Index", "Administrador") + "' },");
+                                    searchItems.Append("{ icon: 'event', name: 'Reservaciones', url: '" + Url.Action("Reservaciones", "Administrador") + "' },");
+                                    searchItems.Append("{ icon: 'schedule', name: 'Turnos', url: '" + Url.Action("Turnos", "Administrador") + "' },");
+                                    searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos (Admin)', url: '" + Url.Action("Pedidos", "Administrador") + "' },");
+                                    searchItems.Append("{ icon: 'admin_panel_settings', name: 'Administrar Negocio', url: '" + Url.Action("Advertencia", "Negocio") + "' },");
+                                    searchItems.Append("{ icon: 'point_of_sale', name: 'Cierre de Caja', url: '" + Url.Action("Index", "Cierre_Caja") + "' },");
+                                    searchItems.Append("{ icon: 'fact_check', name: 'Auditoría', url: '" + Url.Action("Auditoria", "Administrador") + "' },");
+                        }
+                        if (User.IsInRole("Cajero"))
+                        {
+                                    searchItems.Append("{ icon: 'dashboard', name: 'Dashboard', url: '" + Url.Action("Index", "Cajero") + "' },");
+                                    searchItems.Append("{ icon: 'receipt_long', name: 'Facturación', url: '" + Url.Action("Facturacion", "Cajero") + "' },");
+                                    searchItems.Append("{ icon: 'payments', name: 'Pagos', url: '" + Url.Action("Pagos", "Cajero") + "' },");
+                                    searchItems.Append("{ icon: 'search', name: 'Buscar Clientes', url: '" + Url.Action("Clientes", "Cajero") + "' },");
+                                    searchItems.Append("{ icon: 'point_of_sale', name: 'Cierre de Caja', url: '" + Url.Action("Index", "Cierre_Caja") + "' },");
+                        }
+                        if (User.IsInRole("Mesero"))
+                        {
+                                    searchItems.Append("{ icon: 'table_restaurant', name: 'Mapa de Mesas', url: '" + Url.Action("Index", "Mesero") + "' },");
+                                    searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos', url: '" + Url.Action("Pedidos", "Mesero") + "' },");
+                                    searchItems.Append("{ icon: 'notifications', name: 'Notificaciones', url: '" + Url.Action("Notificaciones", "Mesero") + "' },");
+                                    searchItems.Append("{ icon: 'event', name: 'Reservaciones', url: '" + Url.Action("Reservaciones", "Administrador") + "' },");
+                                    searchItems.Append("{ icon: 'add', name: 'Nuevo Pedido', url: '" + Url.Action("Nuevo", "Pedido") + "' },");
+                        }
+                        if (User.IsInRole("Chef"))
+                        {
+                                    searchItems.Append("{ icon: 'dashboard', name: 'Monitor de Cocina', url: '" + Url.Action("Index", "Cocina") + "' },");
+                                    searchItems.Append("{ icon: 'inventory_2', name: 'Ingredientes', url: '" + Url.Action("Ingredientes", "Cocina") + "' },");
+                                    searchItems.Append("{ icon: 'list_alt', name: 'Detalle de Pedidos', url: '" + Url.Action("Detalle", "Cocina") + "' },");
+                        }
+                        searchItems.Append("];");
+                    }
+                    @Html.Raw(searchItems.ToString())
+
+                    const input = document.getElementById('globalSearchInput');
+                const suggestions = document.getElementById('searchSuggestions');
+                if (!input || !suggestions) return;
+
+                function render(list) {
+                    if (list.length === 0) {
+                        suggestions.classList.add('hidden');
+                        suggestions.innerHTML = '';
+                        return;
+                    }
+                    suggestions.innerHTML = list.map(function (item) {
+                        return '<button type="button" data-url="' + item.url + '" ' +
+                            'class="search-suggestion w-full flex items-center gap-sm px-md py-sm text-left hover:bg-surface-container-high text-on-surface">' +
+                            '<span class="material-symbols-outlined text-[18px]">' + item.icon + '</span>' +
+                            '<span class="text-body-md">' + item.name + '</span></button>';
+                    }).join('');
+                    suggestions.classList.remove('hidden');
+
+                    suggestions.querySelectorAll('.search-suggestion').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            window.location = btn.getAttribute('data-url');
+                        });
+                    });
+                }
+
+                input.addEventListener('keyup', function () {
+                    const term = this.value.trim().toLowerCase();
+                    if (!term) {
+                        suggestions.classList.add('hidden');
+                        return;
+                    }
+                    const filtrados = items.filter(function (item) {
+                        return item.name.toLowerCase().includes(term);
+                    });
+                    render(filtrados);
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!suggestions.contains(e.target) && e.target !== input) {
+                        suggestions.classList.add('hidden');
+                    }
+                });
+            })();
+
+            // ---------- Sistema de notificaciones (persistente en servidor) ----------
+            (function () {
+                const bell = document.getElementById('notifBellButton');
+                const dropdown = document.getElementById('notifDropdown');
+                const lista = document.getElementById('notifList');
+                const vacio = document.getElementById('notifVacio');
+                const badge = document.getElementById('notifBadge');
+                if (!bell || !dropdown || !lista) return;
+
+                function actualizarBadge() {
+                    const pendientes = lista.querySelectorAll('.notif-item').length;
+                    badge.textContent = pendientes > 0 ? pendientes : '';
+                    badge.classList.toggle('hidden', pendientes === 0);
+                    vacio.classList.toggle('hidden', pendientes !== 0);
+                }
+
+                function pintarNotificacion(n) {
+                    const item = document.createElement('div');
+                    item.className = 'notif-item flex items-start gap-sm px-md py-sm hover:bg-surface-container-high';
+                    item.dataset.id = n.id;
+                    item.innerHTML =
+                        '<span class="material-symbols-outlined text-primary text-[20px]">' + n.icono + '</span>' +
+                        '<div class="flex-1">' +
+                        '<p class="text-body-md font-bold text-on-surface">' + n.titulo + '</p>' +
+                        '<p class="text-label-md text-on-surface-variant">' + n.detalle + '</p>' +
+                        '</div>' +
+                        '<button type="button" class="notif-leida text-label-md text-primary hover:underline whitespace-nowrap">Marcar como leída</button>';
+                    item.querySelector('.notif-leida').addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        fetch('@Url.Action("MarcarLeida", "Notificacion")?id=' + n.id, { method: 'POST' })
+                            .finally(function () {
+                                item.remove();
+                                actualizarBadge();
+                            });
+                    });
+                    lista.appendChild(item);
+                }
+
+                let primeraCarga = true;
+
+                function cargarNotificaciones() {
+                    fetch('@Url.Action("Listar", "Notificacion")')
+                        .then(function (r) { return r.json(); })
+                        .then(function (notificaciones) {
+                            const idsActuales = Array.from(lista.querySelectorAll('.notif-item')).map(function (el) { return el.dataset.id; });
+                            let hayNuevas = false;
+                            notificaciones.forEach(function (n) {
+                                if (idsActuales.indexOf(String(n.id)) === -1) {
+                                    pintarNotificacion(n);
+                                    hayNuevas = true;
+                                }
+                            });
+                            if (hayNuevas && !primeraCarga) {
+                                reproducirSonidoNotificacion();
+                            }
+                            primeraCarga = false;
+                            actualizarBadge();
+                        });
+                }
+
+                cargarNotificaciones();
+                setInterval(cargarNotificaciones, 15000);
+
+                bell.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+                document.addEventListener('click', function (e) {
+                    if (!dropdown.contains(e.target) && e.target !== bell) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+            })();
+
+            // ---------- Menú flotante de usuario ----------
+            (function () {
+                const button = document.getElementById('userMenuButton');
+                const dropdown = document.getElementById('userMenuDropdown');
+                if (!button || !dropdown) return;
+
+                button.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!dropdown.contains(e.target) && e.target !== button) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+            })();
+
+            // ---------- Sonido de notificación/confirmación (respeta preferencia "Deshabilitar sonidos") ----------
+            const sonidoNotificacion = new Audio('/sounds/notificacion.wav');
+            function reproducirSonidoNotificacion() {
+                if (localStorage.getItem('app_desactivar_sonidos') === 'true') return;
+                sonidoNotificacion.currentTime = 0;
+                sonidoNotificacion.play().catch(function () { });
+            }
+
+            // ---------- Confeti (respeta preferencia "Desactivar animaciones") ----------
+            function lanzarConfetti() {
+                reproducirSonidoNotificacion();
+                if (localStorage.getItem('app_desactivar_animaciones') === 'true') return;
+                if (typeof confetti !== 'function') return;
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            }
+
+            // ---------- Modal de Configuración (solo UI, persistido en localStorage) ----------
+            function openConfiguracionModal() {
+                document.getElementById('userMenuDropdown').classList.add('hidden');
+                document.getElementById('configuracionModal').classList.remove('hidden');
+                document.getElementById('configuracionModal').classList.add('flex');
+            }
+            function closeConfiguracionModal() {
+                document.getElementById('configuracionModal').classList.add('hidden');
+                document.getElementById('configuracionModal').classList.remove('flex');
+            }
+
+            document.addEventListener('click', function (e) {
+                if (e.target.classList && e.target.classList.contains('app-modal-overlay') && !e.target.classList.contains('hidden')) {
+                    e.target.classList.add('hidden');
+                    e.target.classList.remove('flex');
+                }
             });
-        })();
 
-        // ---------- Buscador del header (filtrado por rol) ----------
-        (function () {
-        @{
-            var searchItems = new System.Text.StringBuilder();
-            searchItems.Append("const items = [");
-            if (User.IsInRole("Administrador"))
-            {
-                searchItems.Append("{ icon: 'dashboard', name: 'Dashboard', url: '" + Url.Action("Index","Dashboard") + "' },");
-                searchItems.Append("{ icon: 'group', name: 'Usuarios y Roles', url: '" + Url.Action("Usuarios","Dashboard") + "' },");
-                searchItems.Append("{ icon: 'inventory_2', name: 'Inventario', url: '" + Url.Action("Inventario","Dashboard") + "' },");
-                searchItems.Append("{ icon: 'bar_chart', name: 'Reportes', url: '" + Url.Action("Reportes","Dashboard") + "' },");
-                searchItems.Append("{ icon: 'supervisor_account', name: 'Supervisión', url: '" + Url.Action("Index","Administrador") + "' },");
-                searchItems.Append("{ icon: 'event', name: 'Reservaciones', url: '" + Url.Action("Reservaciones","Administrador") + "' },");
-                searchItems.Append("{ icon: 'schedule', name: 'Turnos', url: '" + Url.Action("Turnos","Administrador") + "' },");
-                searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos (Admin)', url: '" + Url.Action("Pedidos","Administrador") + "' },");
-                searchItems.Append("{ icon: 'admin_panel_settings', name: 'Administrar Negocio', url: '" + Url.Action("Advertencia","Negocio") + "' },");
-                searchItems.Append("{ icon: 'point_of_sale', name: 'Cierre de Caja', url: '" + Url.Action("Index","Cierre_Caja") + "' },");
-                searchItems.Append("{ icon: 'fact_check', name: 'Auditoría', url: '" + Url.Action("Auditoria","Administrador") + "' },");
-            }
-            if (User.IsInRole("Cajero"))
-            {
-                searchItems.Append("{ icon: 'dashboard', name: 'Dashboard', url: '" + Url.Action("Index","Cajero") + "' },");
-                searchItems.Append("{ icon: 'receipt_long', name: 'Facturación', url: '" + Url.Action("Facturacion","Cajero") + "' },");
-                searchItems.Append("{ icon: 'payments', name: 'Pagos', url: '" + Url.Action("Pagos","Cajero") + "' },");
-                searchItems.Append("{ icon: 'search', name: 'Buscar Clientes', url: '" + Url.Action("Clientes","Cajero") + "' },");
-                searchItems.Append("{ icon: 'point_of_sale', name: 'Cierre de Caja', url: '" + Url.Action("Index","Cierre_Caja") + "' },");
-            }
-            if (User.IsInRole("Mesero"))
-            {
-                searchItems.Append("{ icon: 'table_restaurant', name: 'Mapa de Mesas', url: '" + Url.Action("Index","Mesero") + "' },");
-                searchItems.Append("{ icon: 'restaurant_menu', name: 'Pedidos', url: '" + Url.Action("Pedidos","Mesero") + "' },");
-                searchItems.Append("{ icon: 'notifications', name: 'Notificaciones', url: '" + Url.Action("Notificaciones","Mesero") + "' },");
-                searchItems.Append("{ icon: 'event', name: 'Reservaciones', url: '" + Url.Action("Reservaciones","Administrador") + "' },");
-                searchItems.Append("{ icon: 'add', name: 'Nuevo Pedido', url: '" + Url.Action("Nuevo","Pedido") + "' },");
-            }
-            if (User.IsInRole("Chef"))
-            {
-                searchItems.Append("{ icon: 'dashboard', name: 'Monitor de Cocina', url: '" + Url.Action("Index","Cocina") + "' },");
-                searchItems.Append("{ icon: 'inventory_2', name: 'Ingredientes', url: '" + Url.Action("Ingredientes","Cocina") + "' },");
-                searchItems.Append("{ icon: 'list_alt', name: 'Detalle de Pedidos', url: '" + Url.Action("Detalle","Cocina") + "' },");
-            }
-            searchItems.Append("];");
-        }
-        @Html.Raw(searchItems.ToString())
+            (function () {
+                const desactivarAnimaciones = document.getElementById('cfgDesactivarAnimaciones');
+                if (!desactivarAnimaciones) return;
 
-        const input = document.getElementById('globalSearchInput');
-        const suggestions = document.getElementById('searchSuggestions');
-        if (!input || !suggestions) return;
+                desactivarAnimaciones.checked = localStorage.getItem('app_desactivar_animaciones') === 'true';
 
-        function render(list) {
-        if (list.length === 0) {
-        suggestions.classList.add('hidden');
-        suggestions.innerHTML = '';
-        return;
-        }
-        suggestions.innerHTML = list.map(function (item) {
-        return '<button type="button" data-url="' + item.url + '" ' +
-        'class="search-suggestion w-full flex items-center gap-sm px-md py-sm text-left hover:bg-surface-container-high text-on-surface">' +
-        '<span class="material-symbols-outlined text-[18px]">' + item.icon + '</span>' +
-        '<span class="text-body-md">' + item.name + '</span></button>';
-        }).join('');
-        suggestions.classList.remove('hidden');
+                desactivarAnimaciones.addEventListener('change', function () {
+                    localStorage.setItem('app_desactivar_animaciones', desactivarAnimaciones.checked);
+                });
+            })();
 
-        suggestions.querySelectorAll('.search-suggestion').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-        window.location = btn.getAttribute('data-url');
-        });
-        });
-        }
+            (function () {
+                const desactivarSonidos = document.getElementById('cfgDesactivarSonidos');
+                if (!desactivarSonidos) return;
 
-        input.addEventListener('keyup', function () {
-        const term = this.value.trim().toLowerCase();
-        if (!term) {
-        suggestions.classList.add('hidden');
-        return;
-        }
-        const filtrados = items.filter(function (item) {
-        return item.name.toLowerCase().includes(term);
-        });
-        render(filtrados);
-        });
+                desactivarSonidos.checked = localStorage.getItem('app_desactivar_sonidos') === 'true';
 
-        document.addEventListener('click', function (e) {
-        if (!suggestions.contains(e.target) && e.target !== input) {
-        suggestions.classList.add('hidden');
-        }
-        });
-        })();
-
-        // ---------- Sistema de notificaciones (persistente en servidor) ----------
-        (function () {
-        const bell = document.getElementById('notifBellButton');
-        const dropdown = document.getElementById('notifDropdown');
-        const lista = document.getElementById('notifList');
-        const vacio = document.getElementById('notifVacio');
-        const badge = document.getElementById('notifBadge');
-        if (!bell || !dropdown || !lista) return;
-
-        function actualizarBadge() {
-        const pendientes = lista.querySelectorAll('.notif-item').length;
-        badge.textContent = pendientes > 0 ? pendientes : '';
-        badge.classList.toggle('hidden', pendientes === 0);
-        vacio.classList.toggle('hidden', pendientes !== 0);
-        }
-
-        function pintarNotificacion(n) {
-        const item = document.createElement('div');
-        item.className = 'notif-item flex items-start gap-sm px-md py-sm hover:bg-surface-container-high';
-        item.dataset.id = n.id;
-        item.innerHTML =
-        '<span class="material-symbols-outlined text-primary text-[20px]">' + n.icono + '</span>' +
-        '<div class="flex-1">' +
-        '<p class="text-body-md font-bold text-on-surface">' + n.titulo + '</p>' +
-        '<p class="text-label-md text-on-surface-variant">' + n.detalle + '</p>' +
-        '</div>' +
-        '<button type="button" class="notif-leida text-label-md text-primary hover:underline whitespace-nowrap">Marcar como leída</button>';
-        item.querySelector('.notif-leida').addEventListener('click', function (e) {
-        e.stopPropagation();
-        fetch('@Url.Action("MarcarLeida", "Notificacion")?id=' + n.id, { method: 'POST' })
-        .finally(function () {
-        item.remove();
-        actualizarBadge();
-        });
-        });
-        lista.appendChild(item);
-        }
-
-        let primeraCarga = true;
-
-        function cargarNotificaciones() {
-        fetch('@Url.Action("Listar", "Notificacion")')
-        .then(function (r) { return r.json(); })
-        .then(function (notificaciones) {
-        const idsActuales = Array.from(lista.querySelectorAll('.notif-item')).map(function (el) { return el.dataset.id; });
-        let hayNuevas = false;
-        notificaciones.forEach(function (n) {
-        if (idsActuales.indexOf(String(n.id)) === -1) {
-        pintarNotificacion(n);
-        hayNuevas = true;
-        }
-        });
-        if (hayNuevas && !primeraCarga) {
-        reproducirSonidoNotificacion();
-        }
-        primeraCarga = false;
-        actualizarBadge();
-        });
-        }
-
-        cargarNotificaciones();
-        setInterval(cargarNotificaciones, 15000);
-
-        bell.addEventListener('click', function (e) {
-        e.stopPropagation();
-        dropdown.classList.toggle('hidden');
-        });
-        document.addEventListener('click', function (e) {
-        if (!dropdown.contains(e.target) && e.target !== bell) {
-        dropdown.classList.add('hidden');
-        }
-        });
-        })();
-
-        // ---------- Menú flotante de usuario ----------
-        (function () {
-        const button = document.getElementById('userMenuButton');
-        const dropdown = document.getElementById('userMenuDropdown');
-        if (!button || !dropdown) return;
-
-        button.addEventListener('click', function (e) {
-        e.stopPropagation();
-        dropdown.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', function (e) {
-        if (!dropdown.contains(e.target) && e.target !== button) {
-        dropdown.classList.add('hidden');
-        }
-        });
-        })();
-
-        // ---------- Sonido de notificación/confirmación (respeta preferencia "Deshabilitar sonidos") ----------
-        const sonidoNotificacion = new Audio('/sounds/notificacion.wav');
-        function reproducirSonidoNotificacion() {
-        if (localStorage.getItem('app_desactivar_sonidos') === 'true') return;
-        sonidoNotificacion.currentTime = 0;
-        sonidoNotificacion.play().catch(function () { });
-        }
-
-        // ---------- Confeti (respeta preferencia "Desactivar animaciones") ----------
-        function lanzarConfetti() {
-        reproducirSonidoNotificacion();
-        if (localStorage.getItem('app_desactivar_animaciones') === 'true') return;
-        if (typeof confetti !== 'function') return;
-        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-        }
-
-        // ---------- Modal de Configuración (solo UI, persistido en localStorage) ----------
-        function openConfiguracionModal() {
-        document.getElementById('userMenuDropdown').classList.add('hidden');
-        document.getElementById('configuracionModal').classList.remove('hidden');
-        document.getElementById('configuracionModal').classList.add('flex');
-        }
-        function closeConfiguracionModal() {
-        document.getElementById('configuracionModal').classList.add('hidden');
-        document.getElementById('configuracionModal').classList.remove('flex');
-        }
-
-        // Cierra cualquier ventana emergente que use el patrón compartido .app-modal-overlay
-        // (Configuración, cerrar sesión, ingredientes de receta, detalles de pedido,
-        // solicitud de compra, editar reserva/usuario, etc.) al hacer click fuera de su
-        // panel. Un solo listener delegado cubre todas las que ya existen y las que se
-        // agreguen después, sin necesitar un manejador de click por cada modal.
-        document.addEventListener('click', function (e) {
-        if (e.target.classList && e.target.classList.contains('app-modal-overlay') && !e.target.classList.contains('hidden')) {
-            e.target.classList.add('hidden');
-            e.target.classList.remove('flex');
-        }
-        });
-
-        (function () {
-        const desactivarAnimaciones = document.getElementById('cfgDesactivarAnimaciones');
-        if (!desactivarAnimaciones) return;
-
-        desactivarAnimaciones.checked = localStorage.getItem('app_desactivar_animaciones') === 'true';
-
-        desactivarAnimaciones.addEventListener('change', function () {
-        localStorage.setItem('app_desactivar_animaciones', desactivarAnimaciones.checked);
-        });
-        })();
-
-        (function () {
-        const desactivarSonidos = document.getElementById('cfgDesactivarSonidos');
-        if (!desactivarSonidos) return;
-
-        desactivarSonidos.checked = localStorage.getItem('app_desactivar_sonidos') === 'true';
-
-        desactivarSonidos.addEventListener('change', function () {
-        localStorage.setItem('app_desactivar_sonidos', desactivarSonidos.checked);
-        });
-        })();
+                desactivarSonidos.addEventListener('change', function () {
+                    localStorage.setItem('app_desactivar_sonidos', desactivarSonidos.checked);
+                });
+            })();
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

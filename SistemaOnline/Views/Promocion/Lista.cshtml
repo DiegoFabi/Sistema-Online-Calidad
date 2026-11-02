@@ -33,8 +33,8 @@
                         <td class="px-md py-md font-bold col-ellipsis" title="@item.Nombre">@item.Nombre</td>
                         <td class="px-md py-md col-ellipsis" title="@item.Descripcion">@item.Descripcion</td>
                         <td class="px-md py-md font-mono-data">@item.Porcentaje_Descuento</td>
-                        <td class="px-md py-md font-mono-data">@item.Fecha_Inicio.ToString("dd/MM/yyyy")</td>
-                        <td class="px-md py-md font-mono-data">@item.Fecha_Fin.ToString("dd/MM/yyyy")</td>
+                        <td class="px-md py-md font-mono-data">@item.Fecha_Inicio?.ToString("dd/MM/yyyy")</td>
+                        <td class="px-md py-md font-mono-data">@item.Fecha_Fin?.ToString("dd/MM/yyyy")</td>
                         <td class="px-md py-md">@(item.Estado ? "Activa" : "Inactiva")</td>
                         <td class="px-md py-md">
                             <div class="flex items-center gap-xs">

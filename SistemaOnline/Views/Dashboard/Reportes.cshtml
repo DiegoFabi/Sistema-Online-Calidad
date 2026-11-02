@@ -17,7 +17,8 @@
         <p class="text-on-surface-variant">Historial completo de pedidos registrados.</p>
     </div>
     <form asp-controller="Dashboard" asp-action="Reportes" method="get" class="flex flex-wrap items-center gap-sm">
-        <select name="categoria" onchange="this.form.submit()"
+        <label for="filtroCategoria" class="sr-only">Filtrar por categoría</label>
+        <select id="filtroCategoria" name="categoria" onchange="this.form.submit()"
                 class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
             <option value="">Todas las categorías</option>
             @foreach (var c in categorias)
@@ -25,7 +26,8 @@
                 <option value="@c.ID_Categoria" selected="@(categoriaSel == c.ID_Categoria ? "selected" : null)">@c.Nombre_Categoria</option>
             }
         </select>
-        <select name="metodoPago" onchange="this.form.submit()"
+        <label for="filtroMetodoPago" class="sr-only">Filtrar por método de pago</label>
+        <select id="filtroMetodoPago" name="metodoPago" onchange="this.form.submit()"
                 class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
             <option value="">Todos los métodos de pago</option>
             @foreach (var m in metodosPago)
@@ -52,6 +54,7 @@
         {
         <div class="mb-md relative max-w-md">
             <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+            <label for="buscadorTabla" class="sr-only">Buscar por estado</label>
             <input id="buscadorTabla" type="text" placeholder="Buscar por estado..."
                    class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
         </div>

@@ -52,8 +52,8 @@ namespace SistemaOnline.Controllers
             Turno turno = new Turno
             {
                 Nombre_Turno = modelo.Nombre_Turno,
-                Hora_Inicio = modelo.Hora_Inicio,
-                Hora_Fin = modelo.Hora_Fin,
+                Hora_Inicio = modelo.Hora_Inicio!.Value,
+                Hora_Fin = modelo.Hora_Fin!.Value,
                 Dias_Semana = modelo.Dias_Semana
             };
             await _context.Turnos.AddAsync(turno);
@@ -87,8 +87,8 @@ namespace SistemaOnline.Controllers
 
             Turno turno = await _context.Turnos.FirstAsync(t => t.ID_Turno == modelo.ID_Turno);
             turno.Nombre_Turno = modelo.Nombre_Turno;
-            turno.Hora_Inicio = modelo.Hora_Inicio;
-            turno.Hora_Fin = modelo.Hora_Fin;
+            turno.Hora_Inicio = modelo.Hora_Inicio!.Value;
+            turno.Hora_Fin = modelo.Hora_Fin!.Value;
             turno.Dias_Semana = modelo.Dias_Semana;
             _context.Turnos.Update(turno);
             await _context.SaveChangesAsync();

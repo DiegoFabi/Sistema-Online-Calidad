@@ -127,7 +127,7 @@ namespace SistemaOnline.Controllers
 
             Reservacion reservacion = new Reservacion
             {
-                Fecha_Hora = modelo.Fecha_Hora,
+                Fecha_Hora = modelo.Fecha_Hora!.Value,
                 Numero_Personas = modelo.Numero_Personas,
                 Ocasion_Especial = modelo.Ocasion_Especial,
                 Estado_Reservacion = "Pendiente",

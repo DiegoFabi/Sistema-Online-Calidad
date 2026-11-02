@@ -19,8 +19,9 @@ namespace SistemaOnline.ViewModels
         [MaxLength(10)]
         public string? Serie { get; set; }
 
+        [Required(ErrorMessage = "La fecha de emisión es obligatoria.")]
         [DataType(DataType.Date)]
-        public DateTime Fecha_Emision { get; set; }
+        public DateTime? Fecha_Emision { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "El subtotal no puede ser negativo.")]
         public decimal Sub_Total { get; set; }
@@ -28,6 +29,7 @@ namespace SistemaOnline.ViewModels
         [Range(0, double.MaxValue, ErrorMessage = "El monto total no puede ser negativo.")]
         public decimal Monto_Total { get; set; }
 
+        [Range(0, double.MaxValue, ErrorMessage = "El IGV no puede ser negativo.")]
         public decimal IGV { get; set; }
 
         [Required, MaxLength(30)]
@@ -47,7 +49,7 @@ namespace SistemaOnline.ViewModels
         [MaxLength(200)]
         public string? Direccion_Fiscal { get; set; }
 
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona un pedido válido.")]
         public int ID_Pedido { get; set; }
 
         // Auxiliares para vistas

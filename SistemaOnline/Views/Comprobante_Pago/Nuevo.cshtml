@@ -21,7 +21,7 @@
 
             <!-- Pedido -->
             <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Pedido</label>
+                <label for="ID_Pedido" class="font-label-md text-label-md text-on-surface-variant block mb-1">Pedido</label>
                 <select class="@Cls("ID_Pedido")" asp-for="ID_Pedido" asp-items="Model.PedidosDisponibles" id="ID_Pedido" onchange="cargarResumenPedido(this.value)">
                     <option value="" disabled selected hidden>-- Seleccione --</option>
                 </select>
@@ -42,15 +42,15 @@
             <!-- Montos (auto-llenados desde pedido) -->
             <div class="grid grid-cols-3 gap-md">
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Sub Total</label>
+                    <label for="Sub_Total" class="font-label-md text-label-md text-on-surface-variant block mb-1">Sub Total</label>
                     <input class="@Cls("Sub_Total") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="Sub_Total" id="Sub_Total" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">IGV (18%)</label>
+                    <label for="IGV" class="font-label-md text-label-md text-on-surface-variant block mb-1">IGV (18%)</label>
                     <input class="@Cls("IGV") bg-surface-container-high cursor-not-allowed" type="number" step="0.01" min="0" readonly asp-for="IGV" id="IGV" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Monto Total</label>
+                    <label for="Monto_Total" class="font-label-md text-label-md text-on-surface-variant block mb-1">Monto Total</label>
                     <input class="@Cls("Monto_Total")" type="number" step="0.01" min="0" asp-for="Monto_Total" id="Monto_Total" />
                     <span asp-validation-for="Monto_Total" class="text-error text-label-md"></span>
                 </div>
@@ -58,8 +58,8 @@
 
             <!-- Método de Pago -->
             <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Método de Pago</label>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-sm" id="metodoPagoGroup">
+                <span id="lblMetodoPago" class="font-label-md text-label-md text-on-surface-variant block mb-1">Método de Pago</span>
+                <div role="group" aria-labelledby="lblMetodoPago" class="grid grid-cols-2 sm:grid-cols-4 gap-sm" id="metodoPagoGroup">
                     @foreach (var op in SistemaOnline.ViewModels.Comprobante_PagoVM.MetodosPago)
                     {
                         bool sel = Model.Metodo_Pago == op.Value;
@@ -80,7 +80,7 @@
 
             <!-- Fecha de Emisión -->
             <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Fecha de Emisión</label>
+                <label for="Fecha_Emision" class="font-label-md text-label-md text-on-surface-variant block mb-1">Fecha de Emisión</label>
                 <div class="flex gap-sm">
                     <input class="@Cls("Fecha_Emision") flex-1" type="date" asp-for="Fecha_Emision" id="Fecha_Emision" readonly />
                     <button type="button" onclick="document.getElementById('Fecha_Emision').readOnly = false;" class="h-11 px-md bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-highest transition-all whitespace-nowrap">Editar fecha</button>
@@ -89,8 +89,8 @@
 
             <!-- Estado -->
             <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Estado del Comprobante</label>
-                <select class="@Cls("Estado_Comprobante")" asp-for="Estado_Comprobante">
+                <label for="Estado_Comprobante" class="font-label-md text-label-md text-on-surface-variant block mb-1">Estado del Comprobante</label>
+                <select id="Estado_Comprobante" class="@Cls("Estado_Comprobante")" asp-for="Estado_Comprobante">
                     <option value="Emitido">Emitido</option>
                     <option value="Anulado" disabled>Anulado</option>
                 </select>
@@ -115,7 +115,7 @@
                 </p>
 
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Tipo de Comprobante</label>
+                    <label for="Tipo_Comprobante" class="font-label-md text-label-md text-on-surface-variant block mb-1">Tipo de Comprobante</label>
                     <select class="@Cls("Tipo_Comprobante")" asp-for="Tipo_Comprobante" id="Tipo_Comprobante" onchange="toggleRUC(this.value)">
                         <option value="" disabled selected hidden>-- Seleccione --</option>
                         <option value="Boleta">Boleta</option>
@@ -126,32 +126,32 @@
 
                 <div class="grid grid-cols-2 gap-md">
                     <div>
-                        <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Número de Comprobante</label>
-                        <input class="@Cls("Numero_Comprobante")" type="text" asp-for="Numero_Comprobante" />
+                        <label for="Numero_Comprobante" class="font-label-md text-label-md text-on-surface-variant block mb-1">Número de Comprobante</label>
+                        <input id="Numero_Comprobante" class="@Cls("Numero_Comprobante")" type="text" asp-for="Numero_Comprobante" />
                         <span asp-validation-for="Numero_Comprobante" class="text-error text-label-md"></span>
                     </div>
                     <div>
-                        <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Serie</label>
-                        <input class="@Cls("Serie")" type="text" asp-for="Serie" />
+                        <label for="Serie" class="font-label-md text-label-md text-on-surface-variant block mb-1">Serie</label>
+                        <input id="Serie" class="@Cls("Serie")" type="text" asp-for="Serie" />
                         <span asp-validation-for="Serie" class="text-error text-label-md"></span>
                     </div>
                 </div>
 
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Razón Social</label>
-                    <input class="@Cls("Razon_Social")" type="text" asp-for="Razon_Social" />
+                    <label for="Razon_Social" class="font-label-md text-label-md text-on-surface-variant block mb-1">Razón Social</label>
+                    <input id="Razon_Social" class="@Cls("Razon_Social")" type="text" asp-for="Razon_Social" />
                     <span asp-validation-for="Razon_Social" class="text-error text-label-md"></span>
                 </div>
 
                 <div id="grupoRUC" class="hidden">
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">RUC</label>
-                    <input class="@Cls("RUC")" type="text" maxlength="11" asp-for="RUC" />
+                    <label for="RUC" class="font-label-md text-label-md text-on-surface-variant block mb-1">RUC</label>
+                    <input id="RUC" class="@Cls("RUC")" type="text" maxlength="11" asp-for="RUC" />
                     <span asp-validation-for="RUC" class="text-error text-label-md"></span>
                 </div>
 
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Dirección Fiscal</label>
-                    <input class="@Cls("Direccion_Fiscal")" type="text" asp-for="Direccion_Fiscal" />
+                    <label for="Direccion_Fiscal" class="font-label-md text-label-md text-on-surface-variant block mb-1">Dirección Fiscal</label>
+                    <input id="Direccion_Fiscal" class="@Cls("Direccion_Fiscal")" type="text" asp-for="Direccion_Fiscal" />
                     <span asp-validation-for="Direccion_Fiscal" class="text-error text-label-md"></span>
                 </div>
             </div>

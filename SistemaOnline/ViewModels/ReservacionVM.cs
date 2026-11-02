@@ -9,7 +9,7 @@ namespace SistemaOnline.ViewModels
 
         [Required(ErrorMessage = "La fecha y hora de la reservación son obligatorias.")]
         [DataType(DataType.DateTime)]
-        public DateTime Fecha_Hora { get; set; }
+        public DateTime? Fecha_Hora { get; set; }
 
         [Range(1, 50, ErrorMessage = "El número de personas debe ser entre 1 y 50.")]
         public int Numero_Personas { get; set; }
@@ -23,10 +23,10 @@ namespace SistemaOnline.ViewModels
         [MaxLength(300)]
         public string? Notas { get; set; }
 
-        [Required(ErrorMessage = "Selecciona un cliente.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona un cliente.")]
         public int ID_Cliente { get; set; }
 
-        [Required(ErrorMessage = "Selecciona una mesa.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona una mesa.")]
         public int ID_Mesa { get; set; }
 
         // Para mostrar en Lista

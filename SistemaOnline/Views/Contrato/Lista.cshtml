@@ -31,8 +31,8 @@
                 {
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
                         <td class="px-md py-md font-mono-data">@item.ID_Contrato</td>
-                        <td class="px-md py-md font-mono-data">@item.Fecha_Inicio.ToString("dd/MM/yyyy")</td>
-                        <td class="px-md py-md font-mono-data">@item.Fecha_Fin.ToString("dd/MM/yyyy")</td>
+                        <td class="px-md py-md font-mono-data">@item.Fecha_Inicio?.ToString("dd/MM/yyyy")</td>
+                        <td class="px-md py-md font-mono-data">@item.Fecha_Fin?.ToString("dd/MM/yyyy")</td>
                         <td class="px-md py-md font-bold">@item.Tipo_Contrato</td>
                         <td class="px-md py-md">@item.TipoParticipante</td>
                         <td class="px-md py-md font-mono-data">@(item.Salario?.ToString("0.00") ?? "-")</td>

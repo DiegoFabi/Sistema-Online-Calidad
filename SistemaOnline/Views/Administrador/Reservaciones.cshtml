@@ -26,6 +26,7 @@
 
 <div class="mb-md relative max-w-md">
     <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+    <label for="buscadorTabla" class="sr-only">Buscar por cliente, mesa, estado</label>
     <input id="buscadorTabla" type="text" placeholder="Buscar por cliente, mesa, estado..."
            class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
 </div>
@@ -85,23 +86,23 @@
             <form asp-controller="Administrador" asp-action="EditarReservacion" method="post" autocomplete="off" class="p-lg space-y-md">
                 <input type="hidden" name="ID_Reservacion" value="@r.ID_Reservacion" />
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Fecha y Hora</label>
-                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                    <label for="Fecha_Hora-@r.ID_Reservacion" class="font-label-md text-label-md text-on-surface-variant block mb-1">Fecha y Hora</label>
+                    <input id="Fecha_Hora-@r.ID_Reservacion" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
                            type="datetime-local" name="Fecha_Hora" required step="60" value="@r.Fecha_Hora.ToString("yyyy-MM-ddTHH:mm")" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Número de Personas</label>
-                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                    <label for="Numero_Personas-@r.ID_Reservacion" class="font-label-md text-label-md text-on-surface-variant block mb-1">Número de Personas</label>
+                    <input id="Numero_Personas-@r.ID_Reservacion" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
                            type="number" name="Numero_Personas" min="1" max="50" required value="@r.Numero_Personas" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Ocasión Especial</label>
-                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                    <label for="Ocasion_Especial-@r.ID_Reservacion" class="font-label-md text-label-md text-on-surface-variant block mb-1">Ocasión Especial</label>
+                    <input id="Ocasion_Especial-@r.ID_Reservacion" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
                            type="text" name="Ocasion_Especial" required value="@r.Ocasion_Especial" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Estado</label>
-                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="Estado_Reservacion" required>
+                    <label for="Estado_Reservacion-@r.ID_Reservacion" class="font-label-md text-label-md text-on-surface-variant block mb-1">Estado</label>
+                    <select id="Estado_Reservacion-@r.ID_Reservacion" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="Estado_Reservacion" required>
                         @foreach (var estado in estadosDisponibles)
                         {
                             <option value="@estado" selected="@(estado == r.Estado_Reservacion)">@estado</option>
@@ -109,13 +110,13 @@
                     </select>
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Notas</label>
-                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                    <label for="Notas-@r.ID_Reservacion" class="font-label-md text-label-md text-on-surface-variant block mb-1">Notas</label>
+                    <input id="Notas-@r.ID_Reservacion" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
                            type="text" name="Notas" required value="@r.Notas" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Cliente</label>
-                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Cliente" required>
+                    <label for="ID_Cliente-@r.ID_Reservacion" class="font-label-md text-label-md text-on-surface-variant block mb-1">Cliente</label>
+                    <select id="ID_Cliente-@r.ID_Reservacion" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Cliente" required>
                         @foreach (var item in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.ClientesDisponibles)
                         {
                             <option value="@item.Value" selected="@(item.Value == r.ID_Cliente.ToString())">@item.Text</option>
@@ -123,8 +124,8 @@
                     </select>
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Mesa</label>
-                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Mesa" required>
+                    <label for="ID_Mesa-@r.ID_Reservacion" class="font-label-md text-label-md text-on-surface-variant block mb-1">Mesa</label>
+                    <select id="ID_Mesa-@r.ID_Reservacion" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Mesa" required>
                         @foreach (var item in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.MesasDisponibles)
                         {
                             <option value="@item.Value" selected="@(item.Value == r.ID_Mesa.ToString())">@item.Text</option>

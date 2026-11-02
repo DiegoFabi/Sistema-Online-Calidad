@@ -13,7 +13,7 @@ namespace SistemaOnline.ViewModels
         [Required(ErrorMessage = "La descripción es obligatoria"), MaxLength(200)]
         public string Descripcion { get; set; }
 
-        [Required(ErrorMessage = "Debe seleccionar una carta")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una carta")]
         public int ID_Carta { get; set; }
 
         // Para mostrar en Lista

@@ -13,7 +13,8 @@
         <p class="text-on-surface-variant">Historial de acciones críticas: quién hizo qué y cuándo.</p>
     </div>
     <form asp-controller="Administrador" asp-action="Auditoria" method="get" class="flex items-center gap-sm">
-        <select name="entidad" onchange="this.form.submit()"
+        <label for="filtroEntidad" class="sr-only">Filtrar por entidad</label>
+        <select id="filtroEntidad" name="entidad" onchange="this.form.submit()"
                 class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
             <option value="" selected="@(entidadSeleccionada == "" ? "selected" : null)">Todas las entidades</option>
             @foreach (var e in entidades)
@@ -34,6 +35,7 @@
         {
             <div class="mb-md relative max-w-md">
                 <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+                <label for="buscadorTabla" class="sr-only">Buscar por usuario, rol, acción, entidad</label>
                 <input id="buscadorTabla" type="text" placeholder="Buscar por usuario, rol, acción, entidad..."
                        class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
             </div>

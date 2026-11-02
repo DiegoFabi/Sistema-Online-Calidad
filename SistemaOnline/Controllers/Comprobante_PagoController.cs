@@ -179,7 +179,7 @@ namespace SistemaOnline.Controllers
                 Tipo_Comprobante = modelo.Tipo_Comprobante,
                 Numero_Comprobante = modelo.Numero_Comprobante,
                 Serie = modelo.Serie,
-                Fecha_Emision = modelo.Fecha_Emision,
+                Fecha_Emision = modelo.Fecha_Emision!.Value,
                 Sub_Total = modelo.Sub_Total,
                 Monto_Total = modelo.Monto_Total,
                 IGV = modelo.IGV,
@@ -195,11 +195,11 @@ namespace SistemaOnline.Controllers
             // Crear registro en Pagos para que aparezca en el historial de pagos
             var pago = new Pago
             {
-                Fecha_Hora_Pago = modelo.Fecha_Emision,
-                Monto           = modelo.Monto_Total,
-                Metodo_Pago     = modelo.Metodo_Pago,
-                Estado          = "Pagado",
-                ID_Pedido       = modelo.ID_Pedido
+                Fecha_Hora_Pago = modelo.Fecha_Emision!.Value,
+                Monto = modelo.Monto_Total,
+                Metodo_Pago = modelo.Metodo_Pago,
+                Estado = "Pagado",
+                ID_Pedido = modelo.ID_Pedido
             };
             await _context.Pagos.AddAsync(pago);
 
@@ -282,7 +282,7 @@ namespace SistemaOnline.Controllers
             comprobante.Tipo_Comprobante = modelo.Tipo_Comprobante;
             comprobante.Numero_Comprobante = modelo.Numero_Comprobante;
             comprobante.Serie = modelo.Serie;
-            comprobante.Fecha_Emision = modelo.Fecha_Emision;
+            comprobante.Fecha_Emision = modelo.Fecha_Emision!.Value;
             comprobante.Sub_Total = modelo.Sub_Total;
             comprobante.Monto_Total = modelo.Monto_Total;
             comprobante.IGV = modelo.IGV;

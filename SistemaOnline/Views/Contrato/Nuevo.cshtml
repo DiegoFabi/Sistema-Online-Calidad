@@ -41,9 +41,9 @@
                 <span asp-validation-for="Clausula" class="text-error text-label-md"></span>
             </div>
             <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Tipo de Participante</label>
+                <span id="lblTipoParticipante" class="font-label-md text-label-md text-on-surface-variant block mb-1">Tipo de Participante</span>
                 <input type="hidden" asp-for="TipoParticipante" id="TipoParticipante" />
-                <div class="flex gap-sm">
+                <div role="group" aria-labelledby="lblTipoParticipante" class="flex gap-sm">
                     <button type="button" id="btnEmpleado" onclick="seleccionarTipoParticipante('Empleado')"
                             class="flex-1 h-9 px-md rounded-lg border-2 font-label-md text-label-md font-semibold transition-all">
                         Empleado

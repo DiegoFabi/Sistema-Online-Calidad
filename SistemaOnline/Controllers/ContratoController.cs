@@ -128,8 +128,8 @@ namespace SistemaOnline.Controllers
             {
                 Contrato_Empleado contrato = new Contrato_Empleado
                 {
-                    Fecha_Inicio = modelo.Fecha_Inicio,
-                    Fecha_Fin = modelo.Fecha_Fin,
+                    Fecha_Inicio = modelo.Fecha_Inicio!.Value,
+                    Fecha_Fin = modelo.Fecha_Fin!.Value,
                     Tipo_Contrato = modelo.Tipo_Contrato,
                     Salario = modelo.Salario!.Value,
                     Clausula = modelo.Clausula,
@@ -141,8 +141,8 @@ namespace SistemaOnline.Controllers
             {
                 Contrato_Proveedor contrato = new Contrato_Proveedor
                 {
-                    Fecha_Inicio = modelo.Fecha_Inicio,
-                    Fecha_Fin = modelo.Fecha_Fin,
+                    Fecha_Inicio = modelo.Fecha_Inicio!.Value,
+                    Fecha_Fin = modelo.Fecha_Fin!.Value,
                     Tipo_Contrato = modelo.Tipo_Contrato,
                     Clausula = modelo.Clausula,
                     ID_Proveedor = modelo.ID_Proveedor!.Value
@@ -229,8 +229,8 @@ namespace SistemaOnline.Controllers
             if (esEmpleado)
             {
                 Contrato_Empleado contrato = await _context.Contratos_Empleados.FirstAsync(c => c.ID_Contrato_Empleado == modelo.ID_Contrato);
-                contrato.Fecha_Inicio = modelo.Fecha_Inicio;
-                contrato.Fecha_Fin = modelo.Fecha_Fin;
+                contrato.Fecha_Inicio = modelo.Fecha_Inicio!.Value;
+                contrato.Fecha_Fin = modelo.Fecha_Fin!.Value;
                 contrato.Tipo_Contrato = modelo.Tipo_Contrato;
                 contrato.Salario = modelo.Salario!.Value;
                 contrato.Clausula = modelo.Clausula;
@@ -240,8 +240,8 @@ namespace SistemaOnline.Controllers
             else
             {
                 Contrato_Proveedor contrato = await _context.Contratos_Proveedores.FirstAsync(c => c.ID_Contrato_Proveedor == modelo.ID_Contrato);
-                contrato.Fecha_Inicio = modelo.Fecha_Inicio;
-                contrato.Fecha_Fin = modelo.Fecha_Fin;
+                contrato.Fecha_Inicio = modelo.Fecha_Inicio!.Value;
+                contrato.Fecha_Fin = modelo.Fecha_Fin!.Value;
                 contrato.Tipo_Contrato = modelo.Tipo_Contrato;
                 contrato.Clausula = modelo.Clausula;
                 contrato.ID_Proveedor = modelo.ID_Proveedor!.Value;

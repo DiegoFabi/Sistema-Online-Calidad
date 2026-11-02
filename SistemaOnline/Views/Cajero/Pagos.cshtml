@@ -16,7 +16,8 @@
         <p class="text-on-surface-variant">Pagos procesados el @fechaSeleccionada.ToString("dd/MM/yyyy")@(esHoy ? " (hoy)" : "").</p>
     </div>
     <form asp-controller="Cajero" asp-action="Pagos" method="get" class="flex items-center gap-sm">
-        <input type="date" name="fecha" value="@fechaSeleccionada.ToString("yyyy-MM-dd")"
+        <label for="filtroFecha" class="sr-only">Fecha</label>
+        <input id="filtroFecha" type="date" name="fecha" value="@fechaSeleccionada.ToString("yyyy-MM-dd")"
                class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" />
         <button type="submit" class="inline-flex items-center gap-sm h-11 px-md bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-md text-title-md rounded-lg shadow-md shadow-primary/20 transition-all">
             <span class="material-symbols-outlined">search</span> Ver
@@ -32,6 +33,7 @@
 
 <div class="mb-md relative max-w-md">
     <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+    <label for="buscadorTabla" class="sr-only">Buscar por método, estado</label>
     <input id="buscadorTabla" type="text" placeholder="Buscar por método, estado..."
            class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
 </div>

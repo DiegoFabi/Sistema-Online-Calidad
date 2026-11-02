@@ -79,7 +79,7 @@ namespace SistemaOnline.Controllers
 
             Pago pago = new Pago
             {
-                Fecha_Hora_Pago = modelo.Fecha_Hora_Pago,
+                Fecha_Hora_Pago = modelo.Fecha_Hora_Pago!.Value,
                 Monto = modelo.Monto,
                 Metodo_Pago = modelo.Metodo_Pago,
                 Detalles_Tarjeta = modelo.Detalles_Tarjeta,
@@ -123,7 +123,7 @@ namespace SistemaOnline.Controllers
             }
 
             Pago pago = await _context.Pagos.FirstAsync(p => p.ID_Pago == modelo.ID_Pago);
-            pago.Fecha_Hora_Pago = modelo.Fecha_Hora_Pago;
+            pago.Fecha_Hora_Pago = modelo.Fecha_Hora_Pago!.Value;
             pago.Monto = modelo.Monto;
             pago.Metodo_Pago = modelo.Metodo_Pago;
             pago.Detalles_Tarjeta = modelo.Detalles_Tarjeta;

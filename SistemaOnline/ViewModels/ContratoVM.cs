@@ -10,11 +10,11 @@ namespace SistemaOnline.ViewModels
 
         [Required(ErrorMessage = "La fecha de inicio es obligatoria.")]
         [DataType(DataType.Date)]
-        public DateTime Fecha_Inicio { get; set; }
+        public DateTime? Fecha_Inicio { get; set; }
 
         [Required(ErrorMessage = "La fecha de fin es obligatoria.")]
         [DataType(DataType.Date)]
-        public DateTime Fecha_Fin { get; set; }
+        public DateTime? Fecha_Fin { get; set; }
 
         [Required, MaxLength(50)]
         public string Tipo_Contrato { get; set; }

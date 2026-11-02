@@ -128,7 +128,7 @@ namespace SistemaOnline.Controllers
             }
 
             int mesaAnterior = reservacion.ID_Mesa;
-            reservacion.Fecha_Hora = modelo.Fecha_Hora;
+            reservacion.Fecha_Hora = modelo.Fecha_Hora!.Value;
             reservacion.Numero_Personas = modelo.Numero_Personas;
             reservacion.Ocasion_Especial = modelo.Ocasion_Especial;
             reservacion.Estado_Reservacion = modelo.Estado_Reservacion;

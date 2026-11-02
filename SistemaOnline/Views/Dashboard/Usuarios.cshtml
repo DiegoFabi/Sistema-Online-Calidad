@@ -23,6 +23,7 @@
 
 <div class="mb-md relative max-w-md">
     <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+    <label for="buscadorTabla" class="sr-only">Buscar por nombre de usuario, email</label>
     <input id="buscadorTabla" type="text" placeholder="Buscar por nombre de usuario, email..."
            class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
 </div>
@@ -89,18 +90,18 @@
             <form asp-controller="Dashboard" asp-action="EditarUsuario" method="post" autocomplete="off" class="p-lg space-y-md">
                 <input type="hidden" name="ID_Usuario" value="@u.ID_Usuario" />
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Nombre Usuario</label>
-                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                    <label for="Nombre_Usuario-@u.ID_Usuario" class="font-label-md text-label-md text-on-surface-variant block mb-1">Nombre Usuario</label>
+                    <input id="Nombre_Usuario-@u.ID_Usuario" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
                            type="text" name="Nombre_Usuario" required value="@u.Nombre_Usuario" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Email</label>
-                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                    <label for="Email-@u.ID_Usuario" class="font-label-md text-label-md text-on-surface-variant block mb-1">Email</label>
+                    <input id="Email-@u.ID_Usuario" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
                            type="email" name="Email" required value="@u.Email" />
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Password</label>
-                    <input class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
+                    <label for="Password-@u.ID_Usuario" class="font-label-md text-label-md text-on-surface-variant block mb-1">Password</label>
+                    <input id="Password-@u.ID_Usuario" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface"
                            type="password" name="Password" required value="@u.Password" />
                 </div>
                 <div class="flex items-center gap-sm">
@@ -109,8 +110,8 @@
                     <label class="font-label-md text-label-md text-on-surface-variant" for="chkEstado-@u.ID_Usuario">Activo</label>
                 </div>
                 <div>
-                    <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Rol</label>
-                    <select class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Rol" required>
+                    <label for="ID_Rol-@u.ID_Usuario" class="font-label-md text-label-md text-on-surface-variant block mb-1">Rol</label>
+                    <select id="ID_Rol-@u.ID_Usuario" class="w-full h-11 px-md bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface" name="ID_Rol" required>
                         @foreach (var item in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.RolesDisponibles)
                         {
                             <option value="@item.Value" selected="@(item.Value == u.ID_Rol.ToString())">@item.Text</option>

@@ -32,7 +32,7 @@
                 {
                     <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
                         <td class="px-md py-md font-mono-data">@item.ID_Reservacion</td>
-                        <td class="px-md py-md font-mono-data">@item.Fecha_Hora.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="px-md py-md font-mono-data">@item.Fecha_Hora?.ToString("dd/MM/yyyy HH:mm")</td>
                         <td class="px-md py-md font-mono-data">@item.Numero_Personas</td>
                         <td class="px-md py-md col-ellipsis" title="@item.Ocasion_Especial">@item.Ocasion_Especial</td>
                         <td class="px-md py-md">

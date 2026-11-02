@@ -49,8 +49,8 @@
                 <span asp-validation-for="ID_Categoria" class="text-error text-label-md"></span>
             </div>
             <div>
-                <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Ingredientes (Receta)</label>
-                <button type="button" onclick="openIngredientesModal()"
+                <span id="lblIngredientesReceta" class="font-label-md text-label-md text-on-surface-variant block mb-1">Ingredientes (Receta)</span>
+                <button aria-describedby="lblIngredientesReceta" type="button" onclick="openIngredientesModal()"
                         class="w-full inline-flex items-center justify-center gap-sm h-11 px-md bg-surface-container-high text-on-surface font-title-md text-title-md rounded-lg transition-all hover:bg-surface-container-highest">
                     <span class="material-symbols-outlined">kitchen</span>
                     Seleccionar Ingredientes
@@ -86,6 +86,7 @@
         <div class="p-lg pb-0">
             <div class="relative mb-md">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] leading-none pointer-events-none select-none">search</span>
+                <label for="buscadorIngredientes" class="sr-only">Buscar ingrediente</label>
                 <input id="buscadorIngredientes" type="text" placeholder="Buscar ingrediente..."
                        class="w-full h-11 pl-10 pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
             </div>

@@ -29,6 +29,10 @@ namespace SistemaOnline.Services
     // explícita en vez de fingir que el correo se envió.
     public class SmtpEmailService : IEmailService
     {
+        // Límite para las Regex que derivan el texto plano del HTML: evita que un cuerpo
+        // anómalo deje el hilo bloqueado (ReDoS). 1 s sobra para un correo normal.
+        private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
+
         private readonly SmtpOptions _opciones;
         private readonly ILogger<SmtpEmailService> _logger;
 
@@ -62,8 +66,8 @@ namespace SistemaOnline.Services
             // Correo "multipart" (texto plano + HTML) en vez de solo HTML: los filtros de
             // spam califican peor un correo que únicamente trae HTML sin una versión de
             // texto equivalente. El texto plano se deriva del HTML quitando las etiquetas.
-            string textoPlano = Regex.Replace(cuerpoHtml, "<[^>]+>", " ");
-            textoPlano = Regex.Replace(textoPlano, @"\s+", " ").Trim();
+            string textoPlano = Regex.Replace(cuerpoHtml, "<[^>]+>", " ", RegexOptions.None, RegexTimeout);
+            textoPlano = Regex.Replace(textoPlano, @"\s+", " ", RegexOptions.None, RegexTimeout).Trim();
             mensaje.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(textoPlano, null, "text/plain"));
             mensaje.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(cuerpoHtml, null, "text/html"));
 

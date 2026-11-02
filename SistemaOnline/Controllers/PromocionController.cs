@@ -63,8 +63,8 @@ namespace SistemaOnline.Controllers
                 Nombre = modelo.Nombre,
                 Descripcion = modelo.Descripcion,
                 Porcentaje_Descuento = modelo.Porcentaje_Descuento,
-                Fecha_Inicio = modelo.Fecha_Inicio,
-                Fecha_Fin = modelo.Fecha_Fin,
+                Fecha_Inicio = modelo.Fecha_Inicio!.Value,
+                Fecha_Fin = modelo.Fecha_Fin!.Value,
                 Estado = modelo.Estado
             };
             await _context.Promociones.AddAsync(promocion);
@@ -104,8 +104,8 @@ namespace SistemaOnline.Controllers
             promocion.Nombre = modelo.Nombre;
             promocion.Descripcion = modelo.Descripcion;
             promocion.Porcentaje_Descuento = modelo.Porcentaje_Descuento;
-            promocion.Fecha_Inicio = modelo.Fecha_Inicio;
-            promocion.Fecha_Fin = modelo.Fecha_Fin;
+            promocion.Fecha_Inicio = modelo.Fecha_Inicio!.Value;
+            promocion.Fecha_Fin = modelo.Fecha_Fin!.Value;
             promocion.Estado = modelo.Estado;
             _context.Promociones.Update(promocion);
             await _context.SaveChangesAsync();

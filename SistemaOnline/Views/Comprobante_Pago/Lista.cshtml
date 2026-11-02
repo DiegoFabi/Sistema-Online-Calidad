@@ -34,7 +34,7 @@
                         <td class="px-md py-md font-bold">@item.Tipo_Comprobante</td>
                         <td class="px-md py-md font-mono-data">@item.Numero_Comprobante</td>
                         <td class="px-md py-md font-mono-data">@item.Serie</td>
-                        <td class="px-md py-md font-mono-data">@item.Fecha_Emision.ToString("dd/MM/yyyy")</td>
+                        <td class="px-md py-md font-mono-data">@item.Fecha_Emision?.ToString("dd/MM/yyyy")</td>
                         <td class="px-md py-md font-mono-data">@item.Monto_Total</td>
                         <td class="px-md py-md">@item.Estado_Comprobante</td>
                         <td class="px-md py-md col-ellipsis" title="@item.PedidoInfo">@item.PedidoInfo</td>

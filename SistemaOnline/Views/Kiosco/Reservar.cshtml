@@ -52,7 +52,7 @@
                 <div>
                     <label class="font-bold block mb-1" for="Fecha_Hora">Fecha y hora</label>
                     <input class="w-full h-11 px-3 rounded-lg border border-[#e3bebd]" type="datetime-local" required step="60"
-                           id="Fecha_Hora" name="Fecha_Hora" value="@Model.Fecha_Hora.ToString("yyyy-MM-ddTHH:mm")" />
+                           id="Fecha_Hora" name="Fecha_Hora" value="@Model.Fecha_Hora?.ToString("yyyy-MM-ddTHH:mm")" />
                     <span asp-validation-for="Fecha_Hora" class="text-[#b9172f] text-sm"></span>
                 </div>
 

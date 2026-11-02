@@ -41,9 +41,6 @@ namespace SistemaOnline.ViewModels
         public List<SelectListItem> TurnosDisponibles { get; set; } = new();
         public List<SelectListItem> CargosDisponibles { get; set; } = new();
 
-        // Contrato inicial del empleado (solo se usa/valida en EmpleadoController.Nuevo();
-        // Editar() no lo toca, por eso estos campos no llevan [Required]/[Range] — su
-        // validacion se hace a mano en Nuevo() para no afectar el ModelState de Editar()).
         [DataType(DataType.Date)]
         public DateTime Contrato_Fecha_Inicio { get; set; } = DateTime.Today;
 
@@ -53,6 +50,7 @@ namespace SistemaOnline.ViewModels
         [MaxLength(50)]
         public string Contrato_Tipo { get; set; } = "Indefinido";
 
+        [Range(0, double.MaxValue, ErrorMessage = "El salario no puede ser negativo.")]
         public decimal Contrato_Salario { get; set; }
 
         [MaxLength(500)]

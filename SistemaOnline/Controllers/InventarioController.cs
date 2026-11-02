@@ -81,7 +81,7 @@ namespace SistemaOnline.Controllers
 
             Inventario inventario = await _context.Inventarios.FirstAsync(i => i.ID_Inventario == modelo.ID_Inventario);
             inventario.Cantidad_Stock = modelo.Cantidad_Stock;
-            inventario.Fecha_Ultima_Reposicion = modelo.Fecha_Ultima_Reposicion;
+            inventario.Fecha_Ultima_Reposicion = modelo.Fecha_Ultima_Reposicion!.Value;
             inventario.Stock_Minimo = modelo.Stock_Minimo;
             inventario.Stock_Maximo = modelo.Stock_Maximo;
             inventario.ID_Ingrediente = modelo.ID_Ingrediente;

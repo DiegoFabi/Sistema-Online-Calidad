@@ -7,8 +7,9 @@ namespace SistemaOnline.ViewModels
     {
         public int ID_Pedido { get; set; }
 
+        [Required(ErrorMessage = "La fecha del pedido es obligatoria.")]
         [DataType(DataType.Date)]
-        public DateTime Fecha { get; set; }
+        public DateTime? Fecha { get; set; }
 
         [Required(ErrorMessage = "Selecciona un estado para el pedido.")]
         public string Estado_Pedido { get; set; }
@@ -22,10 +23,10 @@ namespace SistemaOnline.ViewModels
         [Range(0, double.MaxValue, ErrorMessage = "El total no puede ser negativo.")]
         public decimal Total { get; set; }
 
-        [Required(ErrorMessage = "Selecciona un empleado.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona un empleado.")]
         public int ID_Empleado { get; set; }
 
-        [Required(ErrorMessage = "Selecciona una mesa.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona una mesa.")]
         public int ID_Mesa { get; set; }
 
         // Cliente opcional asociado al pedido

@@ -11,7 +11,7 @@ namespace SistemaOnline.ViewModels
         public decimal Cantidad_Stock { get; set; }
 
         [Required, DataType(DataType.Date)]
-        public DateTime Fecha_Ultima_Reposicion { get; set; }
+        public DateTime? Fecha_Ultima_Reposicion { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "El stock mínimo no puede ser negativo.")]
         public decimal Stock_Minimo { get; set; }

@@ -9,7 +9,7 @@ namespace SistemaOnline.ViewModels
 
         [Required(ErrorMessage = "La fecha y hora del pago son obligatorias.")]
         [DataType(DataType.DateTime)]
-        public DateTime Fecha_Hora_Pago { get; set; }
+        public DateTime? Fecha_Hora_Pago { get; set; }
 
         [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor o igual a 1.")]
         public decimal Monto { get; set; }

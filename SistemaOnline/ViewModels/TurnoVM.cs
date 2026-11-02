@@ -9,9 +9,11 @@ namespace SistemaOnline.ViewModels
         [Required, MaxLength(50)]
         public string Nombre_Turno { get; set; }
 
-        public TimeSpan Hora_Inicio { get; set; }
+        [Required(ErrorMessage = "La hora de inicio es obligatoria.")]
+        public TimeSpan? Hora_Inicio { get; set; }
 
-        public TimeSpan Hora_Fin { get; set; }
+        [Required(ErrorMessage = "La hora de fin es obligatoria.")]
+        public TimeSpan? Hora_Fin { get; set; }
 
         [Required, MaxLength(15)]
         public string Dias_Semana { get; set; }
