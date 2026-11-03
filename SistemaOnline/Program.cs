@@ -9,7 +9,7 @@ using SistemaOnline.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración propia de cada PC
+// Configuración propia de cada PC 
 var fuentes = ((IConfigurationBuilder)builder.Configuration).Sources;
 int posEntorno = fuentes.ToList().FindLastIndex(s =>
     s is EnvironmentVariablesConfigurationSource e && string.IsNullOrEmpty(e.Prefix));
@@ -82,10 +82,13 @@ builder.Services.AddDbContext<APPDBContext>(options =>
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 
+// Logo personalizable (archivo en App_Data/branding o en Branding:Carpeta).
+builder.Services.AddSingleton<LogoService>();
+
 builder.Services.AddSession();
 var app = builder.Build();
 
-// Crear la base de datos
+// Crear la base de datos 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<APPDBContext>();

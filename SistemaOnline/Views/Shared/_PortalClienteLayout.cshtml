@@ -6,15 +6,15 @@
     <title>@ViewData["Title"] - Rancho Sagrado</title>
     <partial name="_DesignTokensHead" />
     <style>
-        #PortalSideNav {
-            box-shadow: 4px 0 24px -8px rgba(185, 23, 47, 0.12);
-        }
+            #PortalSideNav {
+                box-shadow: 4px 0 24px -8px rgba(185, 23, 47, 0.12);
+            }
     </style>
 </head>
 <body class="bg-surface text-on-surface font-body-md min-h-screen">
     <aside id="PortalSideNav" class="fixed left-0 top-0 h-screen w-[260px] flex flex-col bg-surface-container-lowest border-r border-outline-variant/20 z-40">
         <div class="p-lg flex flex-col items-center text-center border-b border-outline-variant/20">
-            <img src="~/images/logo-rancho-sagrado.png" alt="El Rancho Sagrado" class="w-16 h-16 object-contain mb-sm" />
+            <div class="mb-sm"><partial name="_Logo" model='"w-16 h-16"' /></div>
             <h1 class="font-title-md text-title-md font-bold text-primary leading-tight">El Rancho Sagrado</h1>
             <p class="text-label-md text-on-surface-variant mt-1">Hola, @User.Identity?.Name</p>
         </div>
@@ -86,18 +86,18 @@
     </div>
 
     <script>
-        function openLogoutModalCliente() {
-            document.getElementById('logoutModalCliente').classList.remove('hidden');
-            document.getElementById('logoutModalCliente').classList.add('flex');
-        }
-        function closeLogoutModalCliente() {
-            document.getElementById('logoutModalCliente').classList.add('hidden');
-            document.getElementById('logoutModalCliente').classList.remove('flex');
-        }
+            function openLogoutModalCliente() {
+                document.getElementById('logoutModalCliente').classList.remove('hidden');
+                document.getElementById('logoutModalCliente').classList.add('flex');
+            }
+            function closeLogoutModalCliente() {
+                document.getElementById('logoutModalCliente').classList.add('hidden');
+                document.getElementById('logoutModalCliente').classList.remove('flex');
+            }
 
-        document.getElementById('logoutModalCliente').addEventListener('click', function (e) {
-            if (e.target === this) closeLogoutModalCliente();
-        });
+            document.getElementById('logoutModalCliente').addEventListener('click', function (e) {
+                if (e.target === this) closeLogoutModalCliente();
+            });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
