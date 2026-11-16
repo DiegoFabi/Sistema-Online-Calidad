@@ -9,7 +9,7 @@ using SistemaOnline.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración propia de cada PC 
+// Configuración propia de cada PC
 var fuentes = ((IConfigurationBuilder)builder.Configuration).Sources;
 int posEntorno = fuentes.ToList().FindLastIndex(s =>
     s is EnvironmentVariablesConfigurationSource e && string.IsNullOrEmpty(e.Prefix));
@@ -52,6 +52,9 @@ builder.Services.AddControllersWithViews(options =>
         field => $"El valor enviado para '{field}' no es válido.");
 });
 
+// Campo del token antifalsificación sin barra final, como pide el validador del W3C.
+builder.Services.AddSingleton<Microsoft.AspNetCore.Mvc.ViewFeatures.IHtmlGenerator, HtmlGeneratorSinBarraFinal>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -88,7 +91,7 @@ builder.Services.AddSingleton<LogoService>();
 builder.Services.AddSession();
 var app = builder.Build();
 
-// Crear la base de datos 
+// Crear la base de datos y sus tablas
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<APPDBContext>();
