@@ -16,7 +16,7 @@
         <div class="flex gap-md">
             @foreach (var promo in Model.PromocionesActivas)
             {
-                <div class="bg-white/15 rounded-lg px-md py-sm whitespace-nowrap">
+                <div class="bg-black/20 rounded-lg px-md py-sm whitespace-nowrap">
                     <p class="font-bold">@promo.Nombre</p>
                     <p class="text-label-md">@promo.Porcentaje_Descuento% dcto. hasta @promo.Fecha_Fin.ToString("dd/MM")</p>
                 </div>

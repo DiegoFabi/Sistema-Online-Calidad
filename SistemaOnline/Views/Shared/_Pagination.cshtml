@@ -28,10 +28,12 @@
     </div>
     <div class="flex items-center gap-sm">
         <a asp-controller="@controlador" asp-action="@accion" asp-all-route-data="extraParams" asp-route-page="@(paginaActual - 1)" asp-route-pageSize="@pageSize"
+           aria-disabled="@(paginaActual <= 1 ? "true" : null)" tabindex="@(paginaActual <= 1 ? "-1" : null)"
            class="inline-flex items-center gap-xs h-9 px-md rounded-lg font-label-md text-label-md transition-all @(paginaActual <= 1 ? "bg-surface-container-high text-on-surface-variant/50 pointer-events-none" : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest")">
             <span class="material-symbols-outlined text-[18px]">chevron_left</span> Anterior
         </a>
         <a asp-controller="@controlador" asp-action="@accion" asp-all-route-data="extraParams" asp-route-page="@(paginaActual + 1)" asp-route-pageSize="@pageSize"
+           aria-disabled="@(paginaActual >= totalPages ? "true" : null)" tabindex="@(paginaActual >= totalPages ? "-1" : null)"
            class="inline-flex items-center gap-xs h-9 px-md rounded-lg font-label-md text-label-md transition-all @(paginaActual >= totalPages ? "bg-surface-container-high text-on-surface-variant/50 pointer-events-none" : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest")">
             Siguiente <span class="material-symbols-outlined text-[18px]">chevron_right</span>
         </a>

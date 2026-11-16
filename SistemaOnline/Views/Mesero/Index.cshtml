@@ -66,13 +66,14 @@
             : reservada
                 ? "bg-[#f9a825] border-[#f57f17]"
                 : "bg-[#2e7d32] border-[#1b5e20]";
-        string textCls = "text-white";
+        // Texto oscuro sobre el amarillo de "reservada": el blanco no alcanza el contraste mínimo (WCAG 1.4.3)
+        string textCls = reservada && !ocupada ? "text-[#212529]" : "text-white";
         <a asp-controller="Mesero" asp-action="Mesa" asp-route-id="@mesa.ID_Mesa"
            class="@cardCls aspect-square rounded-xl shadow-sm border-2 flex flex-col items-center justify-center p-md transition-all hover:scale-105 hover:brightness-110 cursor-pointer">
             <span class="material-symbols-outlined text-3xl @textCls" data-icon="table_restaurant">table_restaurant</span>
             <p class="font-bold text-headline-lg-mobile mt-sm @textCls">@mesa.Numero_Mesa</p>
             <p class="text-label-md @textCls">@estadoLabel</p>
-            <p class="text-label-md opacity-80 @textCls">Cap. @mesa.Capacidad — @mesa.Ubicacion</p>
+            <p class="text-label-md @textCls">Cap. @mesa.Capacidad — @mesa.Ubicacion</p>
         </a>
     }
 </div>

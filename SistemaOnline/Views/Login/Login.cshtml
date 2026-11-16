@@ -6,35 +6,35 @@
 <!DOCTYPE html>
 <html class="light" lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Rancho Sagrado - Iniciar Sesion</title>
     <partial name="_DesignTokensHead" />
     <style>
-        .auth-hero-img {
-        animation: auth-kenburns 18s ease-in-out infinite alternate;
-        }
-        @@keyframes auth-kenburns {
-        0% { transform: scale(1) translate(0, 0); }
-        100% { transform: scale(1.12) translate(-1%, -1%); }
-        }
-        @@keyframes fade-in-up {
-        from { opacity: 0; transform: translateY(14px); }
-        to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-        animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .auth-delay-1 { animation-delay: .05s; opacity: 0; }
-        .auth-delay-2 { animation-delay: .12s; opacity: 0; }
-        .auth-delay-3 { animation-delay: .19s; opacity: 0; }
+            .auth-hero-img {
+            animation: auth-kenburns 18s ease-in-out infinite alternate;
+            }
+            @@keyframes auth-kenburns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.12) translate(-1%, -1%); }
+            }
+            @@keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in-up {
+            animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .auth-delay-1 { animation-delay: .05s; opacity: 0; }
+            .auth-delay-2 { animation-delay: .12s; opacity: 0; }
+            .auth-delay-3 { animation-delay: .19s; opacity: 0; }
     </style>
 </head>
 <body class="bg-background font-body-md text-on-background min-h-screen overflow-x-hidden">
     <div class="min-h-screen flex flex-col lg:flex-row">
         <!-- Panel de imagen -->
-        <div class="relative w-full lg:w-1/2 min-h-[260px] lg:min-h-screen overflow-hidden">
-            <img src="~/images/hero-terraza.webp" alt="Terraza de El Rancho Sagrado" class="auth-hero-img absolute inset-0 w-full h-full object-cover" />
+        <div class="relative w-full lg:w-1/2 min-h-[260px] lg:min-h-screen overflow-hidden bg-[#212529]">
+            <img src="~/images/hero-terraza.webp" alt="Terraza de El Rancho Sagrado" class="auth-hero-img absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/60"></div>
             <div class="relative z-10 h-full flex flex-col justify-between p-lg lg:p-xl">
                 <div class="flex items-center gap-sm animate-fade-in-up">
@@ -46,7 +46,7 @@
                 <div class="animate-fade-in-up auth-delay-2 max-w-lg">
                     <p class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-[0.2em] mb-sm">Sistema Online de Gestión</p>
                     <h2 class="font-display-lg text-display-lg lg:text-[56px] lg:leading-[1.02] text-white uppercase tracking-tight">
-                        Sabor <span class="text-primary-fixed-dim">auténtico</span><br class="hidden lg:block" /> en cada servicio
+                        Sabor <span class="text-primary-fixed-dim">auténtico</span><br class="hidden lg:block"> en cada servicio
                     </h2>
                     <p class="mt-md text-white/75 font-body-md text-body-md max-w-md hidden lg:block">
                         Gestiona pedidos, reservas y tu equipo desde un solo lugar, con la misma calidez con la que atendemos cada mesa.
@@ -70,7 +70,7 @@
                         <label class="font-label-md text-label-md text-on-surface-variant block" for="Email">Correo Electronico</label>
                         <div class="relative group">
                             <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">person</span>
-                            <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" id="Email" placeholder="ej. chef.garcia@rancho.com" type="email" required asp-for="Email" />
+                            <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline/60" id="Email" placeholder="ej. chef.garcia@rancho.com" type="email" required asp-for="Email">
                         </div>
                     </div>
                     <div class="space-y-base">
@@ -80,7 +80,7 @@
                         </div>
                         <div class="relative group">
                             <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
-                            <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" id="Password" placeholder="••••••••" type="password" required asp-for="Password" />
+                            <input class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface" id="Password" placeholder="••••••••" type="password" required asp-for="Password">
                             <button class="absolute right-md top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" type="button" onclick="togglePassword()">
                                 <span class="material-symbols-outlined" id="togglePasswordIcon">visibility</span>
                             </button>
@@ -113,17 +113,17 @@
         </div>
     </div>
     <script>
-        function togglePassword() {
-        const input = document.getElementById('Password');
-        const icon = document.getElementById('togglePasswordIcon');
-        if (input.type === 'password') {
-        input.type = 'text';
-        icon.textContent = 'visibility_off';
-        } else {
-        input.type = 'password';
-        icon.textContent = 'visibility';
-        }
-        }
+            function togglePassword() {
+            const input = document.getElementById('Password');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility_off';
+            } else {
+            input.type = 'password';
+            icon.textContent = 'visibility';
+            }
+            }
     </script>
 </body>
 </html>
