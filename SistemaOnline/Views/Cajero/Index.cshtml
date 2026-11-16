@@ -18,21 +18,21 @@
                 <span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
                 <span class="text-label-md bg-primary/10 text-primary px-xs rounded">Hoy</span>
             </div>
-            <p class="text-display-lg font-display-lg leading-none text-primary">@Model.TotalRecaudadoHoy.ToString("C2")</p>
+            <div class="text-display-lg font-display-lg leading-none text-primary">@Model.TotalRecaudadoHoy.ToString("C2")</div>
             <p class="text-on-surface-variant font-bold">Recaudado Hoy</p>
         </div>
         <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
             <div class="flex justify-between mb-sm">
                 <span class="material-symbols-outlined text-secondary" data-icon="receipt_long">receipt_long</span>
             </div>
-            <p class="text-display-lg font-display-lg leading-none">@Model.PagosHoyCount</p>
+            <div class="text-display-lg font-display-lg leading-none">@Model.PagosHoyCount</div>
             <p class="text-on-surface-variant font-bold">Pagos Procesados Hoy</p>
         </div>
         <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
             <div class="flex justify-between mb-sm">
                 <span class="material-symbols-outlined text-error" data-icon="pending_actions">pending_actions</span>
             </div>
-            <p class="text-display-lg font-display-lg leading-none text-error">@Model.PedidosPorCobrar</p>
+            <div class="text-display-lg font-display-lg leading-none text-error">@Model.PedidosPorCobrar</div>
             <p class="text-on-surface-variant font-bold">Pedidos por Cobrar</p>
         </div>
     </div>

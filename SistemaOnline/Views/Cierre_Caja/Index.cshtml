@@ -44,21 +44,21 @@
         <div class="flex justify-between mb-sm">
             <span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
         </div>
-        <p class="text-display-lg font-display-lg leading-none">@Model.TotalGeneral.ToString("C2")</p>
+        <div class="text-display-lg font-display-lg leading-none">@Model.TotalGeneral.ToString("C2")</div>
         <p class="font-bold">Total Cobrado</p>
     </div>
     <div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
         <div class="flex justify-between mb-sm">
             <span class="material-symbols-outlined text-secondary" data-icon="receipt_long">receipt_long</span>
         </div>
-        <p class="text-display-lg font-display-lg leading-none">@Model.CantidadPagos</p>
+        <div class="text-display-lg font-display-lg leading-none">@Model.CantidadPagos</div>
         <p class="text-on-surface-variant font-bold">Pagos Procesados</p>
     </div>
     <div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
         <div class="flex justify-between mb-sm">
             <span class="material-symbols-outlined text-tertiary" data-icon="category">category</span>
         </div>
-        <p class="text-display-lg font-display-lg leading-none">@Model.MetodosPago.Count</p>
+        <div class="text-display-lg font-display-lg leading-none">@Model.MetodosPago.Count</div>
         <p class="text-on-surface-variant font-bold">Métodos de Pago Usados</p>
     </div>
 

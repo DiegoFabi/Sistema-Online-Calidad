@@ -18,21 +18,21 @@
             <div class="flex justify-between mb-sm">
                 <span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
             </div>
-            <p class="text-display-lg font-display-lg leading-none text-secondary">@Model.MesasLibres</p>
+            <div class="text-display-lg font-display-lg leading-none text-secondary">@Model.MesasLibres</div>
             <p class="text-on-surface-variant font-bold">Mesas Libres</p>
         </div>
         <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
             <div class="flex justify-between mb-sm">
                 <span class="material-symbols-outlined text-primary" data-icon="event_busy">event_busy</span>
             </div>
-            <p class="text-display-lg font-display-lg leading-none text-primary">@Model.MesasOcupadas</p>
+            <div class="text-display-lg font-display-lg leading-none text-primary">@Model.MesasOcupadas</div>
             <p class="text-on-surface-variant font-bold">Mesas Ocupadas</p>
         </div>
         <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
             <div class="flex justify-between mb-sm">
                 <span class="material-symbols-outlined text-tertiary" data-icon="restaurant_menu">restaurant_menu</span>
             </div>
-            <p class="text-display-lg font-display-lg leading-none">@Model.PedidosActivos</p>
+            <div class="text-display-lg font-display-lg leading-none">@Model.PedidosActivos</div>
             <p class="text-on-surface-variant font-bold">Pedidos Activos</p>
         </div>
     </div>
@@ -71,7 +71,7 @@
         <a asp-controller="Mesero" asp-action="Mesa" asp-route-id="@mesa.ID_Mesa"
            class="@cardCls aspect-square rounded-xl shadow-sm border-2 flex flex-col items-center justify-center p-md transition-all hover:scale-105 hover:brightness-110 cursor-pointer">
             <span class="material-symbols-outlined text-3xl @textCls" data-icon="table_restaurant">table_restaurant</span>
-            <p class="font-bold text-headline-lg-mobile mt-sm @textCls">@mesa.Numero_Mesa</p>
+            <div class="font-bold text-headline-lg-mobile mt-sm @textCls">@mesa.Numero_Mesa</div>
             <p class="text-label-md @textCls">@estadoLabel</p>
             <p class="text-label-md @textCls">Cap. @mesa.Capacidad — @mesa.Ubicacion</p>
         </a>
