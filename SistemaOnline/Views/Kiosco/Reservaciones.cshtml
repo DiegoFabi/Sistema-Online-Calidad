@@ -9,61 +9,10 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Rancho Sagrado - Reservaciones</title>
     <partial name="_DesignTokensHead" />
-    <style>
-            .kiosco-hero-img {
-                animation: kiosco-kenburns 18s ease-in-out infinite alternate;
-            }
-
-            @@keyframes kiosco-kenburns {
-                0% {
-                    transform: scale(1) translate(0, 0);
-                }
-
-                100% {
-                    transform: scale(1.1) translate(-1%, -1%);
-                }
-            }
-
-            @@keyframes fade-in-up {
-                from {
-                    opacity: 0;
-                    transform: translateY(14px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .animate-fade-in-up {
-                animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            }
-
-            .mesa-card {
-                animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-            }
-    </style>
+    <link rel="stylesheet" href="~/css/kiosco.css" asp-append-version="true">
 </head>
 <body class="bg-[#f8f9fa] text-on-surface font-body-md min-h-screen">
-    <header class="bg-[#212529] text-white px-4 md:px-8 py-4 flex items-center justify-between shadow-md sticky top-0 z-30">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[32px] text-primary">restaurant_menu</span>
-            <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">Rancho Sagrado</h1>
-        </div>
-        <nav class="hidden md:flex gap-2 text-base font-bold">
-            <a class="px-4 py-2 rounded-full hover:bg-white/20 transition-colors" asp-controller="Kiosco" asp-action="Index">Carta</a>
-            <a class="px-4 py-2 rounded-full bg-white/20 transition-colors" asp-controller="Kiosco" asp-action="Reservaciones">Reservaciones</a>
-        </nav>
-        <div class="flex items-center gap-xs md:gap-sm">
-            <a class="px-3 md:px-4 py-2 rounded-full border border-white/40 text-white text-sm md:text-base font-bold hover:bg-white/10 transition-all" asp-controller="Login" asp-action="Login">
-                Iniciar Sesión
-            </a>
-            <a class="px-3 md:px-4 py-2 rounded-full bg-primary text-white text-sm md:text-base font-bold hover:bg-on-primary-fixed-variant transition-all shadow-md shadow-primary/30" asp-controller="Login" asp-action="Registro">
-                Registrarse
-            </a>
-        </div>
-    </header>
+    <partial name="_KioscoHeader" model='"Reservaciones"' />
 
     <div class="relative h-[200px] md:h-[260px] overflow-hidden bg-[#212529]">
         <img src="~/images/hero-buffet.webp" alt="Mesa servida en El Rancho Sagrado" class="kiosco-hero-img absolute inset-0 w-full h-full object-cover" />
