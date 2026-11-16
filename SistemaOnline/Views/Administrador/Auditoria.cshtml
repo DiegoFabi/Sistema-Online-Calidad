@@ -14,7 +14,7 @@
     </div>
     <form asp-controller="Administrador" asp-action="Auditoria" method="get" class="flex items-center gap-sm">
         <label for="filtroEntidad" class="sr-only">Filtrar por entidad</label>
-        <select id="filtroEntidad" name="entidad" onchange="this.form.submit()"
+        <select id="filtroEntidad" name="entidad"
                 class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
             <option value="" selected="@(entidadSeleccionada == "" ? "selected" : null)">Todas las entidades</option>
             @foreach (var e in entidades)
@@ -22,6 +22,7 @@
                 <option value="@e" selected="@(entidadSeleccionada == e ? "selected" : null)">@e</option>
             }
         </select>
+        <button type="submit" class="inline-flex items-center gap-xs h-11 px-md bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-all"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">filter_alt</span> Filtrar</button>
     </form>
 </div>
 

@@ -10,26 +10,54 @@
     <title>Rancho Sagrado - Kiosco</title>
     <partial name="_DesignTokensHead" />
     <style>
-        .kiosco-hero-img {
-        animation: kiosco-kenburns 18s ease-in-out infinite alternate;
-        }
-        @@keyframes kiosco-kenburns {
-        0% { transform: scale(1) translate(0, 0); }
-        100% { transform: scale(1.1) translate(-1%, -1%); }
-        }
-        @@keyframes fade-in-up {
-        from { opacity: 0; transform: translateY(14px); }
-        to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-        animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .kiosco-delay-1 { animation-delay: .05s; opacity: 0; }
-        .kiosco-delay-2 { animation-delay: .12s; opacity: 0; }
-        .kiosco-delay-3 { animation-delay: .19s; opacity: 0; }
-        .producto-card {
-        animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-        }
+            .kiosco-hero-img {
+                animation: kiosco-kenburns 18s ease-in-out infinite alternate;
+            }
+
+            @@keyframes kiosco-kenburns {
+                0% {
+                    transform: scale(1) translate(0, 0);
+                }
+
+                100% {
+                    transform: scale(1.1) translate(-1%, -1%);
+                }
+            }
+
+            @@keyframes fade-in-up {
+                from {
+                    opacity: 0;
+                    transform: translateY(14px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .animate-fade-in-up {
+                animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+
+            .kiosco-delay-1 {
+                animation-delay: .05s;
+                opacity: 0;
+            }
+
+            .kiosco-delay-2 {
+                animation-delay: .12s;
+                opacity: 0;
+            }
+
+            .kiosco-delay-3 {
+                animation-delay: .19s;
+                opacity: 0;
+            }
+
+            .producto-card {
+                animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+            }
     </style>
 </head>
 <body class="bg-[#f8f9fa] text-on-surface font-body-md min-h-screen">
@@ -52,7 +80,7 @@
         </div>
     </header>
 
-    <div class="relative h-[260px] md:h-[340px] overflow-hidden">
+    <div class="relative h-[260px] md:h-[340px] overflow-hidden bg-[#212529]">
         <img src="~/images/hero-interior.webp" alt="Ambiente de El Rancho Sagrado" class="kiosco-hero-img absolute inset-0 w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/55"></div>
         <div class="relative z-10 h-full flex flex-col justify-center px-6 md:px-12 max-w-6xl mx-auto">
@@ -82,7 +110,9 @@
             {
                 <p class="text-lg text-[#5b4040] col-span-full">No hay productos disponibles en esta categoría.</p>
             }
-            @{ int cardIndex = 0; }
+            @{
+                int cardIndex = 0;
+            }
             @foreach (var p in Model.Productos)
             {
                 cardIndex++;
@@ -121,43 +151,43 @@
     </div>
 
     <script>
-        const carrito = [];
-        const carritoFlotante = document.getElementById('carritoFlotante');
-        const modalPedido = document.getElementById('modalPedido');
+            const carrito = [];
+            const carritoFlotante = document.getElementById('carritoFlotante');
+            const modalPedido = document.getElementById('modalPedido');
 
-        document.querySelectorAll('.btn-agregar').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                carrito.push({ nombre: btn.dataset.nombre, precio: parseFloat(btn.dataset.precio) });
-                document.getElementById('carritoCount').textContent = carrito.length;
+            document.querySelectorAll('.btn-agregar').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    carrito.push({ nombre: btn.dataset.nombre, precio: parseFloat(btn.dataset.precio) });
+                    document.getElementById('carritoCount').textContent = carrito.length;
+                });
             });
-        });
 
-        carritoFlotante.addEventListener('click', function () {
-            const lista = document.getElementById('listaPedido');
-            lista.innerHTML = carrito.map(function (item) {
-                return '<li class="flex justify-between"><span>' + item.nombre + '</span><span>S/ ' + item.precio.toFixed(2) + '</span></li>';
-            }).join('');
-            const total = carrito.reduce(function (acc, item) { return acc + item.precio; }, 0);
-            document.getElementById('totalPedido').textContent = 'S/ ' + total.toFixed(2);
-            modalPedido.classList.remove('hidden');
-            modalPedido.classList.add('flex');
-        });
+            carritoFlotante.addEventListener('click', function () {
+                const lista = document.getElementById('listaPedido');
+                lista.innerHTML = carrito.map(function (item) {
+                    return '<li class="flex justify-between"><span>' + item.nombre + '</span><span>S/ ' + item.precio.toFixed(2) + '</span></li>';
+                }).join('');
+                const total = carrito.reduce(function (acc, item) { return acc + item.precio; }, 0);
+                document.getElementById('totalPedido').textContent = 'S/ ' + total.toFixed(2);
+                modalPedido.classList.remove('hidden');
+                modalPedido.classList.add('flex');
+            });
 
-        function cerrarModal() {
-            modalPedido.classList.add('hidden');
-            modalPedido.classList.remove('flex');
-        }
+            function cerrarModal() {
+                modalPedido.classList.add('hidden');
+                modalPedido.classList.remove('flex');
+            }
 
-        modalPedido.addEventListener('click', function (e) {
-            if (e.target === modalPedido) cerrarModal();
-        });
+            modalPedido.addEventListener('click', function (e) {
+                if (e.target === modalPedido) cerrarModal();
+            });
 
-        function confirmarPedido() {
-            alert('Pedido registrado. Un mesero confirmará tu solicitud en breve.');
-            carrito.length = 0;
-            document.getElementById('carritoCount').textContent = '0';
-            cerrarModal();
-        }
+            function confirmarPedido() {
+                alert('Pedido registrado. Un mesero confirmará tu solicitud en breve.');
+                carrito.length = 0;
+                document.getElementById('carritoCount').textContent = '0';
+                cerrarModal();
+            }
     </script>
 </body>
 </html>

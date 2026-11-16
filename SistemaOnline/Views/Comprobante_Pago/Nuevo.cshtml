@@ -22,7 +22,7 @@
             <!-- Pedido -->
             <div>
                 <label for="ID_Pedido" class="font-label-md text-label-md text-on-surface-variant block mb-1">Pedido</label>
-                <select class="@Cls("ID_Pedido")" asp-for="ID_Pedido" asp-items="Model.PedidosDisponibles" id="ID_Pedido" onchange="cargarResumenPedido(this.value)">
+                <select class="@Cls("ID_Pedido")" asp-for="ID_Pedido" asp-items="Model.PedidosDisponibles" id="ID_Pedido">
                     <option value="" disabled selected hidden>-- Seleccione --</option>
                 </select>
                 <span asp-validation-for="ID_Pedido" class="text-error text-label-md"></span>
@@ -116,7 +116,7 @@
 
                 <div>
                     <label for="Tipo_Comprobante" class="font-label-md text-label-md text-on-surface-variant block mb-1">Tipo de Comprobante</label>
-                    <select class="@Cls("Tipo_Comprobante")" asp-for="Tipo_Comprobante" id="Tipo_Comprobante" onchange="toggleRUC(this.value)">
+                    <select class="@Cls("Tipo_Comprobante")" asp-for="Tipo_Comprobante" id="Tipo_Comprobante">
                         <option value="" disabled selected hidden>-- Seleccione --</option>
                         <option value="Boleta">Boleta</option>
                         <option value="Factura">Factura</option>
@@ -212,6 +212,9 @@
         }
 
         // RUC visible solo para Factura
+        document.getElementById('ID_Pedido').addEventListener('change', e => cargarResumenPedido(e.target.value));
+        document.getElementById('Tipo_Comprobante').addEventListener('change', e => toggleRUC(e.target.value));
+
         function toggleRUC(tipo) {
             var grp = document.getElementById('grupoRUC');
             tipo === 'Factura' ? grp.classList.remove('hidden') : grp.classList.add('hidden');

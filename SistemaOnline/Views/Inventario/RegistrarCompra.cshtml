@@ -21,7 +21,7 @@
             <div asp-validation-summary="ModelOnly" class="text-error text-body-md"></div>
             <div>
                 <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="ID_Proveedor">Proveedor</label>
-                <select class="@Cls("ID_Proveedor")" asp-for="ID_Proveedor" asp-items="Model.ProveedoresDisponibles" id="ID_Proveedor" onchange="alCambiarProveedor()">
+                <select class="@Cls("ID_Proveedor")" asp-for="ID_Proveedor" asp-items="Model.ProveedoresDisponibles" id="ID_Proveedor">
                     <option value="">-- Selecciona un proveedor --</option>
                 </select>
                 <span asp-validation-for="ID_Proveedor" class="text-error text-label-md"></span>
@@ -95,7 +95,7 @@
                                     <label class="flex items-center gap-sm text-body-md cursor-pointer">
                                         <input type="checkbox" name="IngredientesSeleccionados" value="@ingrediente.ID_Ingrediente"
                                                form="formSolicitudCompra"
-                                               @(seleccionado ? "checked" : "")
+                                        @(seleccionado ? "checked" : "")
                                                data-nombre="@ingrediente.Nombre_Ingrediente"
                                                data-id="@ingrediente.ID_Ingrediente"
                                                data-costo="@ingrediente.CostoUnitario.ToString(System.Globalization.CultureInfo.InvariantCulture)"
@@ -219,6 +219,8 @@
         // que ese proveedor suministra (Proveedores_Ingredientes). Al cambiar de proveedor se
         // ocultan las filas que no le corresponden y se desmarca cualquier selección previa
         // que haya quedado inválida.
+        document.getElementById('ID_Proveedor').addEventListener('change', alCambiarProveedor);
+
         function alCambiarProveedor() {
             const idProveedor = proveedorSeleccionado();
             const btn = document.getElementById('btnAbrirIngredientes');

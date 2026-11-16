@@ -18,7 +18,7 @@
     </div>
     <form asp-controller="Dashboard" asp-action="Reportes" method="get" class="flex flex-wrap items-center gap-sm">
         <label for="filtroCategoria" class="sr-only">Filtrar por categoría</label>
-        <select id="filtroCategoria" name="categoria" onchange="this.form.submit()"
+        <select id="filtroCategoria" name="categoria"
                 class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
             <option value="">Todas las categorías</option>
             @foreach (var c in categorias)
@@ -27,7 +27,7 @@
             }
         </select>
         <label for="filtroMetodoPago" class="sr-only">Filtrar por método de pago</label>
-        <select id="filtroMetodoPago" name="metodoPago" onchange="this.form.submit()"
+        <select id="filtroMetodoPago" name="metodoPago"
                 class="h-11 px-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md text-on-surface">
             <option value="">Todos los métodos de pago</option>
             @foreach (var m in metodosPago)
@@ -35,6 +35,7 @@
                 <option value="@m" selected="@(metodoSel == m ? "selected" : null)">@m</option>
             }
         </select>
+        <button type="submit" class="inline-flex items-center gap-xs h-11 px-md bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-all"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">filter_alt</span> Filtrar</button>
         @if (categoriaSel.HasValue || !string.IsNullOrWhiteSpace(metodoSel))
         {
             <a asp-controller="Dashboard" asp-action="Reportes" class="inline-flex items-center gap-xs h-11 px-md bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-highest transition-all">
@@ -52,37 +53,37 @@
         }
         else
         {
-        <div class="mb-md relative max-w-md">
-            <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
-            <label for="buscadorTabla" class="sr-only">Buscar por estado</label>
-            <input id="buscadorTabla" type="text" placeholder="Buscar por estado..."
-                   class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
-        </div>
-        <table id="tablaPrincipal" class="w-full text-left">
-            <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
-                <tr>
-                    <th class="px-md pb-md font-bold">ID</th>
-                    <th class="px-md pb-md font-bold">Fecha</th>
-                    <th class="px-md pb-md font-bold">Subtotal</th>
-                    <th class="px-md pb-md font-bold">Total</th>
-                    <th class="px-md pb-md font-bold">Estado</th>
-                </tr>
-            </thead>
-            <tbody class="text-body-md">
-                @foreach (var p in Model)
-                {
-                    <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
-                        <td class="px-md py-md font-mono-data">#@p.ID_Pedido</td>
-                        <td class="px-md py-md">@p.Fecha.ToString("dd/MM/yyyy")</td>
-                        <td class="px-md py-md font-mono-data">@p.SubTotal.ToString("C2")</td>
-                        <td class="px-md py-md font-bold">@p.Total.ToString("C2")</td>
-                        <td class="px-md py-md">
-                            <partial name="_EstadoPedidoBadge" model="@p.Estado_Pedido" />
-                        </td>
+            <div class="mb-md relative max-w-md">
+                <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">search</span>
+                <label for="buscadorTabla" class="sr-only">Buscar por estado</label>
+                <input id="buscadorTabla" type="text" placeholder="Buscar por estado..."
+                       class="w-full h-12 pl-[48px] pr-md bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all duration-300 font-body-md text-body-md text-on-surface placeholder:text-outline/60" />
+            </div>
+            <table id="tablaPrincipal" class="w-full text-left">
+                <thead class="text-label-md text-on-surface-variant uppercase tracking-wider">
+                    <tr>
+                        <th class="px-md pb-md font-bold">ID</th>
+                        <th class="px-md pb-md font-bold">Fecha</th>
+                        <th class="px-md pb-md font-bold">Subtotal</th>
+                        <th class="px-md pb-md font-bold">Total</th>
+                        <th class="px-md pb-md font-bold">Estado</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="text-body-md">
+                    @foreach (var p in Model)
+                    {
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-outline-variant/10">
+                            <td class="px-md py-md font-mono-data">#@p.ID_Pedido</td>
+                            <td class="px-md py-md">@p.Fecha.ToString("dd/MM/yyyy")</td>
+                            <td class="px-md py-md font-mono-data">@p.SubTotal.ToString("C2")</td>
+                            <td class="px-md py-md font-bold">@p.Total.ToString("C2")</td>
+                            <td class="px-md py-md">
+                                <partial name="_EstadoPedidoBadge" model="@p.Estado_Pedido" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
     </div>
 </div>

@@ -10,23 +10,39 @@
     <title>Rancho Sagrado - Reservaciones</title>
     <partial name="_DesignTokensHead" />
     <style>
-        .kiosco-hero-img {
-        animation: kiosco-kenburns 18s ease-in-out infinite alternate;
-        }
-        @@keyframes kiosco-kenburns {
-        0% { transform: scale(1) translate(0, 0); }
-        100% { transform: scale(1.1) translate(-1%, -1%); }
-        }
-        @@keyframes fade-in-up {
-        from { opacity: 0; transform: translateY(14px); }
-        to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-        animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .mesa-card {
-        animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-        }
+            .kiosco-hero-img {
+                animation: kiosco-kenburns 18s ease-in-out infinite alternate;
+            }
+
+            @@keyframes kiosco-kenburns {
+                0% {
+                    transform: scale(1) translate(0, 0);
+                }
+
+                100% {
+                    transform: scale(1.1) translate(-1%, -1%);
+                }
+            }
+
+            @@keyframes fade-in-up {
+                from {
+                    opacity: 0;
+                    transform: translateY(14px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .animate-fade-in-up {
+                animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+
+            .mesa-card {
+                animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+            }
     </style>
 </head>
 <body class="bg-[#f8f9fa] text-on-surface font-body-md min-h-screen">
@@ -49,7 +65,7 @@
         </div>
     </header>
 
-    <div class="relative h-[200px] md:h-[260px] overflow-hidden">
+    <div class="relative h-[200px] md:h-[260px] overflow-hidden bg-[#212529]">
         <img src="~/images/hero-buffet.webp" alt="Mesa servida en El Rancho Sagrado" class="kiosco-hero-img absolute inset-0 w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/55"></div>
         <div class="relative z-10 h-full flex flex-col justify-center px-6 md:px-12 max-w-6xl mx-auto">
@@ -71,14 +87,16 @@
         }
 
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-            @{ int mesaIndex = 0; }
+            @{
+                int mesaIndex = 0;
+            }
             @foreach (var m in Model)
             {
                 mesaIndex++;
                 <div class="mesa-card bg-white rounded-2xl shadow-lg p-6 text-center border border-[#e3bebd] flex flex-col items-center gap-2 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                      style="animation-delay: @(Math.Min(mesaIndex * 0.05, 0.4))s">
                     <span class="material-symbols-outlined text-[#b9172f] text-[40px]">table_restaurant</span>
-                    <p class="text-xl font-bold mt-1">Mesa @m.Numero_Mesa</p>
+                    <div class="text-xl font-bold mt-1">Mesa @m.Numero_Mesa</div>
                     <p class="text-[#5b4040]">Capacidad: @m.Capacidad</p>
                     <a asp-controller="Kiosco" asp-action="Reservar" asp-route-idMesa="@m.ID_Mesa"
                        class="mt-2 inline-block bg-[#b9172f] text-white rounded-full px-5 py-2 font-bold hover:bg-[#92001f] transition-colors">

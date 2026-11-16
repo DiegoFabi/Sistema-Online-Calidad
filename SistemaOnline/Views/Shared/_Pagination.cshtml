@@ -10,22 +10,28 @@
         .Where(q => !string.Equals(q.Key, "page", StringComparison.OrdinalIgnoreCase) && !string.Equals(q.Key, "pageSize", StringComparison.OrdinalIgnoreCase))
         .ToDictionary(q => q.Key, q => q.Value.ToString());
 
-    string extraQueryString = string.Concat(extraParams.Select(kv => $"&{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
-    string urlSelectorTamano = Url.Action(accion, controlador) + "?page=1" + extraQueryString + "&pageSize=";
 }
 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-md mt-lg">
-    <div class="flex flex-wrap items-center gap-sm">
+    @* El tamaño de página se aplica con un botón y no al cambiar el selector: cambiar de página
+       sin una acción explícita del usuario desorienta a quien navega con teclado o lector de
+       pantalla (WCAG 3.2.2; alerta "JavaScript jump menu" de WAVE). *@
+    <form method="get" action="@Url.Action(accion, controlador)" class="flex flex-wrap items-center gap-sm">
+        @foreach (var kv in extraParams)
+        {
+            <input type="hidden" name="@kv.Key" value="@kv.Value">
+        }
+        <input type="hidden" name="page" value="1">
         <label class="text-label-md text-on-surface-variant whitespace-nowrap" for="selectorTamanoPagina">Filas por página</label>
-        <select id="selectorTamanoPagina"
-                class="h-9 pl-sm pr-lg min-w-[88px] bg-surface-container-low border-none rounded-lg font-body-md text-body-md text-on-surface flex-shrink-0"
-                onchange="window.location.href = '@urlSelectorTamano' + this.value">
+        <select id="selectorTamanoPagina" name="pageSize"
+                class="h-9 pl-sm pr-lg min-w-[88px] bg-surface-container-low border-none rounded-lg font-body-md text-body-md text-on-surface flex-shrink-0">
             @foreach (var tam in SistemaOnline.Services.PaginationExtensions.TamanosPaginaPermitidos)
             {
                 <option value="@tam" selected="@(tam == pageSize ? "selected" : null)">@tam</option>
             }
         </select>
+        <button type="submit" class="h-9 px-md rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md hover:bg-surface-container-highest transition-all">Aplicar</button>
         <span class="text-label-md text-on-surface-variant whitespace-nowrap">@totalCount registro(s) — Página @paginaActual de @totalPages</span>
-    </div>
+    </form>
     <div class="flex items-center gap-sm">
         <a asp-controller="@controlador" asp-action="@accion" asp-all-route-data="extraParams" asp-route-page="@(paginaActual - 1)" asp-route-pageSize="@pageSize"
            aria-disabled="@(paginaActual <= 1 ? "true" : null)" tabindex="@(paginaActual <= 1 ? "-1" : null)"

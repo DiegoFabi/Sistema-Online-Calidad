@@ -29,7 +29,7 @@ else
         {
             <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 p-lg flex flex-col items-center text-center gap-sm">
                 <span class="material-symbols-outlined text-primary text-[40px]">table_restaurant</span>
-                <p class="font-title-md text-title-md text-on-surface">Mesa @m.Numero_Mesa</p>
+                <div class="font-title-md text-title-md text-on-surface">Mesa @m.Numero_Mesa</div>
                 <p class="text-on-surface-variant text-body-md">Capacidad: @m.Capacidad</p>
                 <a asp-controller="PortalCliente" asp-action="Reservar" asp-route-idMesa="@m.ID_Mesa"
                    class="mt-sm inline-flex items-center gap-sm px-md py-sm bg-primary text-on-primary font-bold rounded-full hover:bg-on-primary-fixed-variant transition-all">

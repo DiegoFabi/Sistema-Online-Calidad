@@ -137,15 +137,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
                     <div class="p-md bg-surface-container-high rounded-lg">
                         <p class="text-label-md text-on-surface-variant">Efectivo Esperado</p>
-                        <p class="font-bold text-on-surface text-title-md">@cierre.EfectivoEsperado.ToString("C2")</p>
+                        <div class="font-bold text-on-surface text-title-md">@cierre.EfectivoEsperado.ToString("C2")</div>
                     </div>
                     <div class="p-md bg-surface-container-high rounded-lg">
                         <p class="text-label-md text-on-surface-variant">Efectivo Contado</p>
-                        <p class="font-bold text-on-surface text-title-md">@cierre.EfectivoContado.ToString("C2")</p>
+                        <div class="font-bold text-on-surface text-title-md">@cierre.EfectivoContado.ToString("C2")</div>
                     </div>
                     <div class="p-md rounded-lg @(cuadra ? "bg-tertiary-container text-on-tertiary-container" : "bg-error-container text-on-error-container")">
                         <p class="text-label-md">Diferencia</p>
-                        <p class="font-bold text-title-md">@(cierre.Diferencia > 0 ? "+" : "")@cierre.Diferencia.ToString("C2")</p>
+                        <div class="font-bold text-title-md">@(cierre.Diferencia > 0 ? "+" : "")@cierre.Diferencia.ToString("C2")</div>
                     </div>
                     <div class="p-md bg-surface-container-high rounded-lg">
                         <p class="text-label-md text-on-surface-variant">Cerrado por</p>
@@ -161,7 +161,7 @@
                     <input type="hidden" name="fecha" value="@Model.Fecha.ToString("yyyy-MM-dd")" />
                     <div>
                         <p class="text-label-md text-on-surface-variant mb-1">Efectivo Esperado (pagos en Efectivo)</p>
-                        <p class="font-bold text-on-surface text-title-md h-11 flex items-center">@Model.EfectivoEsperado.ToString("C2")</p>
+                        <div class="font-bold text-on-surface text-title-md h-11 flex items-center">@Model.EfectivoEsperado.ToString("C2")</div>
                     </div>
                     <div>
                         <label class="font-label-md text-label-md text-on-surface-variant block mb-1" for="efectivoContado">Efectivo Contado</label>
