@@ -1,0 +1,447 @@
+﻿/* =====================================================================
+   Panel de accesibilidad propio (reemplaza al widget de UserWay).
+   Las medidas del panel están en px para que no cambien al ampliar el
+   texto de la página. Las preferencias se aplican como clases en <html>.
+   ===================================================================== */
+
+/* ---------- botón flotante ---------- */
+#rs-a11y-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2147483000;
+    width: 56px;
+    height: 56px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    background: #b9172f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(25, 28, 29, .35);
+    transition: transform .15s ease, background-color .15s ease;
+}
+
+    #rs-a11y-btn:hover {
+        background: #93001d;
+        transform: scale(1.06);
+    }
+
+    #rs-a11y-btn:focus-visible {
+        outline: 3px solid #191c1d;
+        outline-offset: 3px;
+    }
+
+    #rs-a11y-btn svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    #rs-a11y-btn .rs-a11y-punto {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        background: #1b6e2c;
+    }
+
+        #rs-a11y-btn .rs-a11y-punto[hidden] {
+            display: none;
+        }
+
+/* ---------- capa y panel lateral ---------- */
+#rs-a11y-capa {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483001;
+    background: rgba(25, 28, 29, .45);
+}
+
+    #rs-a11y-capa[hidden], #rs-a11y-panel[hidden] {
+        display: none;
+    }
+
+#rs-a11y-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2147483002;
+    width: 380px;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    background: #f3f4f5;
+    color: #191c1d;
+    font-family: 'Work Sans', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    letter-spacing: normal;
+    word-spacing: normal;
+    box-shadow: -8px 0 28px rgba(25, 28, 29, .35);
+    animation: rs-a11y-entrar .2s ease-out;
+}
+
+@keyframes rs-a11y-entrar {
+    from {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+#rs-a11y-panel * {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.rs-a11y-cab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    background: #212529;
+    color: #ffffff;
+    border-bottom: 4px solid #b9172f;
+}
+
+    .rs-a11y-cab svg {
+        width: 30px;
+        height: 30px;
+        flex: none;
+        color: #ff9aa2;
+    }
+
+    .rs-a11y-cab h2 {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #ffffff;
+    }
+
+    .rs-a11y-cab p {
+        margin: 2px 0 0;
+        font-size: 13px;
+        color: #e1e3e4;
+    }
+
+.rs-a11y-cerrar {
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #ffffff;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+    .rs-a11y-cerrar:hover {
+        background: rgba(255, 255, 255, .15);
+    }
+
+    .rs-a11y-cerrar:focus-visible {
+        outline: 3px solid #ff9aa2;
+        outline-offset: 1px;
+    }
+
+.rs-a11y-cuerpo {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 16px 16px;
+}
+
+.rs-a11y-sec {
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(25, 28, 29, .12);
+}
+
+    .rs-a11y-sec h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 4px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #191c1d;
+    }
+
+        .rs-a11y-sec h3 span {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            border-radius: 4px;
+            background: #b9172f;
+        }
+
+    .rs-a11y-sec > p {
+        margin: 0 0 10px;
+        font-size: 13px;
+        color: #4a4f52;
+    }
+
+.rs-a11y-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.rs-a11y-op {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 82px;
+    padding: 10px 6px;
+    border: 2px solid #c9cccd;
+    border-radius: 10px;
+    background: #f8f9fa;
+    color: #191c1d;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease;
+}
+
+    .rs-a11y-op svg {
+        width: 26px;
+        height: 26px;
+        color: #5b4040;
+    }
+
+/* la última opción de una fila impar ocupa todo el ancho */
+.rs-a11y-grid > .rs-a11y-op:last-child:nth-child(odd) {
+    grid-column: span 2;
+    flex-direction: row;
+    min-height: 56px;
+    gap: 10px;
+}
+
+.rs-a11y-op:hover {
+    border-color: #b9172f;
+}
+
+.rs-a11y-op:focus-visible {
+    outline: 3px solid #191c1d;
+    outline-offset: 2px;
+}
+
+.rs-a11y-op[aria-pressed="true"] {
+    border-color: #b9172f;
+    background: #ffdad9;
+    color: #93001d;
+}
+
+    .rs-a11y-op[aria-pressed="true"] svg {
+        color: #93001d;
+    }
+
+/* tamaño de texto */
+.rs-a11y-tam {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+    .rs-a11y-tam button {
+        width: 44px;
+        height: 44px;
+        border: 2px solid #c9cccd;
+        border-radius: 10px;
+        background: #f8f9fa;
+        color: #191c1d;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+        .rs-a11y-tam button:hover:not(:disabled) {
+            border-color: #b9172f;
+        }
+
+        .rs-a11y-tam button:focus-visible {
+            outline: 3px solid #191c1d;
+            outline-offset: 2px;
+        }
+
+        .rs-a11y-tam button:disabled {
+            cursor: not-allowed;
+            color: #6b6f72;
+        }
+
+    .rs-a11y-tam output {
+        flex: 1;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+.rs-a11y-barra {
+    height: 6px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    background: #e1e3e4;
+    overflow: hidden;
+}
+
+    .rs-a11y-barra i {
+        display: block;
+        height: 100%;
+        background: #b9172f;
+    }
+
+.rs-a11y-pie {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid #e1e3e4;
+    background: #ffffff;
+}
+
+    .rs-a11y-pie button {
+        flex: 1;
+        min-height: 44px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+.rs-a11y-restablecer {
+    border: 2px solid #b9172f;
+    background: #ffffff;
+    color: #93001d;
+}
+
+.rs-a11y-listo {
+    border: 2px solid #b9172f;
+    background: #b9172f;
+    color: #ffffff;
+}
+
+.rs-a11y-pie button:focus-visible {
+    outline: 3px solid #191c1d;
+    outline-offset: 2px;
+}
+
+/* guía de lectura */
+#rs-a11y-guia {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 44px;
+    z-index: 2147482999;
+    pointer-events: none;
+    border-top: 3px solid #b9172f;
+    border-bottom: 3px solid #b9172f;
+    background: rgba(255, 218, 217, .25);
+    box-shadow: 0 0 0 100vmax rgba(25, 28, 29, .35);
+}
+
+    #rs-a11y-guia[hidden] {
+        display: none;
+    }
+
+@media (max-width: 480px) {
+    #rs-a11y-panel {
+        width: 100vw;
+    }
+
+    #rs-a11y-btn {
+        right: 14px;
+        bottom: 14px;
+    }
+}
+
+/* =====================================================================
+   Preferencias aplicadas a la página
+   ===================================================================== */
+
+/* Baja visión: tamaño de texto (Tailwind y Bootstrap usan rem) */
+html.rs-tam-1 {
+    font-size: 112.5%;
+}
+
+html.rs-tam-2 {
+    font-size: 125%;
+}
+
+html.rs-tam-3 {
+    font-size: 137.5%;
+}
+
+html.rs-tam-4 {
+    font-size: 150%;
+}
+
+/* Baja visión: espaciado de texto (WCAG 1.4.12) */
+html.rs-espaciado body *:not(.material-symbols-outlined):not(.material-icons):not(#rs-a11y-panel):not(#rs-a11y-panel *) {
+    letter-spacing: .12em !important;
+    word-spacing: .16em !important;
+    line-height: 1.6 !important;
+}
+
+/* Dislexia: fuente legible */
+html.rs-fuente body *:not(.material-symbols-outlined):not(.material-icons):not(#rs-a11y-panel):not(#rs-a11y-panel *) {
+    font-family: Verdana, Tahoma, 'Segoe UI', Arial, sans-serif !important;
+}
+
+/* Daltonismo: enlaces y botones identificables sin depender del color (WCAG 1.4.1) */
+html.rs-enlaces a:not(#rs-a11y-panel *) {
+    text-decoration: underline !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 3px !important;
+}
+
+html.rs-enlaces button:not(#rs-a11y-panel *):not(#rs-a11y-btn),
+html.rs-enlaces [role="button"]:not(#rs-a11y-panel *),
+html.rs-enlaces input[type="submit"] {
+    outline: 2px dashed currentColor !important;
+    outline-offset: 2px !important;
+}
+
+/* Movilidad y teclado: foco muy visible (WCAG 2.4.7 y 2.4.13) */
+html.rs-foco *:focus,
+html.rs-foco *:focus-visible {
+    outline: 4px solid #ffbf47 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 7px #191c1d !important;
+}
+
+/* Movilidad: cursor grande */
+html.rs-cursor,
+html.rs-cursor * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M6 3l30 26H22l8 15-6 3-8-15-10 9z' fill='%23191c1d' stroke='%23ffffff' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E") 6 3, auto !important;
+}
+
+    html.rs-cursor a, html.rs-cursor a *, html.rs-cursor button, html.rs-cursor button *,
+    html.rs-cursor [role="button"], html.rs-cursor label, html.rs-cursor select {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M6 3l30 26H22l8 15-6 3-8-15-10 9z' fill='%23b9172f' stroke='%23ffffff' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E") 6 3, pointer !important;
+    }
+
+/* Fotosensibilidad y atención: detener animaciones */
+html.rs-sin-animacion *,
+html.rs-sin-animacion *::before,
+html.rs-sin-animacion *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+}
